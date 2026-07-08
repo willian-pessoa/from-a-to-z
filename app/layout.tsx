@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import Header from "@/src/components/layout/Header";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,9 +23,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.className} h-full antialiased bg-emerald-950 text-emerald-50`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <TooltipPrimitive.Provider delayDuration={100}>
+        <body className="min-h-full flex flex-col">
+          <Header />
+          <main>{children}</main>
+        </body>
+      </TooltipPrimitive.Provider>
     </html>
   );
 }
