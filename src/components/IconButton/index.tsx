@@ -7,7 +7,7 @@ export interface IIconButtonProps {
 export default function IconButton({ children, ...props }: IIconButtonProps) {
   return (
     <button
-      className="flex items-center p-2 rounded-lg bg-emerald-700 cursor-pointer border-emerald-600 hover:bg-emerald-600"
+      className="flex items-center p-2 rounded-lg bg-emerald-700 cursor-pointer border-emerald-600 hover:bg-emerald-600 outline-none"
       {...props}
     >
       {children}
