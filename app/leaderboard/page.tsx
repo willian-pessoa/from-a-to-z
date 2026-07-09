@@ -1,3 +1,9 @@
+import LeaderboardHeader from "./components/LeaderboardHeader";
+
 export default function Page() {
-  return <div className="">Leaderboard</div>;
+  return (
+    <div className="p-2">
+      <LeaderboardHeader />
+    </div>
+  );
 }

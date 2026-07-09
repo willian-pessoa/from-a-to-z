@@ -1,13 +1,20 @@
 import * as React from "react";
 
-export interface IIconButtonProps {
-  children: React.ReactNode;
-}
+import { cn } from "@/src/utils/cn";
 
-export default function IconButton({ children, ...props }: IIconButtonProps) {
+export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export default function IconButton({
+  children,
+  className,
+  ...props
+}: IconButtonProps) {
   return (
     <button
-      className="flex items-center p-2 rounded-lg bg-emerald-700 cursor-pointer border-emerald-600 hover:bg-emerald-600 outline-none"
+      className={cn(
+        "flex justify-center cursor-pointer items-center rounded-lg border border-emerald-600 bg-emerald-700 p-2 outline-none transition-colors hover:bg-emerald-600",
+        className,
+      )}
       {...props}
     >
       {children}
