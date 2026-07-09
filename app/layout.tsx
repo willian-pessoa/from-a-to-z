@@ -26,12 +26,12 @@ export default function RootLayout({
       lang="en"
       className={`${inter.className} h-full antialiased bg-emerald-950 text-emerald-50`}
     >
-      <TooltipPrimitive.Provider delayDuration={100}>
-        <body className="min-h-full flex flex-col">
+      <body className="flex h-screen flex-col overflow-hidden bg-emerald-950 text-emerald-50">
+        <TooltipPrimitive.Provider delayDuration={100}>
           <Header />
-          <main>{children}</main>
-        </body>
-      </TooltipPrimitive.Provider>
+          <main className="flex-1 overflow-y-auto">{children}</main>
+        </TooltipPrimitive.Provider>
+      </body>
     </html>
   );
 }
