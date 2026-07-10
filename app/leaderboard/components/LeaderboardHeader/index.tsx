@@ -11,9 +11,7 @@ import { TopIcon } from "@/src/assets/icons/TopIcon";
 import { MidIcon } from "@/src/assets/icons/MidIcon";
 import { SupportIcon } from "@/src/assets/icons/SupportIcon";
 import IconButton from "@/src/components/IconButton";
-
-type QueueType = "ranked" | "casual";
-type LaneType = "top" | "jungle" | "mid" | "adc" | "support";
+import { QueueType, LaneType } from "@/src/types";
 
 export interface ILeaderboardHeaderProps {}
 
