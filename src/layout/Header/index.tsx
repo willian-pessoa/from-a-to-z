@@ -9,14 +9,18 @@ import {
   IconLogin,
 } from "@tabler/icons-react";
 
-import IconButton from "../../IconButton";
-import AppDropdownMenu from "../../AppDropdownMenu";
-import { AppTooltip } from "../../AppTooltip";
+import IconButton from "../../components/IconButton";
+import AppDropdownMenu from "../../components/AppDropdownMenu";
+
+import { AppTooltip } from "../../components/AppTooltip";
+
+import { useAuth } from "@/src/contexts/AuthContext";
 
 export interface IHeaderProps {}
 
 export default function Header(props: IHeaderProps) {
-  const isLoged = true;
+  const { user, logout } = useAuth(); // 👈 Puxa as infos do contexto em memória
+  const isLoged = !!user;
 
   const pathname = usePathname();
 
@@ -27,7 +31,7 @@ export default function Header(props: IHeaderProps) {
 
   const title = titleMap[pathname] ?? "";
 
-  const player = "AURA Galactus";
+  const playerDisplay = user ? user.riot_id.split("#")[0] : "";
 
   return (
     <header className="border-b border-emerald-700 flex justify-between">
@@ -52,12 +56,14 @@ export default function Header(props: IHeaderProps) {
         <span className="text-xl font-bold">{title}</span>
       </div>
       <div className="flex p-2 items-center gap-2">
-        <span className="">{player}</span>
-        <AppTooltip text="Entrar">
-          <IconButton>
-            {isLoged ? <IconLogout stroke={2} /> : <IconLogin stroke={2} />}
-          </IconButton>
-        </AppTooltip>
+        <span className="">{playerDisplay}</span>
+        {isLoged && (
+          <AppTooltip text="Sair">
+            <IconButton onClick={logout}>
+              <IconLogout stroke={2} />
+            </IconButton>
+          </AppTooltip>
+        )}
         <AppTooltip text="Linguagem">
           <IconButton>
             <IconWorld stroke={2} />

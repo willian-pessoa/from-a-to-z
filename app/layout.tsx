@@ -3,7 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 
-import Header from "@/src/components/layout/Header";
+import { AuthProvider } from "@/src/contexts/AuthContext";
+
+import Header from "@/src/layout/Header";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,10 +29,12 @@ export default function RootLayout({
       className={`${inter.className} h-full antialiased bg-emerald-950 text-emerald-50`}
     >
       <body className="flex h-screen flex-col overflow-hidden bg-emerald-950 text-emerald-50">
-        <TooltipPrimitive.Provider delayDuration={100}>
-          <Header />
-          <main className="flex-1 overflow-y-auto">{children}</main>
-        </TooltipPrimitive.Provider>
+        <AuthProvider>
+          <TooltipPrimitive.Provider delayDuration={100}>
+            <Header />
+            <main className="flex-1 overflow-y-auto">{children}</main>
+          </TooltipPrimitive.Provider>
+        </AuthProvider>
       </body>
     </html>
   );

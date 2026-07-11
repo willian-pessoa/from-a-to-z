@@ -6,14 +6,11 @@ import AppTextInput from "@/src/components/AppTextInput";
 import Button from "@/src/components/Button";
 import { AppDialog } from "@/src/components/AppDialog/AppDialog";
 
-interface ModalLinkAccountProps {
-  onLinkedSuccess: () => void;
-}
+import { useAuth } from "@/src/contexts/AuthContext";
 
-export default function ModalLinkAccount({
-  onLinkedSuccess,
-}: ModalLinkAccountProps) {
+export default function ModalLinkAccount() {
   // Estados do fluxo de autenticação e UI
+  const { login } = useAuth();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -30,12 +27,7 @@ export default function ModalLinkAccount({
     const result = await linkPlayer(riotId, region);
 
     if (result.success && result.user) {
-      // Salva os dados no cache local do cliente para persistir a "sessão"
-      localStorage.setItem("lol_az_puuid", result.user.puuid);
-      localStorage.setItem("lol_az_riotid", result.user.riot_id);
-      localStorage.setItem("lol_az_region", result.user.region);
-
-      onLinkedSuccess();
+      login(result.user);
 
       setIsDialogOpen(false);
     } else {

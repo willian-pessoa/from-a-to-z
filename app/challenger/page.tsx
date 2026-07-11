@@ -3,11 +3,13 @@
 import { AppDialog } from "@/src/components/AppDialog/AppDialog";
 import Button from "@/src/components/Button";
 import ModalCreateChallenger from "./components/ModalCreateChallenger";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 import { useRouter } from "next/navigation";
 import ModalLinkAccount from "./components/ModalLinkAccount";
 import AppLoader from "@/src/components/AppLoader";
+
+import { useAuth } from "@/src/contexts/AuthContext";
 
 interface UserState {
   puuid: string;
@@ -17,31 +19,9 @@ interface UserState {
 }
 
 export default function Page() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState<UserState | null>(null);
+  const { user, isLoading } = useAuth();
+
   const router = useRouter();
-
-  function checkLocalStorage() {
-    const savedPuuid = localStorage.getItem("lol_az_puuid");
-    const savedRiotId = localStorage.getItem("lol_az_riotid");
-    const savedRegion = localStorage.getItem("lol_az_region");
-    const savedChallengerId = localStorage.getItem("lol_az_challengerid");
-
-    if (savedPuuid && savedRiotId && savedRegion) {
-      setUser({
-        puuid: savedPuuid,
-        riot_id: savedRiotId,
-        region: savedRegion,
-        challengerId: savedChallengerId,
-      });
-    }
-
-    setIsLoading(false);
-  }
-
-  useEffect(() => {
-    checkLocalStorage();
-  }, []);
 
   // Redirecionamento seguro acionado quando o estado do usuário mudar e já tiver desafio
   useEffect(() => {
@@ -84,7 +64,7 @@ export default function Page() {
         Para participar do desafio de A a Z é necessário antes vincular uma
         conta.
       </span>
-      <ModalLinkAccount onLinkedSuccess={checkLocalStorage} />
+      <ModalLinkAccount />
     </div>
   );
 }
