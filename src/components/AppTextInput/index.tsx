@@ -27,6 +27,8 @@ export default function AppTextInput({
         className={clsx(
           "flex-1 bg-transparent outline-none",
           "placeholder:text-emerald-50 placeholder:opacity-75",
+          "[-webkit-text-fill-color:white]",
+          "[transition:background-color_9999s_ease-in-out_0s]",
         )}
       />
 
