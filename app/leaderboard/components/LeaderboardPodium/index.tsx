@@ -17,7 +17,7 @@ export default function LeaderboardPodium(props: ILeaderboardPodiumProps) {
           alt={secondPlace.name}
           width={128}
           height={128}
-          className="object-cover"
+          className="object-cover w-32 h-auto"
         />
         <span className="font-bold text-xl">{secondPlace.name}</span>
         <span className="text-sm">
@@ -30,7 +30,8 @@ export default function LeaderboardPodium(props: ILeaderboardPodiumProps) {
           alt={firstPlace.name}
           width={128}
           height={128}
-          className="object-cover"
+          loading="eager"
+          className="object-cover w-32 h-auto"
         />
         <span className="font-bold text-xl">{firstPlace.name}</span>
         <span className="text-sm">
@@ -43,7 +44,7 @@ export default function LeaderboardPodium(props: ILeaderboardPodiumProps) {
           alt={thirdPlace.name}
           width={128}
           height={128}
-          className="object-cover"
+          className="object-cover w-32 h-auto"
         />
         <span className="font-bold text-xl">{thirdPlace.name}</span>
         <span className="text-sm">
