@@ -1,0 +1,43 @@
+import { createChampion } from "./utils/createChampion";
+import { createChampionData } from "./utils/createChampionData";
+
+const SUPPORT_CHAMPIONS = [
+  createChampion("alistar", "Alistar", "Alistar"),
+  createChampion("bard", "Bard", "Bard"),
+  createChampion("blitzcrank", "Blitzcrank", "Blitzcrank"),
+  createChampion("brand", "Brand", "Brand"),
+  createChampion("braum", "Braum", "Braum"),
+  createChampion("fiddlesticks", "Fiddlesticks", "Fiddlesticks"),
+  createChampion("janna", "Janna", "Janna"),
+  createChampion("karma", "Karma", "Karma"),
+  createChampion("leona", "Leona", "Leona"),
+  createChampion("lulu", "Lulu", "Lulu"),
+  createChampion("lux", "Lux", "Lux"),
+  createChampion("maokai", "Maokai", "Maokai"),
+  createChampion("milio", "Milio", "Milio"),
+  createChampion("morgana", "Morgana", "Morgana"),
+  createChampion("nami", "Nami", "Nami"),
+  createChampion("nautilus", "Nautilus", "Nautilus"),
+  createChampion("neeko", "Neeko", "Neeko"),
+  createChampion("pantheon", "Pantheon", "Pantheon"),
+  createChampion("pyke", "Pyke", "Pyke"),
+  createChampion("rakan", "Rakan", "Rakan"),
+  createChampion("rell", "Rell", "Rell"),
+  createChampion("renata", "Renata", "Renata Glasc"),
+  createChampion("senna", "Senna", "Senna"),
+  createChampion("seraphine", "Seraphine", "Seraphine"),
+  createChampion("shaco", "Shaco", "Shaco"),
+  createChampion("sona", "Sona", "Sona"),
+  createChampion("soraka", "Soraka", "Soraka"),
+  createChampion("swain", "Swain", "Swain"),
+  createChampion("tahmkench", "TahmKench", "Tahm Kench"),
+  createChampion("taric", "Taric", "Taric"),
+  createChampion("thresh", "Thresh", "Thresh"),
+  createChampion("velkoz", "Velkoz", "Vel'Koz"),
+  createChampion("xerath", "Xerath", "Xerath"),
+  createChampion("yuumi", "Yuumi", "Yuumi"),
+  createChampion("zilean", "Zilean", "Zilean"),
+  createChampion("zyra", "Zyra", "Zyra"),
+];
+
+export const SUPPORT_CHAMPIONS_DATA = createChampionData(SUPPORT_CHAMPIONS);
