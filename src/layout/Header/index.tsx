@@ -15,6 +15,7 @@ import AppDropdownMenu from "../../components/AppDropdownMenu";
 import { AppTooltip } from "../../components/AppTooltip";
 
 import { useAuth } from "@/src/contexts/AuthContext";
+import { useMemo } from "react";
 
 export interface IHeaderProps {}
 
@@ -33,6 +34,23 @@ export default function Header(props: IHeaderProps) {
 
   const playerDisplay = user ? user.riot_id.split("#")[0] : "";
 
+  const DROPDOW_ITEMS = useMemo(() => {
+    const challengerURL = user?.challengerId
+      ? `/challenger/${user.challengerId}`
+      : "/challenger";
+
+    return [
+      {
+        label: "Ranking",
+        children: <Link href="/leaderboard">Ranking</Link>,
+      },
+      {
+        label: "Desafio",
+        children: <Link href={challengerURL}>Desafio</Link>,
+      },
+    ];
+  }, []);
+
   return (
     <header className="border-b border-emerald-700 flex justify-between">
       <div className="flex p-2 items-center gap-3">
@@ -42,16 +60,7 @@ export default function Header(props: IHeaderProps) {
               <IconMenu2 stroke={2} />
             </IconButton>
           }
-          items={[
-            {
-              label: "Ranking",
-              children: <Link href="/leaderboard">Ranking</Link>,
-            },
-            {
-              label: "Desafio",
-              children: <Link href="/challenger">Desafio</Link>,
-            },
-          ]}
+          items={DROPDOW_ITEMS}
         />
         <span className="text-xl font-bold">{title}</span>
       </div>

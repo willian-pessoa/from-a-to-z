@@ -11,13 +11,6 @@ import AppLoader from "@/src/components/AppLoader";
 
 import { useAuth } from "@/src/contexts/AuthContext";
 
-interface UserState {
-  puuid: string;
-  riot_id: string;
-  region: string;
-  challengerId: string | null;
-}
-
 export default function Page() {
   const { user, isLoading } = useAuth();
 
