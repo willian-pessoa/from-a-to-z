@@ -9,6 +9,7 @@ import ModalChampionNotes from "../ModalChampionNotes";
 import { useState } from "react";
 
 interface ChampionGridCardProps {
+  nameId: string;
   name: string;
   loses: number;
   funNote: number;
@@ -17,6 +18,7 @@ interface ChampionGridCardProps {
 }
 
 export default function ChampionGridCard({
+  nameId,
   name,
   loses,
   completed,
@@ -39,9 +41,10 @@ export default function ChampionGridCard({
       )}
     >
       <Image
-        src={getChampionIconURL(name)}
+        src={getChampionIconURL(nameId)}
         alt={name}
         fill
+        sizes="150px"
         className={completed ? "object-cover" : "object-cover grayscale"}
       />
 

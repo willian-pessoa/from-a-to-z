@@ -5,7 +5,7 @@ import { IconSearch } from "@tabler/icons-react";
 
 import ChampionGridCard from "../ChampionGridCard";
 import Button from "@/src/components/Button";
-import { JUNGLE_CHAMPIONS } from "@/src/const/jungleChampions";
+import { JUNGLE_CHAMPIONS_DATA } from "@/src/const/jungleChampions";
 import AppTextInput from "@/src/components/AppTextInput";
 
 type Filter = "all" | "completed" | "incompleted";
@@ -17,7 +17,7 @@ export default function ChallengerChampionsGrid(
 ) {
   const [filter, setFilter] = useState<Filter>("all");
 
-  const champions = JUNGLE_CHAMPIONS;
+  const champions = JUNGLE_CHAMPIONS_DATA;
 
   return (
     <div className="rounded-lg border border-emerald-600 bg-emerald-900 p-3 shadow-2xl">

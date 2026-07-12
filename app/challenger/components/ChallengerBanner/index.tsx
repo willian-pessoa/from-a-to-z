@@ -29,6 +29,7 @@ export default function ChallengerBanner({
             alt={currentChampion}
             fill
             className="object-cover object-[center_10%]"
+            sizes="720px"
             priority
           />
 
