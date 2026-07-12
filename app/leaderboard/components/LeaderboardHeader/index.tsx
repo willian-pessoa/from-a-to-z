@@ -12,6 +12,7 @@ import { MidIcon } from "@/src/assets/icons/MidIcon";
 import { SupportIcon } from "@/src/assets/icons/SupportIcon";
 import IconButton from "@/src/components/IconButton";
 import { QueueType, LaneType } from "@/src/types";
+import { AppTooltip } from "@/src/components/AppTooltip";
 
 export interface ILeaderboardHeaderProps {}
 
@@ -51,40 +52,50 @@ export default function LeaderboardHeader(props: ILeaderboardHeaderProps) {
           </Button>
         </div>
         <div className="flex gap-2">
-          <IconButton
-            className={laneButtonClass("top")}
-            onClick={() => setLane("top")}
-          >
-            <TopIcon className="h-8 w-8 text-emerald-200" />
-          </IconButton>
+          <AppTooltip text="Top Lane" side="bottom">
+            <IconButton
+              className={laneButtonClass("top")}
+              onClick={() => setLane("top")}
+            >
+              <TopIcon className="h-8 w-8 text-emerald-200" />
+            </IconButton>
+          </AppTooltip>
 
-          <IconButton
-            className={laneButtonClass("jungle")}
-            onClick={() => setLane("jungle")}
-          >
-            <JungleIcon className="h-8 w-8 text-emerald-200" />
-          </IconButton>
+          <AppTooltip text="Jungle" side="bottom">
+            <IconButton
+              className={laneButtonClass("jungle")}
+              onClick={() => setLane("jungle")}
+            >
+              <JungleIcon className="h-8 w-8 text-emerald-200" />
+            </IconButton>
+          </AppTooltip>
 
-          <IconButton
-            className={laneButtonClass("mid")}
-            onClick={() => setLane("mid")}
-          >
-            <MidIcon className="h-8 w-8 text-emerald-200" />
-          </IconButton>
+          <AppTooltip text="Mid Lane" side="bottom">
+            <IconButton
+              className={laneButtonClass("mid")}
+              onClick={() => setLane("mid")}
+            >
+              <MidIcon className="h-8 w-8 text-emerald-200" />
+            </IconButton>
+          </AppTooltip>
 
-          <IconButton
-            className={laneButtonClass("support")}
-            onClick={() => setLane("support")}
-          >
-            <SupportIcon className="h-8 w-8 text-emerald-200" />
-          </IconButton>
+          <AppTooltip text="Bot Lane" side="bottom">
+            <IconButton
+              className={laneButtonClass("bot")}
+              onClick={() => setLane("bot")}
+            >
+              <AdcIcon className="h-8 w-8 text-emerald-200" />
+            </IconButton>
+          </AppTooltip>
 
-          <IconButton
-            className={laneButtonClass("adc")}
-            onClick={() => setLane("adc")}
-          >
-            <AdcIcon className="h-8 w-8 text-emerald-200" />
-          </IconButton>
+          <AppTooltip text="Support" side="bottom">
+            <IconButton
+              className={laneButtonClass("support")}
+              onClick={() => setLane("support")}
+            >
+              <SupportIcon className="h-8 w-8 text-emerald-200" />
+            </IconButton>
+          </AppTooltip>
         </div>
       </div>
       <div className="w-full flex justify-center items-center">

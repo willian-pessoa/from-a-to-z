@@ -79,7 +79,7 @@ export default function ModalCreateChallenger({
         </div>
 
         <div className="flex gap-2">
-          <AppTooltip text="Top Lane">
+          <AppTooltip text="Top Lane" side="bottom">
             <IconButton
               className={laneButtonClass("top")}
               onClick={() => setLane("top")}
@@ -88,7 +88,7 @@ export default function ModalCreateChallenger({
             </IconButton>
           </AppTooltip>
 
-          <AppTooltip text="Jungle">
+          <AppTooltip text="Jungle" side="bottom">
             <IconButton
               className={laneButtonClass("jungle")}
               onClick={() => setLane("jungle")}
@@ -97,7 +97,7 @@ export default function ModalCreateChallenger({
             </IconButton>
           </AppTooltip>
 
-          <AppTooltip text="Mid Lane">
+          <AppTooltip text="Mid Lane" side="bottom">
             <IconButton
               className={laneButtonClass("mid")}
               onClick={() => setLane("mid")}
@@ -106,16 +106,16 @@ export default function ModalCreateChallenger({
             </IconButton>
           </AppTooltip>
 
-          <AppTooltip text="AD Carry">
+          <AppTooltip text="Bot Lane" side="bottom">
             <IconButton
-              className={laneButtonClass("adc")}
-              onClick={() => setLane("adc")}
+              className={laneButtonClass("bot")}
+              onClick={() => setLane("bot")}
             >
               <AdcIcon className="h-8 w-8 text-emerald-200" />
             </IconButton>
           </AppTooltip>
 
-          <AppTooltip text="Support">
+          <AppTooltip text="Support" side="bottom">
             <IconButton
               className={laneButtonClass("support")}
               onClick={() => setLane("support")}
