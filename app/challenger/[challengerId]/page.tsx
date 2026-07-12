@@ -2,6 +2,8 @@ import ChallengerBanner from "../components/ChallengerBanner";
 import ChallengerChampionsGrid from "../components/ChallengerChampionsGrid";
 import ChallengerProgressBar from "../components/ChallengerProgressBar";
 
+import { JUNGLE_CHAMPIONS_DATA } from "@/src/const/jungleChampions";
+
 export default async function ChallengerPage({
   params,
 }: {
@@ -17,8 +19,11 @@ export default async function ChallengerPage({
         totalGames={0}
         winRate={0}
       />
-      <ChallengerProgressBar completed={20} totalChampions={47} />
-      <ChallengerChampionsGrid />
+      <ChallengerProgressBar
+        completed={20}
+        totalChampions={JUNGLE_CHAMPIONS_DATA.length}
+      />
+      <ChallengerChampionsGrid championsData={JUNGLE_CHAMPIONS_DATA} />
     </div>
   );
 }
