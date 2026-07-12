@@ -5,6 +5,8 @@ import ChallengerBanner from "../components/ChallengerBanner";
 import ChallengerChampionsGrid from "../components/ChallengerChampionsGrid";
 import ChallengerProgressBar from "../components/ChallengerProgressBar";
 import { LaneType } from "@/src/types";
+import HeaderConfig from "@/src/layout/HeaderConfig";
+import { capitalize } from "@/src/utils/capitalize";
 
 export default async function ChallengerPage({
   params,
@@ -48,6 +50,9 @@ export default async function ChallengerPage({
 
   return (
     <div className="p-3 flex flex-col gap-3">
+      <HeaderConfig
+        title={`${capitalize(challengerData.lane)} A-Z (${capitalize(challengerData.queue)})`}
+      />
       <ChallengerBanner
         challengerLane={challengerData.lane.toLowerCase() as LaneType}
         currentChampionNameId={challengerData.current_champ}

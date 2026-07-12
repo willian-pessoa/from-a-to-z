@@ -1,3 +1,4 @@
+import HeaderConfig from "@/src/layout/HeaderConfig";
 import LeaderboardHeader from "./components/LeaderboardHeader";
 import LeaderboardPodium from "./components/LeaderboardPodium";
 import LeaderboardTable from "./components/LeaderboardTable";
@@ -5,6 +6,7 @@ import LeaderboardTable from "./components/LeaderboardTable";
 export default function Page() {
   return (
     <div className="p-2 flex flex-col gap-4 ">
+      <HeaderConfig title="Ranking" />
       <LeaderboardHeader />
       <LeaderboardPodium />
       <LeaderboardTable />

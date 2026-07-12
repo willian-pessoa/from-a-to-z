@@ -16,21 +16,15 @@ import { AppTooltip } from "../../components/AppTooltip";
 
 import { useAuth } from "@/src/contexts/AuthContext";
 import { useMemo } from "react";
+import { useHeader } from "@/src/contexts/HeaderContext";
 
 export interface IHeaderProps {}
 
 export default function Header(props: IHeaderProps) {
-  const { user, logout } = useAuth(); // 👈 Puxa as infos do contexto em memória
+  const { user, logout } = useAuth();
+  const { title } = useHeader();
+
   const isLoged = !!user;
-
-  const pathname = usePathname();
-
-  const titleMap: Record<string, string> = {
-    "/challenger": "Desafio",
-    "/leaderboard": "Ranking",
-  };
-
-  const title = titleMap[pathname] ?? "";
 
   const playerDisplay = user ? user.riot_id.split("#")[0] : "";
 
