@@ -3,22 +3,25 @@ import { IconExternalLink } from "@tabler/icons-react";
 
 import Button from "@/src/components/Button";
 import { getChampionSplashURL } from "@/src/utils/getChampioSplashURL";
+import { LaneType } from "@/src/types";
 
 export interface IChallengerBannerProps {
-  currentChampion: string;
+  currentChampionName: string;
+  currentChampionNameId: string;
   totalGames: number;
   winRate: number;
-  challengerLane: string;
+  challengerLane: LaneType;
 }
 
 export default function ChallengerBanner({
-  currentChampion = "",
+  currentChampionName = "",
+  currentChampionNameId = "",
   totalGames = 0,
   winRate = 0,
   challengerLane = "jungle",
 }: IChallengerBannerProps) {
-  const splash = getChampionSplashURL(currentChampion);
-  const lolalytics = `https://lolalytics.com/lol/${currentChampion.toLowerCase()}/build/?lane=${challengerLane}`;
+  const splash = getChampionSplashURL(currentChampionNameId);
+  const lolalytics = `https://lolalytics.com/lol/${currentChampionName.toLowerCase()}/build/?lane=${challengerLane}`;
 
   return (
     <section className="rounded-lg  bg-emerald-900 p-2 shadow-2xl">
@@ -26,7 +29,7 @@ export default function ChallengerBanner({
         <div className="relative h-64 overflow-hidden rounded-lg border border-emerald-600">
           <Image
             src={splash}
-            alt={currentChampion}
+            alt={currentChampionName}
             fill
             className="object-cover object-[center_10%]"
             sizes="720px"
@@ -34,7 +37,7 @@ export default function ChallengerBanner({
           />
 
           <div className="absolute left-2 top-2 cursor-default rounded-md bg-emerald-700 border border-emerald-600 px-3 py-1">
-            Campeão Atual
+            Campeão Atual: {currentChampionName}
           </div>
 
           <a

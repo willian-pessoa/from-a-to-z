@@ -49,7 +49,7 @@ export default function Header(props: IHeaderProps) {
         children: <Link href={challengerURL}>Desafio</Link>,
       },
     ];
-  }, []);
+  }, [user?.challengerId]);
 
   return (
     <header className="border-b border-emerald-700 flex justify-between">
