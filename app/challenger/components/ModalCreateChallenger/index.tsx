@@ -10,20 +10,35 @@ import { AppTooltip } from "@/src/components/AppTooltip";
 import { TopIcon } from "@/src/assets/icons/TopIcon";
 import { JungleIcon } from "@/src/assets/icons/JungleIcon";
 import { MidIcon } from "@/src/assets/icons/MidIcon";
-import { AdcIcon } from "@/src/assets/icons/AdcIcon";
+import { BotIcon } from "@/src/assets/icons/BotIcon";
 import { SupportIcon } from "@/src/assets/icons/SupportIcon";
 import { QueueType, LaneType } from "@/src/types";
 import { IconInfoCircle } from "@tabler/icons-react";
+import { useAuth } from "@/src/contexts/AuthContext";
 
-export interface IModalCreateChallengerProps {
-  onCreate?: (queue: QueueType, lane: LaneType) => void;
-}
+import { createChallenge } from "@/src/actions/challenger";
+import { AppDialog } from "@/src/components/AppDialog/AppDialog";
+import { useRouter } from "next/navigation";
 
-export default function ModalCreateChallenger({
-  onCreate,
-}: IModalCreateChallengerProps) {
+export interface IModalCreateChallengerProps {}
+
+const LANES_CONFIG = [
+  { id: "top", label: "Top Lane", Icon: TopIcon },
+  { id: "jungle", label: "Jungle", Icon: JungleIcon },
+  { id: "mid", label: "Mid Lane", Icon: MidIcon },
+  { id: "bot", label: "Bot Lane", Icon: BotIcon },
+  { id: "support", label: "Support", Icon: SupportIcon },
+] as const;
+
+export default function ModalCreateChallenger({}: IModalCreateChallengerProps) {
+  const { user, login } = useAuth();
+  const router = useRouter();
+
   const [queue, setQueue] = useState<QueueType>("ranked");
   const [lane, setLane] = useState<LaneType>("jungle");
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const queueButtonClass = (value: QueueType) =>
     clsx(
@@ -35,102 +50,115 @@ export default function ModalCreateChallenger({
   const laneButtonClass = (value: LaneType) =>
     clsx("border-none", lane === value ? "bg-emerald-600" : "bg-emerald-900");
 
+  const handleCreateChallenger = async () => {
+    if (!user?.puuid) {
+      setError("Usuário não identificado. Vincule sua conta novamente.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    const result = await createChallenge({
+      puuid: user.puuid,
+      lane,
+      queue,
+    });
+
+    if (result.success && result.challengeId) {
+      login({
+        puuid: user.puuid,
+        riot_id: user.riot_id,
+        region: user.region,
+        challengerId: String(result.challengeId),
+      });
+
+      router.push(`/challenger/${result.challengeId}`);
+    } else {
+      setError(result.error || "Ocorreu um erro ao iniciar o desafio.");
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="flex flex-col gap-8 px-2">
-      <div>
-        <p className="text-sm text-emerald-200">
-          Escolha a fila e a rota no qual o desafio será jogado.
-        </p>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2">
-          <span className="font-semibold">Fila</span>
-
-          <AppTooltip text="Escolha se o desafio será realizado em partidas ranqueadas ou casuais.">
-            <IconInfoCircle className="h-4 w-4 cursor-help text-emerald-300" />
-          </AppTooltip>
+    <AppDialog
+      trigger={<Button className="text-lg py-2 px-4">Iniciar Desafio</Button>}
+      title="Registrar desafio A a Z"
+      closeOnOutsideClick={false}
+    >
+      <div className="flex flex-col gap-8 px-2">
+        <div>
+          <p className="text-sm text-emerald-200">
+            Escolha a fila e a rota no qual o desafio será jogado.
+          </p>
         </div>
 
-        <div className="flex">
+        {error && (
+          <div className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 p-2 rounded">
+            {error}
+          </div>
+        )}
+
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold">Fila</span>
+
+            <AppTooltip text="Escolha se o desafio será realizado em partidas ranqueadas ou casuais.">
+              <IconInfoCircle className="h-4 w-4 cursor-help text-emerald-300" />
+            </AppTooltip>
+          </div>
+
+          <div className="flex">
+            <Button
+              className={queueButtonClass("ranked")}
+              onClick={() => setQueue("ranked")}
+            >
+              Ranqueada
+            </Button>
+
+            <Button
+              className={queueButtonClass("casual")}
+              onClick={() => setQueue("casual")}
+            >
+              Casual
+            </Button>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold">Lane</span>
+
+            <AppTooltip text="Selecione a rota que será considerada para o desafio. Apenas partidas nessa lane contarão para o progresso.">
+              <IconInfoCircle className="h-4 w-4 cursor-help text-emerald-300" />
+            </AppTooltip>
+          </div>
+
+          <div className="flex gap-2">
+            {LANES_CONFIG.map(({ id, label, Icon }) => (
+              <AppTooltip key={id} text={label} side="bottom">
+                <IconButton
+                  className={laneButtonClass(id as LaneType)}
+                  onClick={() => setLane(id as LaneType)}
+                  aria-label={label}
+                >
+                  <Icon className="h-8 w-8 text-emerald-200" />
+                </IconButton>
+              </AppTooltip>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex justify-end">
           <Button
-            className={queueButtonClass("ranked")}
-            onClick={() => setQueue("ranked")}
+            className="text-lg"
+            onClick={handleCreateChallenger}
+            disabled={loading}
           >
-            Ranqueada
-          </Button>
-
-          <Button
-            className={queueButtonClass("casual")}
-            onClick={() => setQueue("casual")}
-          >
-            Casual
+            {loading ? "Iniciando desafio..." : "Iniciar desafio"}
           </Button>
         </div>
       </div>
-
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2">
-          <span className="font-semibold">Lane</span>
-
-          <AppTooltip text="Selecione a rota que será considerada para o desafio. Apenas partidas nessa lane contarão para o progresso.">
-            <IconInfoCircle className="h-4 w-4 cursor-help text-emerald-300" />
-          </AppTooltip>
-        </div>
-
-        <div className="flex gap-2">
-          <AppTooltip text="Top Lane" side="bottom">
-            <IconButton
-              className={laneButtonClass("top")}
-              onClick={() => setLane("top")}
-            >
-              <TopIcon className="h-8 w-8 text-emerald-200" />
-            </IconButton>
-          </AppTooltip>
-
-          <AppTooltip text="Jungle" side="bottom">
-            <IconButton
-              className={laneButtonClass("jungle")}
-              onClick={() => setLane("jungle")}
-            >
-              <JungleIcon className="h-8 w-8 text-emerald-200" />
-            </IconButton>
-          </AppTooltip>
-
-          <AppTooltip text="Mid Lane" side="bottom">
-            <IconButton
-              className={laneButtonClass("mid")}
-              onClick={() => setLane("mid")}
-            >
-              <MidIcon className="h-8 w-8 text-emerald-200" />
-            </IconButton>
-          </AppTooltip>
-
-          <AppTooltip text="Bot Lane" side="bottom">
-            <IconButton
-              className={laneButtonClass("bot")}
-              onClick={() => setLane("bot")}
-            >
-              <AdcIcon className="h-8 w-8 text-emerald-200" />
-            </IconButton>
-          </AppTooltip>
-
-          <AppTooltip text="Support" side="bottom">
-            <IconButton
-              className={laneButtonClass("support")}
-              onClick={() => setLane("support")}
-            >
-              <SupportIcon className="h-8 w-8 text-emerald-200" />
-            </IconButton>
-          </AppTooltip>
-        </div>
-      </div>
-
-      <div className="flex justify-end">
-        <Button className="text-lg" onClick={() => onCreate?.(queue, lane)}>
-          Iniciar desafio
-        </Button>
-      </div>
-    </div>
+    </AppDialog>
   );
 }

@@ -1,4 +1,4 @@
-export function AdcIcon(props: React.SVGProps<SVGSVGElement>) {
+export function BotIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width="36"

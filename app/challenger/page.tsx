@@ -45,15 +45,7 @@ export default function Page() {
           Você não está participando de nenhum desafio de A a Z atualmente,
           clique no botão abaixo para iniciar um novo desafio!
         </span>
-        <AppDialog
-          trigger={
-            <Button className="text-lg py-2 px-4">Iniciar Desafio</Button>
-          }
-          title="Registrar desafio A a Z"
-          closeOnOutsideClick={false}
-        >
-          <ModalCreateChallenger />
-        </AppDialog>
+        <ModalCreateChallenger />
       </div>
     );
   }

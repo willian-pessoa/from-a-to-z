@@ -6,7 +6,7 @@ import Button from "@/src/components/Button";
 import clsx from "clsx";
 
 import { JungleIcon } from "@/src/assets/icons/JungleIcon";
-import { AdcIcon } from "@/src/assets/icons/AdcIcon";
+import { BotIcon } from "@/src/assets/icons/BotIcon";
 import { TopIcon } from "@/src/assets/icons/TopIcon";
 import { MidIcon } from "@/src/assets/icons/MidIcon";
 import { SupportIcon } from "@/src/assets/icons/SupportIcon";
@@ -15,6 +15,14 @@ import { QueueType, LaneType } from "@/src/types";
 import { AppTooltip } from "@/src/components/AppTooltip";
 
 export interface ILeaderboardHeaderProps {}
+
+const LANES_CONFIG = [
+  { id: "top", label: "Top Lane", Icon: TopIcon },
+  { id: "jungle", label: "Jungle", Icon: JungleIcon },
+  { id: "mid", label: "Mid Lane", Icon: MidIcon },
+  { id: "bot", label: "Bot Lane", Icon: BotIcon },
+  { id: "support", label: "Support", Icon: SupportIcon },
+] as const;
 
 export default function LeaderboardHeader(props: ILeaderboardHeaderProps) {
   const [queue, setQueue] = useState<QueueType>("ranked");
@@ -52,50 +60,17 @@ export default function LeaderboardHeader(props: ILeaderboardHeaderProps) {
           </Button>
         </div>
         <div className="flex gap-2">
-          <AppTooltip text="Top Lane" side="bottom">
-            <IconButton
-              className={laneButtonClass("top")}
-              onClick={() => setLane("top")}
-            >
-              <TopIcon className="h-8 w-8 text-emerald-200" />
-            </IconButton>
-          </AppTooltip>
-
-          <AppTooltip text="Jungle" side="bottom">
-            <IconButton
-              className={laneButtonClass("jungle")}
-              onClick={() => setLane("jungle")}
-            >
-              <JungleIcon className="h-8 w-8 text-emerald-200" />
-            </IconButton>
-          </AppTooltip>
-
-          <AppTooltip text="Mid Lane" side="bottom">
-            <IconButton
-              className={laneButtonClass("mid")}
-              onClick={() => setLane("mid")}
-            >
-              <MidIcon className="h-8 w-8 text-emerald-200" />
-            </IconButton>
-          </AppTooltip>
-
-          <AppTooltip text="Bot Lane" side="bottom">
-            <IconButton
-              className={laneButtonClass("bot")}
-              onClick={() => setLane("bot")}
-            >
-              <AdcIcon className="h-8 w-8 text-emerald-200" />
-            </IconButton>
-          </AppTooltip>
-
-          <AppTooltip text="Support" side="bottom">
-            <IconButton
-              className={laneButtonClass("support")}
-              onClick={() => setLane("support")}
-            >
-              <SupportIcon className="h-8 w-8 text-emerald-200" />
-            </IconButton>
-          </AppTooltip>
+          {LANES_CONFIG.map(({ id, label, Icon }) => (
+            <AppTooltip key={id} text={label} side="bottom">
+              <IconButton
+                className={laneButtonClass(id as LaneType)}
+                onClick={() => setLane(id as LaneType)}
+                aria-label={label}
+              >
+                <Icon className="h-8 w-8 text-emerald-200" />
+              </IconButton>
+            </AppTooltip>
+          ))}
         </div>
       </div>
       <div className="w-full flex justify-center items-center">
