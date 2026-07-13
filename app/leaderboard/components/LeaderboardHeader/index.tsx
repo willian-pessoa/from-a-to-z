@@ -17,16 +17,16 @@ import { AppTooltip } from "@/src/components/AppTooltip";
 export interface ILeaderboardHeaderProps {}
 
 const LANES_CONFIG = [
-  { id: "top", label: "Top Lane", Icon: TopIcon },
-  { id: "jungle", label: "Jungle", Icon: JungleIcon },
-  { id: "mid", label: "Mid Lane", Icon: MidIcon },
-  { id: "bot", label: "Bot Lane", Icon: BotIcon },
-  { id: "support", label: "Support", Icon: SupportIcon },
+  { id: "TOP", label: "Top Lane", Icon: TopIcon },
+  { id: "JUNGLE", label: "Jungle", Icon: JungleIcon },
+  { id: "MID", label: "Mid Lane", Icon: MidIcon },
+  { id: "BOT", label: "Bot Lane", Icon: BotIcon },
+  { id: "SUPPORT", label: "Support", Icon: SupportIcon },
 ] as const;
 
 export default function LeaderboardHeader(props: ILeaderboardHeaderProps) {
   const [queue, setQueue] = useState<QueueType>("ranked");
-  const [lane, setLane] = useState<LaneType>("jungle");
+  const [lane, setLane] = useState<LaneType>("JUNGLE");
 
   const playersFinished = 167;
 

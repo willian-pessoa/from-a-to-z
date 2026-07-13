@@ -1,11 +1,12 @@
 "use client";
 
 import * as React from "react";
+import { RiotPlatformRegion } from "../types";
 
 interface UserState {
   puuid: string;
   riot_id: string;
-  region: string;
+  region: RiotPlatformRegion;
   challengerId: string | null;
 }
 
@@ -36,7 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser({
         puuid: savedPuuid,
         riot_id: savedRiotId,
-        region: savedRegion,
+        region: savedRegion as RiotPlatformRegion,
         challengerId: savedChallengerId,
       });
     }

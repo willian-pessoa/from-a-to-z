@@ -1,8 +1,11 @@
 "use server";
 
 import { createClient } from "@supabase/supabase-js";
+import { ChallengeData } from "../types";
 
-export async function getChallengeData(challengerId: string) {
+export async function getChallengeData(
+  challengerId: string,
+): Promise<ChallengeData | null> {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
   const supabase = createClient(supabaseUrl, serviceRoleKey);
@@ -17,14 +20,14 @@ export async function getChallengeData(challengerId: string) {
   if (desafioError || !challengerData) return null;
 
   // 2. Busca os campeões
-  const { data: progresso, error: progressoError } = await supabase
+  const { data: progress, error: progressError } = await supabase
     .from("progresso_campeoes")
     .select(
       "campeao_id, nome_campeao, has_victory, loses, comentary, fun_note, time_spend",
     )
     .eq("desafio_id", challengerData.id);
 
-  if (progressoError || !progresso) return null;
+  if (progressError || !progress) return null;
 
-  return { challengerData, progresso };
+  return { challengerData, progress };
 }

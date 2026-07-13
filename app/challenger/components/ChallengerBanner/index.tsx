@@ -18,10 +18,10 @@ export default function ChallengerBanner({
   currentChampionNameId = "",
   totalGames = 0,
   winRate = 0,
-  challengerLane = "jungle",
+  challengerLane = "JUNGLE",
 }: IChallengerBannerProps) {
   const splash = getChampionSplashURL(currentChampionNameId);
-  const lolalytics = `https://lolalytics.com/lol/${currentChampionName.toLowerCase()}/build/?lane=${challengerLane}`;
+  const lolalytics = `https://lolalytics.com/lol/${currentChampionName.toLowerCase()}/build/?lane=${challengerLane.toLowerCase()}`;
 
   return (
     <section className="rounded-lg  bg-emerald-900 p-2 shadow-2xl">

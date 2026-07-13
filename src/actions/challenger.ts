@@ -12,11 +12,11 @@ import { ChampionData, LaneType, QueueType } from "../types";
 const SEASON = 2026;
 
 const MAP_LANE_CHAMPIONS: Record<LaneType, ChampionData[]> = {
-  jungle: JUNGLE_CHAMPIONS_DATA,
-  top: TOP_CHAMPIONS_DATA,
-  mid: MID_CHAMPIONS_DATA,
-  bot: BOT_CHAMPIONS_DATA,
-  support: SUPPORT_CHAMPIONS_DATA,
+  JUNGLE: JUNGLE_CHAMPIONS_DATA,
+  TOP: TOP_CHAMPIONS_DATA,
+  MID: MID_CHAMPIONS_DATA,
+  BOT: BOT_CHAMPIONS_DATA,
+  SUPPORT: SUPPORT_CHAMPIONS_DATA,
 };
 
 interface CreateChallengeInput {

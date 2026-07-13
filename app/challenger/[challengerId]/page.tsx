@@ -8,7 +8,7 @@ import { LaneType } from "@/src/types";
 import HeaderConfig from "@/src/layout/HeaderConfig";
 import { capitalize } from "@/src/utils/capitalize";
 import Button from "@/src/components/Button";
-import { useAuth } from "@/src/contexts/AuthContext";
+import UpdateChallengerButton from "../components/UpdateChallengerButton";
 
 export default async function ChallengerPage({
   params,
@@ -23,24 +23,24 @@ export default async function ChallengerPage({
     notFound();
   }
 
-  const { challengerData, progresso } = data;
+  const { challengerData, progress } = data;
 
   // Cálculos das métricas (Feitos no servidor apenas quando o cache é gerado)
-  const totalChampions = progresso.length;
-  const completedChampions = progresso.filter((c) => c.has_victory).length;
-  const totalLosses = progresso.reduce((acc, curr) => acc + curr.loses, 0);
+  const totalChampions = progress.length;
+  const completedChampions = progress.filter((c) => c.has_victory).length;
+  const totalLosses = progress.reduce((acc, curr) => acc + curr.loses, 0);
   const totalGames = completedChampions + totalLosses;
   const winRate =
     totalGames > 0 ? Math.round((completedChampions / totalGames) * 100) : 0;
 
-  const currentChampObj = progresso.find(
+  const currentChampObj = progress.find(
     (c) => c.campeao_id === challengerData.current_champ,
   );
   const currentChampionName = currentChampObj
     ? currentChampObj.nome_campeao
     : "Finalizado!";
 
-  const formattedChampionsData = progresso.map((c) => ({
+  const formattedChampionsData = progress.map((c) => ({
     id: String(c.campeao_id),
     nameId: c.campeao_id,
     name: c.nome_campeao,
@@ -62,9 +62,10 @@ export default async function ChallengerPage({
     <div className="p-3 flex flex-col gap-3">
       {limitTimeExceeded && (
         <div className="flex justify-end">
-          <Button className="bg-fuchsia-600 border-fuchsia-800 hover:bg-fuchsia-700 text-white font-semibold shadow-md">
-            Atualizar Progresso
-          </Button>
+          <UpdateChallengerButton
+            challengerData={challengerData}
+            championsProgress={progress}
+          />
         </div>
       )}
       <HeaderConfig
@@ -72,7 +73,7 @@ export default async function ChallengerPage({
       />
       <ChallengerBanner
         challengerLane={challengerData.lane.toLowerCase() as LaneType}
-        currentChampionNameId={challengerData.current_champ}
+        currentChampionNameId={challengerData.current_champ ?? ""}
         currentChampionName={currentChampionName}
         totalGames={totalGames}
         winRate={winRate}
