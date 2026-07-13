@@ -7,6 +7,8 @@ import ChallengerProgressBar from "../components/ChallengerProgressBar";
 import { LaneType } from "@/src/types";
 import HeaderConfig from "@/src/layout/HeaderConfig";
 import { capitalize } from "@/src/utils/capitalize";
+import Button from "@/src/components/Button";
+import { useAuth } from "@/src/contexts/AuthContext";
 
 export default async function ChallengerPage({
   params,
@@ -48,8 +50,23 @@ export default async function ChallengerPage({
     completed: c.has_victory,
   }));
 
+  // --- CÁLCULO DO COOLDOWN DE 15 MINUTOS (No Servidor) ---
+  const updatedAt = new Date(challengerData.updated_at).getTime();
+  const now = Date.now();
+  const diffMs = now - updatedAt;
+
+  const fifteenMinutesMs = 15 * 60 * 1000;
+  const limitTimeExceeded = diffMs >= fifteenMinutesMs;
+
   return (
     <div className="p-3 flex flex-col gap-3">
+      {limitTimeExceeded && (
+        <div className="flex justify-end">
+          <Button className="bg-fuchsia-600 border-fuchsia-800 hover:bg-fuchsia-700 text-white font-semibold shadow-md">
+            Atualizar Progresso
+          </Button>
+        </div>
+      )}
       <HeaderConfig
         title={`${capitalize(challengerData.lane)} A-Z (${capitalize(challengerData.queue)})`}
       />
