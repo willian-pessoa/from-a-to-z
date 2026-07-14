@@ -116,8 +116,15 @@ export async function syncRiotMatches(
       const matchData = await detailResponse.json();
       const info = matchData.info;
 
+      // controle do ultimo jogo processado
+      const matchEndTimestamp = info.gameEndTimestamp;
+      if (!newestMatchTimestamp || matchEndTimestamp > newestMatchTimestamp) {
+        newestMatchTimestamp = matchEndTimestamp;
+      }
+
       // Verifica se a partida foi devidamente finalizada
-      if (info.endOfGameResult !== "GameComplete") continue;
+      if (info.endOfGameResult !== "GameComplete" || info.gameDuration < 300)
+        continue;
 
       // Filtro A: Verificar se a fila (Queue) é a correta (Ranked ou Casual)
       if (+info.queueId !== +queueParam) {
@@ -185,12 +192,6 @@ export async function syncRiotMatches(
         currentAccumulator.time_spend =
           (currentAccumulator.time_spend ?? 0) + +participant.timePlayed;
       }
-
-      // controle do ultimo jogo processado
-      const matchEndTimestamp = info.gameEndTimestamp;
-      if (!newestMatchTimestamp || matchEndTimestamp > newestMatchTimestamp) {
-        newestMatchTimestamp = matchEndTimestamp;
-      }
     }
 
     // NOVOS PROGRESSOS
@@ -229,7 +230,7 @@ export async function syncRiotMatches(
     // atualizamos o marcador para o momento atual.
     const databaseUpdatedTime =
       startIndex > 0 && newestMatchTimestamp
-        ? new Date(newestMatchTimestamp).toISOString() // Movemos o relógio apenas até a partida mais antiga processada
+        ? new Date(newestMatchTimestamp).toISOString()
         : new Date().toISOString();
 
     // Atualizar o estado global do desafio (current_champ e o cooldown updated_at)

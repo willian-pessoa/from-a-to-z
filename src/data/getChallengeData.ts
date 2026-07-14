@@ -25,7 +25,8 @@ export async function getChallengeData(
     .select(
       "campeao_id, nome_campeao, has_victory, loses, comentary, fun_note, time_spend",
     )
-    .eq("desafio_id", challengerData.id);
+    .eq("desafio_id", challengerData.id)
+    .order("nome_campeao", { ascending: true });
 
   if (progressError || !progress) return null;
 
