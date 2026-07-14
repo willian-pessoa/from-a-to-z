@@ -117,7 +117,7 @@ export async function syncRiotMatches(
       const info = matchData.info;
 
       // controle do ultimo jogo processado
-      const matchEndTimestamp = info.gameEndTimestamp;
+      const matchEndTimestamp = info.gameEndTimestamp + 1000; // avança 1 segundo para evitar reprocessar
       if (!newestMatchTimestamp || matchEndTimestamp > newestMatchTimestamp) {
         newestMatchTimestamp = matchEndTimestamp;
       }
