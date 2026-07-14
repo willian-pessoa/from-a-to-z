@@ -10,7 +10,7 @@ const BOT_CHAMPIONS = [
   createChampion("ezreal", "Ezreal", "Ezreal"),
   createChampion("jhin", "Jhin", "Jhin"),
   createChampion("jinx", "Jinx", "Jinx"),
-  createChampion("kaisa", "KaiSa", "Kai'Sa"),
+  createChampion("kaisa", "Kaisa", "Kai'Sa"),
   createChampion("kalista", "Kalista", "Kalista"),
   createChampion("kogmaw", "KogMaw", "Kog'Maw"),
   createChampion("lucian", "Lucian", "Lucian"),
