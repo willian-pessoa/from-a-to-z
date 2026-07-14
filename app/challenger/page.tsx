@@ -23,7 +23,7 @@ export default function Page() {
     }
   }, [user, router]);
 
-  if (isLoading) {
+  if (isLoading || user?.challengerId) {
     return (
       <div className="flex justify-center h-full items-center">
         <AppLoader />
@@ -31,7 +31,7 @@ export default function Page() {
     );
   }
 
-  if (user?.puuid && user.riot_id && user.region) {
+  if (user?.puuid && user.riot_id && user.region && !user.challengerId) {
     return (
       <div className="flex flex-col justify-center items-center h-full gap-8 p-2 text-center">
         <span className="text-lg">

@@ -19,7 +19,7 @@ export default function ModalLinkAccount() {
   const [riotId, setRiotId] = useState("");
   const [region, setRegion] = useState("BR1");
 
-  async function handleLinkAccount(e: React.FormEvent) {
+  async function handleLinkAccount(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setError("");

@@ -13,11 +13,7 @@ interface UserState {
 interface AuthContextType {
   user: UserState | null;
   isLoading: boolean;
-  login: (
-    userData: Omit<UserState, "challengerId"> & {
-      challengerId?: string | null;
-    },
-  ) => void;
+  login: (userData: UserState) => void;
   logout: () => void;
 }
 
@@ -44,11 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLoading(false);
   }, []);
 
-  const login = (
-    userData: Omit<UserState, "challengerId"> & {
-      challengerId?: string | null;
-    },
-  ) => {
+  const login = (userData: UserState) => {
     const fullUser: UserState = {
       puuid: userData.puuid,
       riot_id: userData.riot_id,

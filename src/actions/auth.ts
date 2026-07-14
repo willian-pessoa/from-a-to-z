@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@supabase/supabase-js";
+import { RiotPlatformRegion } from "../types";
 
 interface LinkPlayerResult {
   success: boolean;
@@ -8,8 +9,9 @@ interface LinkPlayerResult {
   user?: {
     puuid: string;
     riot_id: string;
-    region: string;
+    region: RiotPlatformRegion;
     avatar_url: string | null;
+    challengerId: string | null;
   };
 }
 
@@ -17,7 +19,7 @@ export async function linkPlayer(
   riotIdInput: string,
   region: string,
 ): Promise<LinkPlayerResult> {
-  // 1. Valida se o formato digitado contém a #
+  // Valida se o formato digitado contém a #
   if (!riotIdInput.includes("#")) {
     return {
       success: false,
@@ -34,7 +36,7 @@ export async function linkPlayer(
   );
 
   try {
-    // 2. Transforma o Nome#Tag em PUUID usando a API de Account da Riot
+    // Transforma o Nome#Tag em PUUID usando a API de Account da Riot
     // O subdomínio 'americas' é a rota correta para contas do servidor BR, NA, LAN e LAS.
     const riotUrl = `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${encodeURIComponent(gameName)}/${encodeURIComponent(tagLine)}?api_key=${process.env.RIOT_API_KEY}`;
 
@@ -52,7 +54,44 @@ export async function linkPlayer(
     const officialPuuid = riotData.puuid;
     const fullRiotId = `${riotData.gameName}#${riotData.tagLine}`;
 
-    // 3. Salva (ou atualiza) os dados obtidos diretamente na sua tabela 'usuarios'
+    // Verifica se o jogador já existe
+    const { data: existingUser, error: userError } = await supabase
+      .from("usuarios")
+      .select("*")
+      .eq("puuid", officialPuuid)
+      .maybeSingle();
+
+    if (userError) {
+      return {
+        success: false,
+        error: userError.message,
+      };
+    }
+
+    // Se existe, verifica se já tem challenger ativo
+    let challengerId: string | null = null;
+
+    if (existingUser) {
+      const { data: activeChallenge, error: challengeError } = await supabase
+        .from("desafios")
+        .select("id")
+        .eq("usuario_puuid", officialPuuid)
+        .eq("is_finished", false)
+        .maybeSingle();
+
+      if (challengeError) {
+        return {
+          success: false,
+          error: challengeError.message,
+        };
+      }
+
+      if (activeChallenge) {
+        challengerId = activeChallenge.id;
+      }
+    }
+
+    // Salva (ou atualiza) os dados obtidos diretamente na sua tabela 'usuarios'
     const { data: user, error: dbError } = await supabase
       .from("usuarios") // Mantido o nome exato da sua tabela no Supabase
       .upsert(
@@ -76,6 +115,7 @@ export async function linkPlayer(
         riot_id: user.riot_id,
         region: user.region,
         avatar_url: user.avatar_url,
+        challengerId,
       },
     };
   } catch (err) {
