@@ -5,6 +5,7 @@ const JUNGLE_CHAMPIONS = [
   createChampion("aatrox", "Aatrox", "Aatrox"),
   createChampion("ambessa", "Ambessa", "Ambessa"),
   createChampion("amumu", "Amumu", "Amumu"),
+  createChampion("belveth", "Belveth", "Bel'Veth"),
   createChampion("brand", "Brand", "Brand"),
   createChampion("briar", "Briar", "Briar"),
   createChampion("chogath", "Chogath", "Cho'Gath"),
