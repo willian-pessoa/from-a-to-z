@@ -48,7 +48,7 @@ export default function UpdateChallengerButton({
       onClick={handleUpdate}
       disabled={isLoading}
     >
-      {isLoading ? "Buscando partidas..." : "Atualizar Progresso"}
+      {isLoading ? "Aguarde, buscando partidas..." : "Atualizar Progresso"}
     </Button>
   );
 }

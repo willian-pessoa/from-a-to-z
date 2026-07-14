@@ -7,7 +7,7 @@ import { getRoutingRegion } from "../utils/getRountingRegion";
 import { championBelongsToLane } from "../const/utils/championBelongsToLane";
 import { CHAMPION_KEY_TO_ID } from "../const/mapKeyChampionToNameId";
 
-const MAX_MATCHES_PER_SYNC = 20;
+const MAX_MATCHES_PER_SYNC = 50;
 
 // Mapeamento simples de filas do LoL (Queue IDs oficiais da Riot)
 const QUEUE_MAP: Record<string, number> = {
@@ -51,21 +51,39 @@ export async function syncRiotMatches(
     const routingRegion = getRoutingRegion(region).toLowerCase();
     const baseRiotURL = `https://${routingRegion}.api.riotgames.com`;
 
-    // Buscar a lista de IDs das últimas partidas do jogador na Riot
-    const matchIdsUrl = `${baseRiotURL}/lol/match/v5/matches/by-puuid/${usuario_puuid}/ids?startTime=${startTimeUnix}&count=${MAX_MATCHES_PER_SYNC}&queue=${queueParam}`;
+    let matchIds: string[] = [];
 
-    const matchIdsResponse = await fetch(matchIdsUrl, {
-      headers: { "X-Riot-Token": riotApiKey },
-    });
+    // Buscar a lista de IDs das últimas partidas do jogador na Riot na ordem antiga para recente
+    let startIndex = 0;
 
-    if (!matchIdsResponse.ok) {
-      return {
-        success: false,
-        error: "Falha ao buscar histórico de partidas na Riot.",
-      };
+    while (true) {
+      const matchIdsUrl = `${baseRiotURL}/lol/match/v5/matches/by-puuid/${usuario_puuid}/ids?startTime=${startTimeUnix}&count=${MAX_MATCHES_PER_SYNC}&queue=${queueParam}&start=${startIndex}`;
+
+      const matchIdsResponse = await fetch(matchIdsUrl, {
+        headers: { "X-Riot-Token": riotApiKey },
+      });
+
+      if (!matchIdsResponse.ok) {
+        return {
+          success: false,
+          error: "Falha ao buscar histórico de partidas na Riot.",
+        };
+      }
+
+      const currentMatchIds: string[] = await matchIdsResponse.json();
+
+      if (currentMatchIds.length === 0) {
+        break;
+      }
+
+      matchIds = currentMatchIds.reverse();
+
+      if (currentMatchIds.length < MAX_MATCHES_PER_SYNC) {
+        break;
+      }
+
+      startIndex += MAX_MATCHES_PER_SYNC;
     }
-
-    const matchIds: string[] = await matchIdsResponse.json();
 
     // Se não jogou nenhuma partida desde a última atualização, reseta o time
     if (matchIds.length === 0) {
@@ -84,7 +102,7 @@ export async function syncRiotMatches(
       Partial<ChampionProgress>
     > = {};
 
-    let oldestMatchTimestamp: number | null = null;
+    let newestMatchTimestamp: number | null = null;
 
     // Fazemos um loop sequencial simples para respeitar os limites de requisição por segundo (Rate Limit)
     for (const matchId of matchIds) {
@@ -170,8 +188,8 @@ export async function syncRiotMatches(
 
       // controle do ultimo jogo processado
       const matchEndTimestamp = info.gameEndTimestamp;
-      if (!oldestMatchTimestamp || matchEndTimestamp < oldestMatchTimestamp) {
-        oldestMatchTimestamp = matchEndTimestamp;
+      if (!newestMatchTimestamp || matchEndTimestamp > newestMatchTimestamp) {
+        newestMatchTimestamp = matchEndTimestamp;
       }
     }
 
@@ -206,12 +224,13 @@ export async function syncRiotMatches(
       }
     }
 
-    // Se o número de partidas que a Riot retornou foi exatamente igual ao nosso limite máximo,
-    // significa que provavelmente o jogador tem mais partidas pendentes no passado recente.
+    // Se estamos paginando para trás, avançamos o marcador até a partida mais antiga processada.
+    // Caso contrário (primeira página), todas as partidas novas já foram sincronizadas e
+    // atualizamos o marcador para o momento atual.
     const databaseUpdatedTime =
-      matchIds.length === MAX_MATCHES_PER_SYNC && oldestMatchTimestamp
-        ? new Date(oldestMatchTimestamp).toISOString() // Movemos o relógio apenas até a partida mais antiga processada
-        : new Date().toISOString(); // Se veio menos de 20 partidas, limpamos o histórico e usamos "agora"
+      startIndex > 0 && newestMatchTimestamp
+        ? new Date(newestMatchTimestamp).toISOString() // Movemos o relógio apenas até a partida mais antiga processada
+        : new Date().toISOString();
 
     // Atualizar o estado global do desafio (current_champ e o cooldown updated_at)
     // Buscamos a lista atualizada de quem ainda não tem vitória para definir quem será o próximo na ordem alfabética

@@ -17,5 +17,7 @@ export function championBelongsToLane(
   lane: LaneType,
   championId: string,
 ): boolean {
-  return CHAMPIONS_BY_LANE[lane].some((champion) => champion.id === championId);
+  return CHAMPIONS_BY_LANE[lane].some(
+    (champion) => champion.nameId === championId,
+  );
 }
