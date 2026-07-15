@@ -7,6 +7,8 @@ import Button from "@/src/components/Button";
 import { AppDialog } from "@/src/components/AppDialog/AppDialog";
 
 import { useAuth } from "@/src/contexts/AuthContext";
+import AppSelect from "@/src/components/AppSelect";
+import { RIOT_REGIONS } from "./const/riotRegionsOptions";
 
 export default function ModalLinkAccount() {
   // Estados do fluxo de autenticação e UI
@@ -36,7 +38,6 @@ export default function ModalLinkAccount() {
     setLoading(false);
   }
 
-  // Se o estado 'user' estiver vazio, exibe a interface de linkar conta
   return (
     <AppDialog
       trigger={<Button className="text-lg py-2 px-4">Vincular Conta</Button>}
@@ -61,7 +62,7 @@ export default function ModalLinkAccount() {
         )}
 
         <div className="flex flex-col gap-1">
-          <label className="font-semibold">Your Riot ID</label>
+          <label className="font-semibold">Seu Riot ID</label>
           <AppTextInput
             id="riot-id"
             required
@@ -69,6 +70,16 @@ export default function ModalLinkAccount() {
             value={riotId}
             onChange={(e) => setRiotId(e.target.value)}
             className="bg-emerald-800"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label className="font-semibold">Region</label>
+          <AppSelect
+            className="bg-emerald-800 cursor-pointer"
+            value={region}
+            onValueChange={setRegion}
+            options={RIOT_REGIONS}
           />
         </div>
 

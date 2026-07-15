@@ -43,12 +43,14 @@ export default function Page() {
     );
   }
 
+  // Se o estado 'user' estiver vazio, exibe a interface de linkar conta
   return (
     <div className="flex flex-col justify-center items-center h-full gap-8 p-2 text-center">
       <span className="text-lg">
         Para participar do desafio de A a Z é necessário antes vincular uma
         conta.
       </span>
+
       <ModalLinkAccount />
     </div>
   );

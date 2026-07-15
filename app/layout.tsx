@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="pt-BR"
       className={`${inter.className} h-full antialiased bg-emerald-950 text-emerald-50`}
     >
       <body className="flex h-screen flex-col overflow-hidden bg-emerald-950 text-emerald-50">
