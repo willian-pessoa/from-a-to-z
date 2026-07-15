@@ -8,6 +8,7 @@ import { AppDialog } from "@/src/components/AppDialog/AppDialog";
 import { useRouter } from "next/navigation";
 
 import { deleteChallenge } from "@/src/actions/deleteChallenge";
+import { useState } from "react";
 
 export interface IModalDeleteChallengerProps {
   challengeId: string;
@@ -18,15 +19,22 @@ export default function ModalDeleteChallenger({
   challengeId,
   challengeUserPuuid,
 }: IModalDeleteChallengerProps) {
-  const { user } = useAuth();
+  const { user, updateChallengerId } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleDeleteChallenge = async () => {
+    setIsLoading(true);
+
     const result = await deleteChallenge(challengeId, user?.puuid ?? null);
 
     if (!result.success) {
       alert(result.error);
       return;
+    }
+
+    if (challengeId === user?.challengerId) {
+      updateChallengerId(null);
     }
 
     router.push(`/challenger`);
@@ -59,9 +67,10 @@ export default function ModalDeleteChallenger({
           </div>
           <Button
             onClick={handleDeleteChallenge}
+            disabled={isLoading}
             className="bg-red-600 border-red-500 text-center items-center justify-center hover:bg-red-700"
           >
-            Confirmar
+            {isLoading ? "Deletando... " : "Confirmar"}
           </Button>
         </div>
       </AppDialog>

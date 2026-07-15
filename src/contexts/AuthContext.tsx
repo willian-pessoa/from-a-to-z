@@ -15,6 +15,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (userData: UserState) => void;
   logout: () => void;
+  updateChallengerId: (newId: string | null) => void;
 }
 
 const AuthContext = React.createContext<AuthContextType | undefined>(undefined);
@@ -66,8 +67,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
   };
 
+  const updateChallengerId = (newId: string | null) => {
+    localStorage.setItem("lol_az_challengerid", newId ?? "");
+    setUser((prev) => {
+      if (prev) {
+        return { ...prev, challengerId: newId };
+      }
+      return prev;
+    });
+  };
+
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, isLoading, login, logout, updateChallengerId }}
+    >
       {children}
     </AuthContext.Provider>
   );

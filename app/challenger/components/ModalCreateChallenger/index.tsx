@@ -103,7 +103,7 @@ export default function ModalCreateChallenger({}: IModalCreateChallengerProps) {
           <div className="flex items-center gap-2">
             <span className="font-semibold">Fila</span>
 
-            <AppTooltip text="Escolha se o desafio será realizado em partidas ranqueadas ou casuais.">
+            <AppTooltip text="Escolha se o desafio será realizado em partidas ranqueadas (Solo/Duo) ou casuais (Blind Pick).">
               <IconInfoCircle className="h-4 w-4 cursor-help text-emerald-300" />
             </AppTooltip>
           </div>
