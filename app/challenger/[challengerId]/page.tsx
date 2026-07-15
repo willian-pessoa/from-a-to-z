@@ -9,6 +9,7 @@ import HeaderConfig from "@/src/layout/HeaderConfig";
 import { capitalize } from "@/src/utils/capitalize";
 import Button from "@/src/components/Button";
 import UpdateChallengerButton from "../components/UpdateChallengerButton";
+import ModalDeleteChallenger from "../components/ModalDeleteChallenger";
 
 export default async function ChallengerPage({
   params,
@@ -83,6 +84,10 @@ export default async function ChallengerPage({
         totalChampions={totalChampions}
       />
       <ChallengerChampionsGrid championsData={formattedChampionsData} />
+      <ModalDeleteChallenger
+        challengeId={challengerId}
+        challengeUserPuuid={challengerData.usuario_puuid}
+      />
     </div>
   );
 }

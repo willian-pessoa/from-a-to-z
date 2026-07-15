@@ -14,7 +14,7 @@ export async function getChallengeData(
   const { data: challengerData, error: desafioError } = await supabase
     .from("desafios")
     .select(
-      "id, lane, queue, current_champ, usuario_puuid, updated_at, time_spend",
+      "id, lane, queue, current_champ, usuario_puuid, updated_at, time_spend, is_finished",
     )
     .eq("id", parseInt(challengerId, 10))
     .single();

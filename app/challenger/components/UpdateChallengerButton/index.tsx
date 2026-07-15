@@ -42,6 +42,8 @@ export default function UpdateChallengerButton({
     }
   }
 
+  if (challengerData.is_finished) return null;
+
   return (
     <Button
       className="bg-fuchsia-600 border-fuchsia-800 hover:bg-fuchsia-700 text-white font-semibold shadow-md disabled:opacity-50"

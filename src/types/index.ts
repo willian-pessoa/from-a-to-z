@@ -43,6 +43,7 @@ export interface ChallengerData {
   updated_at: string;
   usuario_puuid: string;
   time_spend: number; // in seconds
+  is_finished: boolean;
 }
 
 export interface ChampionProgress {
