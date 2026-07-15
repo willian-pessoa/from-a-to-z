@@ -197,6 +197,9 @@ export async function syncRiotMatches(
     // NOVOS PROGRESSOS
     const updatedChampionIds = Object.keys(new_champions_progress);
 
+    // acumular o tempo para atualizar tempo de progresso no desafio
+    let challengeTimeToAdd = 0;
+
     // Se encontramos partidas válidas para atualizar o banco
     if (updatedChampionIds.length > 0) {
       // Atualizar cada campeão modificado na tabela "progresso_campeoes"
@@ -206,10 +209,13 @@ export async function syncRiotMatches(
         );
         const currentData = new_champions_progress[champId];
 
+        const addedTime = currentData.time_spend || 0;
+
+        challengeTimeToAdd += addedTime;
+
         // Soma o histórico antigo com o que acabou de ser calculado nas partidas novas
         const finalLoses = (dbChampion?.loses || 0) + (currentData.loses || 0);
-        const finalTimeSpend =
-          (dbChampion?.time_spend || 0) + (currentData.time_spend || 0);
+        const finalTimeSpend = (dbChampion?.time_spend || 0) + addedTime;
         const finalHasVictory = currentData.has_victory || false;
 
         await supabase
@@ -225,13 +231,16 @@ export async function syncRiotMatches(
       }
     }
 
-    // Se estamos paginando para trás, avançamos o marcador até a partida mais antiga processada.
-    // Caso contrário (primeira página), todas as partidas novas já foram sincronizadas e
-    // atualizamos o marcador para o momento atual.
+    // Avançamos o marcador até a partida mais recente entre as antiga processada.
+    // Caso contrário atualizamos o marcador para o momento atual.
     const databaseUpdatedTime =
       startIndex > 0 && newestMatchTimestamp
         ? new Date(newestMatchTimestamp).toISOString()
         : new Date().toISOString();
+
+    // Tempo gasto no desafio
+    const challengeTotalTime =
+      (challengeData.time_spend || 0) + challengeTimeToAdd;
 
     // Atualizar o estado global do desafio (current_champ e o cooldown updated_at)
     // Buscamos a lista atualizada de quem ainda não tem vitória para definir quem será o próximo na ordem alfabética
@@ -249,6 +258,7 @@ export async function syncRiotMatches(
         .update({
           current_champ: remainingChamps[0].campeao_id,
           updated_at: databaseUpdatedTime,
+          time_spend: challengeTotalTime,
         })
         .eq("id", id);
     } else {
@@ -256,9 +266,11 @@ export async function syncRiotMatches(
       await supabase
         .from("desafios")
         .update({
+          current_champ: null,
           is_finished: true,
           finished_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
+          time_spend: challengeTotalTime,
         })
         .eq("id", id);
     }

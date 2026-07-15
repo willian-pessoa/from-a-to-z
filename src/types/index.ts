@@ -42,6 +42,7 @@ export interface ChallengerData {
   current_champ: string | null;
   updated_at: string;
   usuario_puuid: string;
+  time_spend: number; // in seconds
 }
 
 export interface ChampionProgress {
