@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { RiotPlatformRegion } from "../types";
+import { logoutSession } from "@/src/actions/logout";
 
 interface UserState {
   puuid: string;
@@ -14,7 +15,7 @@ interface AuthContextType {
   user: UserState | null;
   isLoading: boolean;
   login: (userData: UserState) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
   updateChallengerId: (newId: string | null) => void;
 }
 
@@ -59,12 +60,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(fullUser);
   };
 
-  const logout = () => {
-    localStorage.removeItem("lol_az_puuid");
-    localStorage.removeItem("lol_az_riotid");
-    localStorage.removeItem("lol_az_region");
-    localStorage.removeItem("lol_az_challengerid");
-    setUser(null);
+  const logout = async () => {
+    try {
+      await logoutSession();
+    } finally {
+      localStorage.removeItem("lol_az_puuid");
+      localStorage.removeItem("lol_az_riotid");
+      localStorage.removeItem("lol_az_region");
+      localStorage.removeItem("lol_az_challengerid");
+
+      setUser(null);
+    }
   };
 
   const updateChallengerId = (newId: string | null) => {
