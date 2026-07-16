@@ -1,7 +1,8 @@
 "use server";
 
-import { createClient } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
+
+import { validateSession } from "../data/validateSession";
 
 interface DeleteChallengeResult {
   success: boolean;
@@ -19,17 +20,23 @@ export async function deleteChallenge(
     };
   }
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+  const auth = await validateSession(userPuuid);
 
-  const supabase = createClient(supabaseUrl, serviceRoleKey);
+  if (!auth) {
+    return {
+      success: false,
+      error: "Sessão inválida.",
+    };
+  }
+
+  const { session, supabase } = auth;
 
   try {
     const { error } = await supabase
       .from("desafios")
       .delete()
       .eq("id", challengeId)
-      .eq("usuario_puuid", userPuuid);
+      .eq("usuario_puuid", session.user_puuid);
 
     if (error) {
       return {
