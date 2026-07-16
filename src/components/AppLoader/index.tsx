@@ -1,16 +1,16 @@
 import clsx from "clsx";
 
-export interface LoaderProps {
+export interface AppLoaderProps {
   text?: string;
   className?: string;
   size?: "sm" | "md" | "lg";
 }
 
-export default function Loader({
+export default function AppLoader({
   text = "",
   className,
   size = "md",
-}: LoaderProps) {
+}: AppLoaderProps) {
   const spinnerSize = {
     sm: "h-5 w-5 border-2",
     md: "h-8 w-8 border-[3px]",
@@ -26,7 +26,7 @@ export default function Loader({
     >
       <div
         className={clsx(
-          "animate-spin rounded-full border-emerald-700 border-t-emerald-300",
+          "animate-[spin_1.1s_linear_infinite] rounded-full border-emerald-700 border-t-emerald-300",
           spinnerSize[size],
         )}
       />
