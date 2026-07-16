@@ -1,5 +1,8 @@
 "use server";
 
+import { randomUUID } from "crypto";
+import { cookies } from "next/headers";
+
 import { createClient } from "@supabase/supabase-js";
 import { RiotPlatformRegion } from "../types";
 import { getRoutingRegion } from "../utils/getRountingRegion";
@@ -214,6 +217,38 @@ export async function linkPlayer(
         challengerId = activeChallenge.id;
       }
     }
+
+    // INICIAR SESSAO NO BANCO
+    const sessionId = randomUUID();
+    const sessionExpiresAt = new Date(
+      Date.now() + 6 * 30 * 24 * 60 * 60 * 1000,
+    );
+
+    const { error: sessionError } = await supabase
+      .from("user_sessions")
+      .insert({
+        id: sessionId,
+        user_puuid: userPuuid,
+        expires_at: sessionExpiresAt,
+      });
+
+    if (sessionError) {
+      return {
+        success: false,
+        error: sessionError.message,
+      };
+    }
+
+    // CONFIGURAR COOKIE
+    const cookieStore = await cookies();
+
+    cookieStore.set("session", sessionId, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      expires: sessionExpiresAt,
+    });
 
     // Salva (ou atualiza) os dados obtidos diretamente na sua tabela 'usuarios'
     const { data: user, error: dbError } = await supabase
