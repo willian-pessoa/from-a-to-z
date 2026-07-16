@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@supabase/supabase-js";
+import { validateSession } from "../data/validateSession";
 
 import { JUNGLE_CHAMPIONS_DATA } from "../const/jungleChampions";
 import { MID_CHAMPIONS_DATA } from "../const/midChampions";
@@ -30,9 +30,16 @@ export async function createChallenge({
   lane,
   queue,
 }: CreateChallengeInput) {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-  const supabase = createClient(supabaseUrl, serviceRoleKey);
+  const auth = await validateSession(puuid);
+
+  if (!auth) {
+    return {
+      success: false,
+      error: "Sessão inválida.",
+    };
+  }
+
+  const { session, supabase } = auth;
 
   try {
     const allowedChampions = MAP_LANE_CHAMPIONS[lane];
@@ -40,7 +47,7 @@ export async function createChallenge({
     const { data: newChallenge, error: challengeError } = await supabase
       .from("desafios")
       .insert({
-        usuario_puuid: puuid,
+        usuario_puuid: session.user_puuid,
         lane: lane.toUpperCase(),
         queue: queue.toUpperCase(),
         is_finished: false,
@@ -58,10 +65,13 @@ export async function createChallenge({
           error: "Você já possui um desafio ativo nesta ou em outra rota!",
         };
       }
-      return { success: false, error: challengeError.message };
+
+      return {
+        success: false,
+        error: challengeError.message,
+      };
     }
 
-    // 5. Bulk insert contendo APENAS a sua lista seleta para aquela lane
     const recordsToInsert = allowedChampions.map((champ) => ({
       desafio_id: newChallenge.id,
       campeao_id: champ.nameId,
@@ -76,16 +86,19 @@ export async function createChallenge({
       .insert(recordsToInsert);
 
     if (progressError) {
-      // Rollback
       await supabase.from("desafios").delete().eq("id", newChallenge.id);
+
       return {
         success: false,
         error: "Falha ao popular o progresso filtrado por lane.",
       };
     }
 
-    return { success: true, challengeId: newChallenge.id };
-  } catch (error) {
+    return {
+      success: true,
+      challengeId: newChallenge.id,
+    };
+  } catch {
     return {
       success: false,
       error: "Erro interno no servidor ao processar campeões por rota.",
