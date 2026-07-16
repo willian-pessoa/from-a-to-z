@@ -12,6 +12,7 @@ import AppSelect from "@/src/components/AppSelect";
 import { RIOT_REGIONS } from "./const/riotRegionsOptions";
 import { RiotPlatformRegion } from "@/src/types";
 import { SummonerIcon } from "@/src/actions/utils/getRandomVerificationIcon";
+import DisplayTimer from "@/src/components/DisplayTimer";
 
 type LinkingState = "search" | "check";
 
@@ -22,6 +23,7 @@ export default function ModalLinkAccount() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [reset, setReset] = useState(false);
+  const [showWaitingTimer, setShowWaitingTimer] = useState(false);
   const [linkingState, setLinkingState] = useState<LinkingState>("search");
   const [iconVerification, setIconVerification] = useState<SummonerIcon | null>(
     { id: 1, name: "teste" },
@@ -65,6 +67,10 @@ export default function ModalLinkAccount() {
       if (result.reset) {
         setReset(true);
       }
+
+      if (result.showWaitingTimer) {
+        setShowWaitingTimer(true);
+      }
     }
     setLoading(false);
   }
@@ -86,15 +92,16 @@ export default function ModalLinkAccount() {
       closeOnOutsideClick={false}
     >
       <div className="flex flex-col gap-8 text-left p-2">
-        <p className="text-emerald-200 text-sm">
-          Antes de participar de um desafio, precisamos localizar seu perfil
-          oficial da Riot Games e fazer a verificação de titularidade da conta.
-        </p>
-
-        {error && (
-          <div className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 p-2 rounded">
+        {error ? (
+          <div className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 p-2 rounded-lg">
             {error}
           </div>
+        ) : (
+          <p className="text-emerald-200 text-sm">
+            Antes de participar de um desafio, precisamos localizar seu perfil
+            oficial da Riot Games e fazer a verificação de titularidade da
+            conta.
+          </p>
         )}
 
         {linkingState === "search" && (
@@ -155,7 +162,17 @@ export default function ModalLinkAccount() {
               )}
             </div>
 
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-4">
+              {showWaitingTimer && (
+                <DisplayTimer
+                  time={60}
+                  onFinish={() => setShowWaitingTimer(false)}
+                  config={{
+                    iconClassName: "text-red-500",
+                    timerClassName: "text-red-500",
+                  }}
+                />
+              )}
               {reset ? (
                 <Button
                   className="bg-red-600 border-red-500 text-center items-center justify-center hover:bg-red-700"

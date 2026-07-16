@@ -12,6 +12,7 @@ interface LinkPlayerResult {
   success: boolean;
   error?: string;
   reset?: boolean;
+  showWaitingTimer?: boolean;
   user?: {
     puuid: string;
     riot_id: string;
@@ -38,7 +39,7 @@ export async function findRiotAccount(
   if (!riotIdInput.includes("#")) {
     return {
       success: false,
-      error: "Riot ID must include a hashtag (e.g., AURA Galactus#BR1)",
+      error: "Riot ID deve incluir a hashtag (exemplo: AURA Galactus#BR1)",
     };
   }
 
@@ -62,7 +63,8 @@ export async function findRiotAccount(
     if (!riotResponse.ok) {
       return {
         success: false,
-        error: "Player not found on Riot servers. Check the spelling and tag.",
+        error:
+          "Jogador não encontro no servidor da Riot. Verifique se digitou corretamente junto da tag.",
       };
     }
 
@@ -138,7 +140,7 @@ export async function linkPlayer(
     if (!existingUser) {
       return {
         success: false,
-        error: "User not found.",
+        error: "Usuário não encontrado",
       };
     }
 
@@ -148,7 +150,7 @@ export async function linkPlayer(
     ) {
       return {
         success: false,
-        error: "No verification challenge is active.",
+        error: "Nenhuma verificação ativa.",
       };
     }
 
@@ -158,7 +160,7 @@ export async function linkPlayer(
       return {
         success: false,
         reset: true,
-        error: "The verification challenge has expired. Please start again.",
+        error: "A verificação expirou, clique em resetar e tente novamente.",
       };
     }
 
@@ -175,7 +177,7 @@ export async function linkPlayer(
     if (!summonerResponse.ok) {
       return {
         success: false,
-        error: "Unable to verify the current profile icon.",
+        error: "Não foi possivel verificar o icone de perfil atual.",
       };
     }
 
@@ -184,8 +186,9 @@ export async function linkPlayer(
     if (+summonerData.profileIconId !== +existingUser.login_challenge_icon) {
       return {
         success: false,
+        showWaitingTimer: true,
         error:
-          "The selected profile icon does not match the requested verification icon, if you has changed waiting a few seconds and try again.",
+          "O icone atual não corresponde com o icone de verificação, se você já fez a modificação aguarde alguns segundos e tente novamente, o servidor da riot pode levar um tempo para retornar a modificação.",
       };
     }
 
