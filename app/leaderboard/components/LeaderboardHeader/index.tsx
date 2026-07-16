@@ -75,7 +75,7 @@ export default function LeaderboardHeader(props: ILeaderboardHeaderProps) {
       </div>
       <div className="w-full flex justify-center items-center">
         <span className="text-3xl font-bold p-1">{playersFinished}</span>
-        <span className="text-xl">Jogadores completaram o desafio</span>
+        <span className="text-xl">Invocadores completaram o desafio</span>
       </div>
     </div>
   );

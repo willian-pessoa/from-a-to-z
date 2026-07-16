@@ -59,7 +59,9 @@ export default function Header(props: IHeaderProps) {
         <span className="text-xl font-bold">{title}</span>
       </div>
       <div className="flex p-2 items-center gap-2">
-        <span className="">{playerDisplay}</span>
+        <span className="border border-emerald-700 rounded-lg px-4 py-2">
+          {playerDisplay}
+        </span>
         {isLoged && (
           <AppTooltip text="Sair">
             <IconButton onClick={logout}>

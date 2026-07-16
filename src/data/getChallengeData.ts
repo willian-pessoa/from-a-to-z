@@ -21,6 +21,14 @@ export async function getChallengeData(
 
   if (desafioError || !challengerData) return null;
 
+  const { data: challengeUser, error: challengeUserError } = await supabase
+    .from("usuarios")
+    .select("riot_id")
+    .eq("puuid", challengerData.usuario_puuid)
+    .single();
+
+  if (challengeUserError || !challengerData) return null;
+
   // 2. Busca os campeões
   const { data: progress, error: progressError } = await supabase
     .from("progresso_campeoes")
@@ -32,5 +40,13 @@ export async function getChallengeData(
 
   if (progressError || !progress) return null;
 
-  return { challengerData, progress };
+  const returnData: ChallengeData = {
+    challengerData: {
+      ...challengerData,
+      usuario_riotId: challengeUser.riot_id,
+    },
+    progress,
+  };
+
+  return returnData;
 }

@@ -42,6 +42,7 @@ export interface ChallengerData {
   current_champ: string | null;
   updated_at: string;
   usuario_puuid: string;
+  usuario_riotId: string;
   time_spend: number; // in seconds
   is_finished: boolean;
 }

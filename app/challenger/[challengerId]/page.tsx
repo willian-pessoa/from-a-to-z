@@ -7,7 +7,6 @@ import ChallengerProgressBar from "../components/ChallengerProgressBar";
 import { LaneType } from "@/src/types";
 import HeaderConfig from "@/src/layout/HeaderConfig";
 import { capitalize } from "@/src/utils/capitalize";
-import Button from "@/src/components/Button";
 import UpdateChallengerButton from "../components/UpdateChallengerButton";
 import ModalDeleteChallenger from "../components/ModalDeleteChallenger";
 
@@ -59,6 +58,10 @@ export default async function ChallengerPage({
   const fifteenMinutesMs = 15 * 60 * 1000;
   const limitTimeExceeded = diffMs >= fifteenMinutesMs;
 
+  // Header Confing
+  const playerChallenger = challengerData.usuario_riotId.split("#")[0];
+  const titleHeaderConfig = `${capitalize(challengerData.lane)} A-Z (${capitalize(challengerData.queue)}) - ${playerChallenger}`;
+
   return (
     <div className="p-3 flex flex-col gap-3">
       {limitTimeExceeded && (
@@ -69,9 +72,7 @@ export default async function ChallengerPage({
           />
         </div>
       )}
-      <HeaderConfig
-        title={`${capitalize(challengerData.lane)} A-Z (${capitalize(challengerData.queue)})`}
-      />
+      <HeaderConfig title={titleHeaderConfig} />
       <ChallengerBanner
         challengerLane={challengerData.lane.toLowerCase() as LaneType}
         currentChampionNameId={challengerData.current_champ ?? ""}
