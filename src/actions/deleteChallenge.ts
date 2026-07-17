@@ -11,16 +11,15 @@ interface DeleteChallengeResult {
 
 export async function deleteChallenge(
   challengeId: string,
-  userPuuid: string | null,
 ): Promise<DeleteChallengeResult> {
-  if (!challengeId || !userPuuid) {
+  if (!challengeId) {
     return {
       success: false,
       error: "Não foi possivel processar a remoção do desafio.",
     };
   }
 
-  const auth = await validateSession(userPuuid);
+  const auth = await validateSession();
 
   if (!auth) {
     return {

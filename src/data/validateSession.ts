@@ -9,9 +9,7 @@ interface ValidateSessionResult {
   supabase: SupabaseClient;
 }
 
-export async function validateSession(
-  clientPuuid: string,
-): Promise<ValidateSessionResult | null> {
+export async function validateSession(): Promise<ValidateSessionResult | null> {
   const sessionId = (await cookies()).get("session")?.value;
 
   if (!sessionId) {
@@ -38,10 +36,6 @@ export async function validateSession(
 
     (await cookies()).delete("session");
 
-    return null;
-  }
-
-  if (session.user_puuid !== clientPuuid) {
     return null;
   }
 

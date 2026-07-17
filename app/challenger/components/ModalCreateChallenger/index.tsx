@@ -31,7 +31,7 @@ const LANES_CONFIG = [
 ] as const;
 
 export default function ModalCreateChallenger({}: IModalCreateChallengerProps) {
-  const { user, login } = useAuth();
+  const { updateChallengerId } = useAuth();
   const router = useRouter();
 
   const [queue, setQueue] = useState<QueueType>("ranked");
@@ -51,27 +51,16 @@ export default function ModalCreateChallenger({}: IModalCreateChallengerProps) {
     clsx("border-none", lane === value ? "bg-emerald-600" : "bg-emerald-900");
 
   const handleCreateChallenger = async () => {
-    if (!user?.puuid) {
-      setError("Usuário não identificado. Vincule sua conta novamente.");
-      return;
-    }
-
     setLoading(true);
     setError("");
 
     const result = await createChallenge({
-      puuid: user.puuid,
       lane,
       queue,
     });
 
     if (result.success && result.challengeId) {
-      login({
-        puuid: user.puuid,
-        riot_id: user.riot_id,
-        region: user.region,
-        challengerId: String(result.challengeId),
-      });
+      updateChallengerId(String(result.challengeId));
 
       router.push(`/challenger/${result.challengeId}`);
     } else {

@@ -20,17 +20,12 @@ const MAP_LANE_CHAMPIONS: Record<LaneType, ChampionData[]> = {
 };
 
 interface CreateChallengeInput {
-  puuid: string;
   lane: LaneType;
   queue: QueueType;
 }
 
-export async function createChallenge({
-  puuid,
-  lane,
-  queue,
-}: CreateChallengeInput) {
-  const auth = await validateSession(puuid);
+export async function createChallenge({ lane, queue }: CreateChallengeInput) {
+  const auth = await validateSession();
 
   if (!auth) {
     return {

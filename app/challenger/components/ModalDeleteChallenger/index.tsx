@@ -26,7 +26,7 @@ export default function ModalDeleteChallenger({
   const handleDeleteChallenge = async () => {
     setIsLoading(true);
 
-    const result = await deleteChallenge(challengeId, user?.puuid ?? null);
+    const result = await deleteChallenge(challengeId);
 
     if (!result.success) {
       alert(result.error);

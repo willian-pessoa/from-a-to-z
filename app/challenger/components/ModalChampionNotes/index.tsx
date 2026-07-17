@@ -9,7 +9,6 @@ import { updateChampionNotes } from "@/src/actions/updateChampioNotes";
 import { AppDialog } from "@/src/components/AppDialog/AppDialog";
 import IconButton from "@/src/components/IconButton";
 import { IconEdit } from "@tabler/icons-react";
-import { useAuth } from "@/src/contexts/AuthContext";
 
 export interface IModalChampionNotesProps {
   challengeId: number;
@@ -26,8 +25,6 @@ export default function ModalChampionNotes({
   funNote,
   commentary,
 }: IModalChampionNotesProps) {
-  const { user } = useAuth();
-
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const [localFunNote, setLocalFunNote] = useState(funNote);
@@ -51,7 +48,6 @@ export default function ModalChampionNotes({
     setIsLoading(true);
     try {
       const result = await updateChampionNotes({
-        userPuuid: user?.puuid ?? "",
         challengeId,
         championNameId,
         funNote: localFunNote,

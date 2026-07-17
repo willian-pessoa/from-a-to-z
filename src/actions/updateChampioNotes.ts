@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { validateSession } from "../data/validateSession";
 
 interface IUpdateChampionNotesParams {
-  userPuuid: string;
   challengeId: number;
   championNameId: string;
   funNote: number;
@@ -12,13 +11,12 @@ interface IUpdateChampionNotesParams {
 }
 
 export async function updateChampionNotes({
-  userPuuid,
   challengeId,
   championNameId,
   funNote,
   commentary,
 }: IUpdateChampionNotesParams) {
-  const auth = await validateSession(userPuuid);
+  const auth = await validateSession();
 
   if (!auth) {
     return {
