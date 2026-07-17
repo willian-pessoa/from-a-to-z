@@ -80,6 +80,7 @@ export default function ChampionGridCard({
             <ModalChampionNotes
               challengeId={challengerId}
               championNameId={nameId}
+              championName={name}
               funNote={funNote}
               commentary={commentary}
             />

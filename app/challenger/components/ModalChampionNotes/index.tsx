@@ -14,6 +14,7 @@ import { useAuth } from "@/src/contexts/AuthContext";
 export interface IModalChampionNotesProps {
   challengeId: number;
   championNameId: string;
+  championName: string;
   funNote: number;
   commentary: string;
 }
@@ -21,6 +22,7 @@ export interface IModalChampionNotesProps {
 export default function ModalChampionNotes({
   challengeId,
   championNameId,
+  championName,
   funNote,
   commentary,
 }: IModalChampionNotesProps) {
@@ -73,7 +75,7 @@ export default function ModalChampionNotes({
     <AppDialog
       open={isDialogOpen}
       onOpenChange={setIsDialogOpen}
-      title={`Anotações sobre o campeão ${name}`}
+      title={`Anotações sobre o campeão ${championName}`}
       closeOnOutsideClick={false}
       trigger={
         <IconButton
