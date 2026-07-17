@@ -1,7 +1,5 @@
 "use client";
 
-import { AppDialog } from "@/src/components/AppDialog/AppDialog";
-import Button from "@/src/components/Button";
 import ModalCreateChallenger from "./components/ModalCreateChallenger";
 import { useEffect } from "react";
 

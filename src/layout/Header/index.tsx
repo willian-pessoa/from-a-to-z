@@ -33,7 +33,7 @@ export default function Header(props: IHeaderProps) {
       ? `/challenger/${user.challengerId}`
       : "/challenger";
 
-    return [
+    const menuItems = [
       {
         label: "Ranking",
         children: <Link href="/leaderboard">Ranking</Link>,
@@ -43,6 +43,15 @@ export default function Header(props: IHeaderProps) {
         children: <Link href={challengerURL}>Desafio</Link>,
       },
     ];
+
+    if (isLoged) {
+      menuItems.push({
+        label: "Histórico",
+        children: <Link href={"/history"}>Histórico</Link>,
+      });
+    }
+
+    return menuItems;
   }, [user?.challengerId]);
 
   return (
