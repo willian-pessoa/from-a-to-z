@@ -7,6 +7,7 @@ import IconButton from "@/src/components/IconButton";
 import { AppDialog } from "@/src/components/AppDialog/AppDialog";
 import ModalChampionNotes from "../ModalChampionNotes";
 import { useState } from "react";
+import { useAuth } from "@/src/contexts/AuthContext";
 
 interface ChampionGridCardProps {
   nameId: string;
@@ -15,6 +16,8 @@ interface ChampionGridCardProps {
   funNote: number;
   commentary: string;
   completed: boolean;
+  challengerId: number;
+  userChallengerPuuid: string;
 }
 
 export default function ChampionGridCard({
@@ -24,8 +27,10 @@ export default function ChampionGridCard({
   completed,
   funNote,
   commentary,
+  challengerId,
+  userChallengerPuuid,
 }: ChampionGridCardProps) {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { user } = useAuth();
 
   const getBorderColor = () => {
     if (completed) return "border-lime-400";
@@ -71,26 +76,14 @@ export default function ChampionGridCard({
             <IconCheck size={14} stroke={4} />
           </div>
 
-          <AppDialog
-            open={isDialogOpen}
-            onOpenChange={setIsDialogOpen}
-            title={`Anotações sobre o campeão ${name}`}
-            closeOnOutsideClick={false}
-            trigger={
-              <IconButton
-                className={clsx(
-                  "absolute right-1 bottom-1 transition-opacity",
-                  isDialogOpen
-                    ? "opacity-0 pointer-events-none"
-                    : "opacity-0 group-hover:opacity-100",
-                )}
-              >
-                <IconEdit />
-              </IconButton>
-            }
-          >
-            <ModalChampionNotes />
-          </AppDialog>
+          {user?.puuid === userChallengerPuuid && (
+            <ModalChampionNotes
+              challengeId={challengerId}
+              championNameId={nameId}
+              funNote={funNote}
+              commentary={commentary}
+            />
+          )}
         </>
       )}
     </div>

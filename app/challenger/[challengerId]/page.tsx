@@ -84,7 +84,10 @@ export default async function ChallengerPage({
         completed={completedChampions}
         totalChampions={totalChampions}
       />
-      <ChallengerChampionsGrid championsData={formattedChampionsData} />
+      <ChallengerChampionsGrid
+        championsData={formattedChampionsData}
+        challengerData={challengerData}
+      />
       <ModalDeleteChallenger
         challengeId={challengerId}
         challengeUserPuuid={challengerData.usuario_puuid}

@@ -7,16 +7,19 @@ import ChampionGridCard from "../ChampionGridCard";
 import Button from "@/src/components/Button";
 
 import AppTextInput from "@/src/components/AppTextInput";
-import { ChampionData } from "@/src/types";
+import { ChallengerData, ChampionData } from "@/src/types";
+import { useAuth } from "@/src/contexts/AuthContext";
 
 type Filter = "all" | "completed" | "incompleted";
 
 export interface IChallengerChampionsGridProps {
   championsData: ChampionData[];
+  challengerData: ChallengerData;
 }
 
 export default function ChallengerChampionsGrid({
   championsData,
+  challengerData,
 }: IChallengerChampionsGridProps) {
   const [filter, setFilter] = useState<Filter>("all");
 
@@ -60,7 +63,12 @@ export default function ChallengerChampionsGrid({
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-3">
         {championsData.map((champion) => (
-          <ChampionGridCard key={champion.name} {...champion} />
+          <ChampionGridCard
+            key={champion.name}
+            challengerId={challengerData.id}
+            userChallengerPuuid={challengerData.usuario_puuid}
+            {...champion}
+          />
         ))}
       </div>
     </div>
