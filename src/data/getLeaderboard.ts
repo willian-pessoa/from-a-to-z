@@ -69,7 +69,9 @@ export async function getLeaderboard(
             : 0;
 
         const user = challenge.usuarios;
-        const playerName = user ? user.riot_id.split("#")[0] : "";
+        const playerName = user?.riot_id
+          ? user.riot_id.split("#")[0]
+          : "Invocador";
 
         return {
           challengeId: challenge.id,
