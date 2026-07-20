@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useState } from "react";
 
 import Button from "@/src/components/Button";
@@ -14,7 +15,12 @@ import IconButton from "@/src/components/IconButton";
 import { QueueType, LaneType } from "@/src/types";
 import { AppTooltip } from "@/src/components/AppTooltip";
 
-export interface ILeaderboardHeaderProps {}
+export interface ILeaderboardHeaderProps {
+  queue: QueueType;
+  lane: LaneType;
+  playersFinished: number;
+  playersDoing: number;
+}
 
 const LANES_CONFIG = [
   { id: "TOP", label: "Top Lane", Icon: TopIcon },
@@ -24,11 +30,25 @@ const LANES_CONFIG = [
   { id: "SUPPORT", label: "Support", Icon: SupportIcon },
 ] as const;
 
-export default function LeaderboardHeader(props: ILeaderboardHeaderProps) {
-  const [queue, setQueue] = useState<QueueType>("ranked");
-  const [lane, setLane] = useState<LaneType>("JUNGLE");
+export default function LeaderboardHeader({
+  lane,
+  playersFinished,
+  playersDoing,
+  queue,
+}: ILeaderboardHeaderProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const playersFinished = 167;
+  function updateParams(values: Partial<{ queue: QueueType; lane: LaneType }>) {
+    const params = new URLSearchParams(searchParams);
+
+    Object.entries(values).forEach(([key, value]) => {
+      params.set(key, value);
+    });
+
+    router.replace(`${pathname}?${params.toString()}`);
+  }
 
   const laneButtonClass = (value: LaneType) =>
     clsx("border-none", lane === value ? "bg-emerald-600" : "bg-emerald-900");
@@ -43,7 +63,7 @@ export default function LeaderboardHeader(props: ILeaderboardHeaderProps) {
               queue === "ranked" && "bg-emerald-600",
               queue !== "ranked" && "bg-emerald-900",
             )}
-            onClick={() => setQueue("ranked")}
+            onClick={() => updateParams({ queue: "ranked" })}
           >
             Ranqueada
           </Button>
@@ -54,7 +74,7 @@ export default function LeaderboardHeader(props: ILeaderboardHeaderProps) {
               queue === "casual" && "bg-emerald-600",
               queue !== "casual" && "bg-emerald-900",
             )}
-            onClick={() => setQueue("casual")}
+            onClick={() => updateParams({ queue: "casual" })}
           >
             Casual
           </Button>
@@ -63,8 +83,8 @@ export default function LeaderboardHeader(props: ILeaderboardHeaderProps) {
           {LANES_CONFIG.map(({ id, label, Icon }) => (
             <AppTooltip key={id} text={label} side="bottom">
               <IconButton
-                className={laneButtonClass(id as LaneType)}
-                onClick={() => setLane(id as LaneType)}
+                className={laneButtonClass(id)}
+                onClick={() => updateParams({ lane: id })}
                 aria-label={label}
               >
                 <Icon className="h-8 w-8 text-emerald-200" />
@@ -73,9 +93,11 @@ export default function LeaderboardHeader(props: ILeaderboardHeaderProps) {
           ))}
         </div>
       </div>
-      <div className="w-full flex justify-center items-center">
+      <div className="w-full flex justify-center items-center gap-1">
         <span className="text-3xl font-bold p-1">{playersFinished}</span>
-        <span className="text-xl">Invocadores completaram o desafio</span>
+        <span className="text-xl">de</span>
+        <span className="text-3xl font-bold p-1">{playersDoing}</span>
+        <span className="text-xl ml-1">Invocadores completaram o desafio</span>
       </div>
     </div>
   );

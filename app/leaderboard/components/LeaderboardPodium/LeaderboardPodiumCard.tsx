@@ -57,7 +57,7 @@ export default function LeaderboardPodiumCard({
     <div
       className={`
         relative
-        flex flex-1 flex-col items-center justify-around
+        flex flex-1 flex-col items-center justify-between
         overflow-hidden
         ${config.height}
         ${config.maxWidth}
