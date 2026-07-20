@@ -16,7 +16,7 @@ export default function UpdateChallengerButton({
   challengerData,
   championsProgress,
 }: UpdateChallengerButtonProps) {
-  const { user } = useAuth();
+  const { user, updateChallengerId } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -31,6 +31,11 @@ export default function UpdateChallengerButton({
       );
 
       if (result.success) {
+        // atualizar desafio do usuario conectado se for concluido
+        if (result.isFinished && user?.puuid === challengerData.usuario_puuid) {
+          updateChallengerId(null);
+        }
+
         router.refresh();
       } else {
         alert(result.error || "Erro ao atualizar progresso.");

@@ -251,6 +251,8 @@ export async function syncRiotMatches(
       .eq("has_victory", false)
       .order("nome_campeao", { ascending: true });
 
+    let isFinished = false;
+
     if (remainingChamps && remainingChamps.length > 0) {
       // Atualiza o desafio com o próximo campeão alfabético restante e renova o timer
       await supabase
@@ -273,12 +275,14 @@ export async function syncRiotMatches(
           time_spend: challengeTotalTime,
         })
         .eq("id", id);
+
+      isFinished = true;
     }
 
     // Explodir o cache estático do Next para a tela renderizar o novo estado instantaneamente
     revalidatePath(`/challenger/${id}`);
 
-    return { success: true };
+    return { success: true, isFinished };
   } catch (error) {
     console.error("Erro na sincronização da Riot:", error);
     return { success: false, error: "Erro interno ao processar partidas." };
