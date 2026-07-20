@@ -74,11 +74,12 @@ export default async function ChallengerPage({
       )}
       <HeaderConfig title={titleHeaderConfig} />
       <ChallengerBanner
-        challengerLane={challengerData.lane.toLowerCase() as LaneType}
+        challengerLane={challengerData.lane}
         currentChampionNameId={challengerData.current_champ ?? ""}
         currentChampionName={currentChampionName}
         totalGames={totalGames}
         winRate={winRate}
+        isFinished={challengerData.is_finished}
       />
       <ChallengerProgressBar
         completed={completedChampions}
