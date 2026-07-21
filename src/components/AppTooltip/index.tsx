@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+import clsx from "clsx";
 
 export interface AppTooltipProps extends React.ComponentPropsWithoutRef<
   typeof TooltipPrimitive.Content
@@ -11,6 +12,7 @@ export interface AppTooltipProps extends React.ComponentPropsWithoutRef<
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
+  maxWidthClassName?: string;
 }
 
 export const AppTooltip = React.forwardRef<
@@ -26,6 +28,7 @@ export const AppTooltip = React.forwardRef<
       onOpenChange,
       side = "top",
       align = "center",
+      maxWidthClassName = "max-w-xs",
       ...props
     },
     ref,
@@ -42,7 +45,11 @@ export const AppTooltip = React.forwardRef<
           ref={ref}
           side={side}
           align={align}
-          className="rounded-md bg-emerald-900 px-3 py-2 text-sm text-emerald-50 shadow-lg"
+          className={clsx(
+            "rounded-md bg-emerald-900 px-3 py-2 text-sm text-emerald-50 shadow-lg whitespace-normal break-words",
+            maxWidthClassName,
+            props.className,
+          )}
           {...props}
         >
           {text}

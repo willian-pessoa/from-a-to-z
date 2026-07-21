@@ -2,12 +2,10 @@ import { getChampionIconURL } from "@/src/utils/getChampionIconURL";
 import clsx from "clsx";
 import Image from "next/image";
 
-import { IconCheck, IconEdit } from "@tabler/icons-react";
-import IconButton from "@/src/components/IconButton";
-import { AppDialog } from "@/src/components/AppDialog/AppDialog";
+import { IconCheck, IconInfoSmall } from "@tabler/icons-react";
 import ModalChampionNotes from "../ModalChampionNotes";
-import { useState } from "react";
 import { useAuth } from "@/src/contexts/AuthContext";
+import { AppTooltip } from "@/src/components/AppTooltip";
 
 interface ChampionGridCardProps {
   nameId: string;
@@ -74,6 +72,14 @@ export default function ChampionGridCard({
             <div className="absolute bottom-1 left-1 flex h-6 w-6 items-center justify-center rounded-lg bg-amber-400 text-xs font-bold text-lime-950">
               {funNote}
             </div>
+          )}
+
+          {!!commentary && cardSize > sizeCut && (
+            <AppTooltip text={commentary}>
+              <div className="absolute bottom-1 left-7.5 flex h-6 w-6 items-center justify-center rounded-lg bg-slate-200 text-xs font-bold text-lime-950">
+                <IconInfoSmall />
+              </div>
+            </AppTooltip>
           )}
 
           {cardSize > sizeCut && (
