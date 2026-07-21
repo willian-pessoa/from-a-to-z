@@ -39,6 +39,10 @@ export async function getLeaderboard(
       .select("*", { count: "exact" })
       .eq("queue", queue.toUpperCase())
       .eq("lane", lane.toUpperCase())
+      .order("is_finished", { ascending: false })
+      .order("completed_champions", { ascending: false })
+      .order("total_matches", { ascending: true })
+      .order("time_spend", { ascending: true })
       .range(from, to);
 
     if (error || !data) {
