@@ -9,6 +9,7 @@ import HeaderConfig from "@/src/layout/HeaderConfig";
 import { capitalize } from "@/src/utils/capitalize";
 import UpdateChallengerButton from "../components/UpdateChallengerButton";
 import ModalDeleteChallenger from "../components/ModalDeleteChallenger";
+import ShareChallengeButton from "../components/ShareChallengeButton";
 
 export default async function ChallengerPage({
   params,
@@ -89,10 +90,16 @@ export default async function ChallengerPage({
         championsData={formattedChampionsData}
         challengerData={challengerData}
       />
-      <ModalDeleteChallenger
-        challengeId={challengerId}
-        challengeUserPuuid={challengerData.usuario_puuid}
-      />
+      <div className="flex justify-end items-center gap-2">
+        <ModalDeleteChallenger
+          challengeId={challengerId}
+          challengeUserPuuid={challengerData.usuario_puuid}
+        />
+        <ShareChallengeButton
+          challengeId={challengerId}
+          challengeUserPuuid={challengerData.usuario_puuid}
+        />
+      </div>
     </div>
   );
 }
