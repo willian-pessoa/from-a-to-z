@@ -8,105 +8,77 @@ export interface LeaderboardItem {
   challengeId: number;
   playerName: string;
   totalMatches: number;
-  victories: number;
-  losses: number;
-  winRate: number;
+  completedChampionsCount: number;
+  totalLosses: number;
   totalTimeSeconds: number;
   isFinished: boolean;
-  completedChampionsCount: number;
+  winRate: number;
+}
+
+export interface LeaderboardResponse {
+  leaderboard: LeaderboardItem[];
+  totalCount: number;
 }
 
 export async function getLeaderboard(
   queue: QueueType,
   lane: LaneType,
-): Promise<LeaderboardItem[]> {
+  page: number = 1,
+  pageSize: number = 20,
+): Promise<LeaderboardResponse> {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
   const supabase = createClient(supabaseUrl, serviceRoleKey);
 
-  try {
-    const { data: challenges, error } = await supabase
-      .from("desafios")
-      .select(
-        `
-        id,
-        is_finished,
-        time_spend,
-        usuarios (
-          riot_id
-        ),
-        progresso_campeoes (
-          has_victory,
-          loses
-        )
-      `,
-      )
-      .eq("queue", queue.toUpperCase())
-      .eq("lane", lane.toUpperCase());
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
 
-    if (error || !challenges) {
-      console.error("Erro ao buscar dados da Leaderboard:", error);
-      return [];
+  try {
+    const { data, count, error } = await supabase
+      .from("leaderboard_view")
+      .select("*", { count: "exact" })
+      .eq("queue", queue.toUpperCase())
+      .eq("lane", lane.toUpperCase())
+      .range(from, to);
+
+    if (error || !data) {
+      console.error("Erro ao buscar leaderboard view:", error);
+      return { leaderboard: [], totalCount: 0 };
     }
 
-    const formattedLeaderboard = challenges.map(
-      (challenge: any): Omit<LeaderboardItem, "position"> => {
-        const progressList = challenge.progresso_campeoes || [];
+    const leaderboard = data.map((item: any, index: number) => {
+      const playerName = item.riot_id
+        ? item.riot_id.split("#")[0]
+        : "Invocador";
 
-        let totalVictories = 0;
-        let totalLosses = 0;
+      const winRate =
+        item.total_matches > 0
+          ? Number(
+              ((item.completed_champions / item.total_matches) * 100).toFixed(
+                1,
+              ),
+            )
+          : 0;
 
-        progressList.forEach((item: any) => {
-          if (item.has_victory) totalVictories += 1;
-          totalLosses += item.loses || 0;
-        });
-
-        const totalMatches = totalVictories + totalLosses;
-
-        const winRate =
-          totalMatches > 0
-            ? Number(((totalVictories / totalMatches) * 100).toFixed(1))
-            : 0;
-
-        const user = challenge.usuarios;
-        const playerName = user?.riot_id
-          ? user.riot_id.split("#")[0]
-          : "Invocador";
-
-        return {
-          challengeId: challenge.id,
-          playerName,
-          totalMatches,
-          victories: totalVictories,
-          losses: totalLosses,
-          winRate,
-          totalTimeSeconds: challenge.time_spend,
-          isFinished: challenge.is_finished,
-          completedChampionsCount: totalVictories,
-        };
-      },
-    );
-
-    // Ordenação do Ranking
-    formattedLeaderboard.sort((a, b) => {
-      if (a.isFinished !== b.isFinished) {
-        return a.isFinished ? -1 : 1;
-      }
-      if (a.completedChampionsCount !== b.completedChampionsCount) {
-        return b.completedChampionsCount - a.completedChampionsCount;
-      }
-      if (a.totalTimeSeconds !== b.totalTimeSeconds) {
-        return a.totalTimeSeconds - b.totalTimeSeconds;
-      }
-      return b.winRate - a.winRate;
+      return {
+        position: from + index + 1,
+        challengeId: item.challenge_id,
+        playerName,
+        totalMatches: item.total_matches,
+        completedChampionsCount: item.completed_champions,
+        totalLosses: item.total_losses,
+        totalTimeSeconds: item.time_spend,
+        isFinished: item.is_finished,
+        winRate,
+      };
     });
 
-    return formattedLeaderboard.map((item, index) => ({
-      ...item,
-      position: index + 1,
-    }));
+    return {
+      leaderboard,
+      totalCount: count ?? 0,
+    };
   } catch (error) {
-    console.error("Erro interno no Leaderboard:", error);
-    return [];
+    console.error("Erro interno no getLeaderboard:", error);
+    return { leaderboard: [], totalCount: 0 };
   }
 }
