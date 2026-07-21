@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { IconSearch } from "@tabler/icons-react";
 
 import ChampionGridCard from "../ChampionGridCard";
@@ -22,12 +22,30 @@ export default function ChallengerChampionsGrid({
   challengerData,
 }: IChallengerChampionsGridProps) {
   const [filter, setFilter] = useState<Filter>("all");
+  const [search, setSearch] = useState("");
+
+  const filteredChampions = useMemo(() => {
+    return championsData.filter((champion) => {
+      const matchesSearch = champion.name
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      const matchesFilter =
+        filter === "all" ||
+        (filter === "completed" && champion.completed) ||
+        (filter === "incompleted" && !champion.completed);
+
+      return matchesSearch && matchesFilter;
+    });
+  }, [championsData, filter, search]);
 
   return (
     <div className="rounded-lg border border-emerald-600 bg-emerald-900 p-3 shadow-2xl">
       <div className="mb-4 flex items-center justify-between">
         <AppTextInput
           id="champion-search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           spellCheck="false"
           placeholder="Buscar campeão..."
           leftSection={<IconSearch size={18} />}
@@ -62,7 +80,7 @@ export default function ChallengerChampionsGrid({
       </div>
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-3">
-        {championsData.map((champion) => (
+        {filteredChampions.map((champion) => (
           <ChampionGridCard
             key={champion.name}
             challengerId={challengerData.id}
