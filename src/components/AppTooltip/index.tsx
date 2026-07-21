@@ -46,7 +46,7 @@ export const AppTooltip = React.forwardRef<
           side={side}
           align={align}
           className={clsx(
-            "rounded-md bg-emerald-900 px-3 py-2 text-sm text-emerald-50 shadow-lg whitespace-normal break-words",
+            "rounded-md bg-emerald-900 px-3 py-2 text-sm text-emerald-50 shadow-lg whitespace-normal wrap-break-word",
             maxWidthClassName,
             props.className,
           )}
