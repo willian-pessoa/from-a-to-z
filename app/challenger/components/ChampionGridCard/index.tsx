@@ -18,7 +18,10 @@ interface ChampionGridCardProps {
   completed: boolean;
   challengerId: number;
   userChallengerPuuid: string;
+  cardSize: number;
 }
+
+const sizeCut = 100;
 
 export default function ChampionGridCard({
   nameId,
@@ -29,6 +32,7 @@ export default function ChampionGridCard({
   commentary,
   challengerId,
   userChallengerPuuid,
+  cardSize,
 }: ChampionGridCardProps) {
   const { user } = useAuth();
 
@@ -53,7 +57,7 @@ export default function ChampionGridCard({
         className={completed ? "object-cover" : "object-cover grayscale"}
       />
 
-      {!!loses && (
+      {!!loses && cardSize > sizeCut && (
         <div
           className={clsx(
             "absolute left-1 top-1 flex h-6 w-6 items-center justify-center rounded-lg text-xs font-bold text-lime-50",
@@ -66,15 +70,17 @@ export default function ChampionGridCard({
 
       {completed && (
         <>
-          {!!funNote && (
+          {!!funNote && cardSize > sizeCut && (
             <div className="absolute bottom-1 left-1 flex h-6 w-6 items-center justify-center rounded-lg bg-amber-400 text-xs font-bold text-lime-950">
               {funNote}
             </div>
           )}
 
-          <div className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-lg bg-lime-500">
-            <IconCheck size={14} stroke={4} />
-          </div>
+          {cardSize > sizeCut && (
+            <div className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-lg bg-lime-500">
+              <IconCheck size={14} stroke={4} />
+            </div>
+          )}
 
           {user?.puuid === userChallengerPuuid && (
             <ModalChampionNotes
