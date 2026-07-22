@@ -18,8 +18,7 @@ import { AppTooltip } from "@/src/components/AppTooltip";
 export interface ILeaderboardHeaderProps {
   queue: QueueType;
   lane: LaneType;
-  playersFinished: number;
-  playersDoing: number;
+  totalCount: number;
 }
 
 const LANES_CONFIG = [
@@ -32,9 +31,8 @@ const LANES_CONFIG = [
 
 export default function LeaderboardHeader({
   lane,
-  playersFinished,
-  playersDoing,
   queue,
+  totalCount,
 }: ILeaderboardHeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -94,10 +92,7 @@ export default function LeaderboardHeader({
         </div>
       </div>
       <div className="w-full flex justify-center items-center gap-1">
-        <span className="text-3xl font-bold p-1">{playersFinished}</span>
-        <span className="text-xl">de</span>
-        <span className="text-3xl font-bold p-1">{playersDoing}</span>
-        <span className="text-xl ml-1">Invocadores completaram o desafio</span>
+        <span className="text-xl ml-1">{`${totalCount} desafios registrados.`}</span>
       </div>
     </div>
   );

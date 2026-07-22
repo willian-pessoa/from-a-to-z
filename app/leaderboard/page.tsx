@@ -25,12 +25,7 @@ export default async function Page({ searchParams }: PageProps) {
     <div className="p-2 flex flex-col gap-4">
       <HeaderConfig title="Ranking" />
 
-      <LeaderboardHeader
-        queue={queue}
-        lane={lane}
-        playersFinished={0}
-        playersDoing={1}
-      />
+      <LeaderboardHeader queue={queue} lane={lane} totalCount={totalCount} />
 
       <LeaderboardPodium
         firstPlace={leaderboard[0] ?? null}
