@@ -12,6 +12,7 @@ import {
 import Button from "@/src/components/Button";
 import clsx from "clsx";
 import IconButton from "@/src/components/IconButton";
+import { AppTooltip } from "@/src/components/AppTooltip";
 
 export interface ILeaderboardTablePagerProps {
   totalCount: number;
@@ -51,29 +52,33 @@ export default function LeaderboardTablePager({
 
   return (
     <div className="flex items-center justify-center rounded-lg gap-2 border-t-2 mx-8 border-emerald-700 bg-emerald-900 px-6 py-2">
-      <IconButton
-        onClick={() => updatePage(currentPage - 1)}
-        disabled={currentPage === 1}
-        className={clsx(
-          "transition",
-          currentPage === 1 &&
-            "cursor-not-allowed bg-emerald-950 text-emerald-700 hover:bg-emerald-950",
-        )}
-      >
-        <IconChevronsLeft />
-      </IconButton>
+      <AppTooltip text="Primeira">
+        <IconButton
+          onClick={() => updatePage(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={clsx(
+            "transition bg-emerald-900",
+            currentPage === 1 &&
+              "cursor-not-allowed bg-emerald-950 text-emerald-700 hover:bg-emerald-950",
+          )}
+        >
+          <IconChevronsLeft />
+        </IconButton>
+      </AppTooltip>
 
-      <IconButton
-        onClick={() => updatePage(currentPage - 1)}
-        disabled={currentPage === 1}
-        className={clsx(
-          "transition",
-          currentPage === 1 &&
-            "cursor-not-allowed bg-emerald-950 text-emerald-700 hover:bg-emerald-950",
-        )}
-      >
-        <IconChevronLeft />
-      </IconButton>
+      <AppTooltip text="Anterior">
+        <IconButton
+          onClick={() => updatePage(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={clsx(
+            "transition bg-emerald-900",
+            currentPage === 1 &&
+              "cursor-not-allowed bg-emerald-950 text-emerald-700 hover:bg-emerald-950",
+          )}
+        >
+          <IconChevronLeft />
+        </IconButton>
+      </AppTooltip>
 
       {pages().map((page) => (
         <Button
@@ -89,29 +94,33 @@ export default function LeaderboardTablePager({
         </Button>
       ))}
 
-      <IconButton
-        onClick={() => updatePage(currentPage + 1)}
-        disabled={isLastPage}
-        className={clsx(
-          "transition",
-          isLastPage &&
-            "cursor-not-allowed bg-emerald-950 text-emerald-700 hover:bg-emerald-950",
-        )}
-      >
-        <IconChevronRight />
-      </IconButton>
+      <AppTooltip text="Próxima">
+        <IconButton
+          onClick={() => updatePage(currentPage + 1)}
+          disabled={isLastPage}
+          className={clsx(
+            "transition bg-emerald-900",
+            isLastPage &&
+              "cursor-not-allowed bg-emerald-950 text-emerald-700 hover:bg-emerald-950",
+          )}
+        >
+          <IconChevronRight />
+        </IconButton>
+      </AppTooltip>
 
-      <IconButton
-        onClick={() => updatePage(currentPage + 1)}
-        disabled={isLastPage}
-        className={clsx(
-          "transition",
-          isLastPage &&
-            "cursor-not-allowed bg-emerald-950 text-emerald-700 hover:bg-emerald-950",
-        )}
-      >
-        <IconChevronsRight />
-      </IconButton>
+      <AppTooltip text="Última">
+        <IconButton
+          onClick={() => updatePage(currentPage + 1)}
+          disabled={isLastPage}
+          className={clsx(
+            "transition bg-emerald-900",
+            isLastPage &&
+              "cursor-not-allowed bg-emerald-950 text-emerald-700 hover:bg-emerald-950",
+          )}
+        >
+          <IconChevronsRight />
+        </IconButton>
+      </AppTooltip>
     </div>
   );
 }
