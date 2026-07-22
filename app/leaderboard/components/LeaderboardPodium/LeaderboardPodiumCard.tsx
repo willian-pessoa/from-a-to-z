@@ -1,4 +1,5 @@
 import * as React from "react";
+import clsx from "clsx";
 
 interface LeaderboardPodiumCardProps {
   position: 1 | 2 | 3;
@@ -8,11 +9,11 @@ interface LeaderboardPodiumCardProps {
 const POSITION_CONFIG = {
   1: {
     nameSize: "text-2xl",
-    height: "h-75",
-    maxWidth: "max-w-70",
-    iconSize: "h-32 w-32",
+    height: "h-32 sm:h-75",
+    width: "sm:w-52 lg:w-68",
+    iconSize: "h-22 w-22 sm:h-32 sm:w-32",
     iconColor: "text-yellow-300",
-    numberSize: "text-6xl",
+    numberSize: "text-4xl sm:text-6xl",
     border: "border-yellow-300",
     cardGlow:
       "bg-[linear-gradient(145deg,rgba(250,204,21,0.22),rgba(6,78,59,0.85)_45%,rgba(6,78,59,1))]",
@@ -21,11 +22,11 @@ const POSITION_CONFIG = {
   },
   2: {
     nameSize: "text-xl",
-    height: "h-60",
-    maxWidth: "max-w-65",
-    iconSize: "h-24 w-24",
+    height: "h-28 sm:h-60",
+    width: "sm:w-46 lg:w-60",
+    iconSize: "h-20 w-20 sm:h-24 sm:w-24",
     iconColor: "text-slate-300",
-    numberSize: "text-4xl",
+    numberSize: "text-3xl sm:text-4xl",
     border: "border-slate-300",
     cardGlow:
       "bg-[linear-gradient(145deg,rgba(226,232,240,0.18),rgba(6,78,59,0.85)_45%,rgba(6,78,59,1))]",
@@ -34,11 +35,11 @@ const POSITION_CONFIG = {
   },
   3: {
     nameSize: "text-lg",
-    height: "h-45",
-    maxWidth: "max-w-65",
-    iconSize: "h-20 w-20",
+    height: "h-24 sm:h-45",
+    width: "sm:w-46 lg:w-52",
+    iconSize: "h-18 w-18 sm:h-20 sm:w-20",
     iconColor: "text-orange-400",
-    numberSize: "text-3xl",
+    numberSize: "text-2xl sm:text-3xl",
     border: "border-orange-400",
     cardGlow:
       "bg-[linear-gradient(145deg,rgba(251,146,60,0.22),rgba(6,78,59,0.85)_45%,rgba(6,78,59,1))]",
@@ -54,89 +55,92 @@ export default function LeaderboardPodiumCard({
   const config = POSITION_CONFIG[position];
 
   return (
+    <>
+      <DesktopCard config={config} position={position} name={name} />
+
+      <MobileCard config={config} position={position} name={name} />
+    </>
+  );
+}
+
+interface CardProps extends LeaderboardPodiumCardProps {
+  config: (typeof POSITION_CONFIG)[1];
+}
+
+function DesktopCard({ config, position, name }: CardProps) {
+  return (
     <div
-      className={`
-        relative
-        flex flex-1 flex-col items-center justify-between
-        overflow-hidden
-        ${config.height}
-        ${config.maxWidth}
-        px-4 py-6
-        rounded-lg
-        border
-        ${config.border}
-        ${config.cardGlow}
-        shadow-2xl
-      `}
+      className={clsx(
+        "hidden sm:flex relative flex-1 flex-col items-center justify-between overflow-hidden rounded-lg border px-4 py-6 shadow-2xl",
+        config.height,
+        config.width,
+        config.border,
+        config.cardGlow,
+      )}
     >
-      {/* Luz central da colocação */}
       <div
-        className={`
-          pointer-events-none
-          absolute
-          left-1/2
-          top-28
-          h-80
-          w-80
-          -translate-x-1/2
-          -translate-y-1/2
-          rounded-full
-          ${position === 1 ? "opacity-90" : "opacity-70"}
-          animate-pulse
-          ${config.aura}
-        `}
+        className={clsx(
+          "pointer-events-none absolute left-1/2 top-28 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full animate-pulse",
+          position === 1 ? "opacity-90" : "opacity-70",
+          config.aura,
+        )}
       />
 
-      {/* Reflexo superior */}
-      <div
-        className="
-          pointer-events-none
-          absolute
-          inset-x-0
-          top-0
-          h-32
-          bg-linear-to-b
-          from-white/10
-          to-transparent
-        "
-      />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-linear-to-b from-white/10 to-transparent" />
 
-      {/* Colocação */}
       <div
-        className={`
-          relative
-          flex
-          items-center
-          justify-center
-          ${config.iconSize}
-          rounded-full
-          border-8
-          ${config.border}
-          bg-emerald-950/80
-          ${config.iconGlow}
-        `}
+        className={clsx(
+          "relative flex items-center justify-center rounded-full border-8 bg-emerald-950/80",
+          config.iconSize,
+          config.border,
+          config.iconGlow,
+        )}
       >
         <span
-          className={`
-            ${config.numberSize}
-            font-black
-            ${config.iconColor}
-          `}
+          className={clsx(config.numberSize, "font-black", config.iconColor)}
         >
           {position}
         </span>
       </div>
 
-      {/* Nome */}
       <span
-        className={`
-          relative
-          ${config.nameSize}
-          font-bold
-          text-emerald-50
-          text-center
-        `}
+        className={clsx(
+          config.nameSize,
+          "relative text-center font-bold text-emerald-50",
+        )}
       >
+        {name}
+      </span>
+    </div>
+  );
+}
+
+function MobileCard({ config, position, name }: CardProps) {
+  return (
+    <div
+      className={clsx(
+        "flex sm:hidden w-full items-center gap-4 rounded-lg border px-4 py-3 shadow-xl",
+        config.border,
+        config.cardGlow,
+        config.height,
+      )}
+    >
+      <div
+        className={clsx(
+          "flex shrink-0 items-center justify-center rounded-full border-4 bg-emerald-950",
+          config.border,
+          config.iconGlow,
+          config.iconSize,
+        )}
+      >
+        <span
+          className={clsx("font-black", config.iconColor, config.numberSize)}
+        >
+          {position}
+        </span>
+      </div>
+
+      <span className="flex-1 truncate text-lg font-bold text-emerald-50">
         {name}
       </span>
     </div>

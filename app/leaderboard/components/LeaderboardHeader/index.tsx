@@ -91,7 +91,7 @@ export default function LeaderboardHeader({
           ))}
         </div>
       </div>
-      <div className="w-full flex justify-center items-center gap-1">
+      <div className="w-full hidden sm:flex justify-center items-center gap-1">
         <span className="text-xl ml-1">{`${totalCount} desafios registrados.`}</span>
       </div>
     </div>

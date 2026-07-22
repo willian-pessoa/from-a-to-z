@@ -13,15 +13,27 @@ export default function LeaderboardPodium({
   thirdPlace,
 }: ILeaderboardPodiumProps) {
   return (
-    <div className="flex flex-1 items-end justify-center gap-8">
-      <LeaderboardPodiumCard
-        position={2}
-        name={secondPlace?.playerName ?? ""}
-      />
+    <div className="flex flex-col sm:flex-row flex-1 items-center sm:items-end justify-center gap-4 md:gap-6">
+      <div className="order-2 sm:order-1 w-full sm:w-auto">
+        <LeaderboardPodiumCard
+          position={2}
+          name={secondPlace?.playerName ?? ""}
+        />
+      </div>
 
-      <LeaderboardPodiumCard position={1} name={firstPlace?.playerName ?? ""} />
+      <div className="order-1 sm:order-2 w-full sm:w-auto">
+        <LeaderboardPodiumCard
+          position={1}
+          name={firstPlace?.playerName ?? ""}
+        />
+      </div>
 
-      <LeaderboardPodiumCard position={3} name={thirdPlace?.playerName ?? ""} />
+      <div className="order-3 sm:order-3 w-full sm:w-auto">
+        <LeaderboardPodiumCard
+          position={3}
+          name={thirdPlace?.playerName ?? ""}
+        />
+      </div>
     </div>
   );
 }
