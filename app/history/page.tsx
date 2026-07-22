@@ -31,6 +31,12 @@ export default async function HistoryPage() {
     <div>
       <HeaderConfig title="Histórico de Desafios" />
 
+      {seasons.length === 0 && (
+        <div className="flex justify-center mt-8 items-center">
+          Nenhum Desafio Registrado
+        </div>
+      )}
+
       {seasons.map((season) => (
         <div key={season} className="flex flex-col mt-4 ml-4">
           <label className="font-bold text-lg border-b-2 border-emerald-600 w-fit">
