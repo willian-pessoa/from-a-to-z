@@ -18,7 +18,7 @@ export default function LeaderboardTable({
 }: ILeaderboarTableProps) {
   return (
     <div className="flex flex-col gap-2">
-      <div className="overflow-hidden rounded-lg bg-emerald-900 shadow-2xl mx-8">
+      <div className="overflow-hidden rounded-lg bg-emerald-900 shadow-2xl mx-8 overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
             <tr className="border-b border-emerald-600 text-left">
