@@ -18,18 +18,22 @@ export default function LeaderboardTable({
 }: ILeaderboarTableProps) {
   return (
     <div className="flex flex-col gap-2">
-      <div className="overflow-hidden rounded-lg bg-emerald-900 shadow-2xl mx-8 overflow-x-auto">
+      <div className="overflow-hidden rounded-lg bg-emerald-900 shadow-2xl sm:mx-8 overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
             <tr className="border-b border-emerald-600 text-left">
               <th className="w-16 px-4 py-4 text-center">#</th>
-              <th className="px-4 py-4">Jogador</th>
-              <th className="w-40 px-4 py-4 text-center">
+              <th className="px-4 min-w-40 py-4">Jogador</th>
+              <th className="w-40 px-4 py-4 text-center hidden sm:table-cell">
                 Campeões Concluidos
               </th>
-              <th className="w-48 px-4 py-4 text-center">Total de Partidas</th>
-              <th className="w-40 px-4 py-4 text-center">Aproveitamento</th>
-              <th className="w-44 px-4 py-4 text-center">Tempo de Jogo</th>
+              <th className="w-48 px-4 py-4 text-center ">Total de Partidas</th>
+              <th className="w-40 px-4 py-4 text-center hidden sm:table-cell">
+                Aproveitamento
+              </th>
+              <th className="w-44 px-4 py-4 text-center hidden sm:table-cell">
+                Tempo de Jogo
+              </th>
               <th className="w-10 px-4 py-4 text-center">Ver</th>
             </tr>
           </thead>
@@ -50,15 +54,17 @@ export default function LeaderboardTable({
 
                 <td className="px-4 py-4 font-medium">{player.playerName}</td>
 
-                <td className="px-4 py-4 text-center">
+                <td className="px-4 py-4 text-center hidden sm:table-cell">
                   {player.completedChampionsCount}
                 </td>
 
                 <td className="px-4 py-4 text-center">{player.totalMatches}</td>
 
-                <td className="px-4 py-4 text-center">{player.winRate}%</td>
+                <td className="px-4 py-4 text-center hidden sm:table-cell">
+                  {player.winRate}%
+                </td>
 
-                <td className="px-4 py-4 text-center">
+                <td className="px-4 py-4 text-center hidden sm:table-cell">
                   {formatTime(player.totalTimeSeconds)}
                 </td>
                 <td className="px-4 py-4 text-center">

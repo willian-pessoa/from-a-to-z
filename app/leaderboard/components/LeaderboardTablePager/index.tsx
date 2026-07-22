@@ -51,7 +51,7 @@ export default function LeaderboardTablePager({
   }
 
   return (
-    <div className="flex items-center justify-center rounded-lg gap-2 border-t-2 mx-8 border-emerald-700 bg-emerald-900 px-6 py-2">
+    <div className="flex items-center justify-center rounded-lg gap-2 border-t-2 sm:mx-8 mb-14 sm:mb-0 border-emerald-700 bg-emerald-900 px-6 py-2">
       <AppTooltip text="Primeira">
         <IconButton
           onClick={() => updatePage(currentPage - 1)}
@@ -71,7 +71,7 @@ export default function LeaderboardTablePager({
           onClick={() => updatePage(currentPage - 1)}
           disabled={currentPage === 1}
           className={clsx(
-            "transition bg-emerald-900",
+            "transition bg-emerald-900 hidden sm:flex",
             currentPage === 1 &&
               "cursor-not-allowed bg-emerald-950 text-emerald-700 hover:bg-emerald-950",
           )}
@@ -99,7 +99,7 @@ export default function LeaderboardTablePager({
           onClick={() => updatePage(currentPage + 1)}
           disabled={isLastPage}
           className={clsx(
-            "transition bg-emerald-900",
+            "transition bg-emerald-900 hidden sm:flex",
             isLastPage &&
               "cursor-not-allowed bg-emerald-950 text-emerald-700 hover:bg-emerald-950",
           )}
