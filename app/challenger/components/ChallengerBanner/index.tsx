@@ -38,8 +38,8 @@ export default function ChallengerBanner({
 
   return (
     <section className="rounded-lg  bg-emerald-900 p-2 shadow-2xl">
-      <div className="grid grid-cols-[1fr_170px_170px] gap-4">
-        <div className="relative h-64 overflow-hidden rounded-lg border border-emerald-600">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-[1fr_170px_170px]">
+        <div className="relative col-span-2 sm:col-span-1 h-44 sm:h-64 overflow-hidden rounded-lg border border-emerald-600">
           <Image
             src={isFinished ? finishSplash : splash}
             alt={currentChampionName}
@@ -70,18 +70,18 @@ export default function ChallengerBanner({
           )}
         </div>
 
-        <div className="flex h-64 flex-col justify-between rounded-lg border border-emerald-600 bg-emerald-700 p-2">
-          <span>Total de Jogos</span>
+        <div className="flex h-24 sm:h-64 flex-col justify-between rounded-lg border border-emerald-600 bg-emerald-700 p-2">
+          <span className="text-sm sm:text-base">Total de Jogos</span>
 
-          <span className="self-end text-5xl font-bold">
+          <span className="self-end text-3xl sm:text-5xl font-bold">
             {totalGames.toString().padStart(2, "0")}
           </span>
         </div>
 
-        <div className="flex h-64 flex-col justify-between rounded-lg border border-emerald-600 bg-emerald-700 p-2">
+        <div className="flex  h-24 sm:h-64 flex-col justify-between rounded-lg border border-emerald-600 bg-emerald-700 p-2">
           <span>Win Rate</span>
 
-          <span className="self-end text-5xl font-bold">
+          <span className="self-end text-3xl sm:text-5xl font-bold">
             {winRate.toString().padStart(2, "0")}%
           </span>
         </div>
