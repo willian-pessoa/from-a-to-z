@@ -90,7 +90,7 @@ export default async function ChallengerPage({
         championsData={formattedChampionsData}
         challengerData={challengerData}
       />
-      <div className="flex justify-end items-center gap-2">
+      <div className="flex justify-end items-center gap-2 sm:mb-0 mb-16">
         <ModalDeleteChallenger
           challengeId={challengerId}
           challengeUserPuuid={challengerData.usuario_puuid}

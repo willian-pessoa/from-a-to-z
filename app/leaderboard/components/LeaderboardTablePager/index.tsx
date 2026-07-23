@@ -51,7 +51,7 @@ export default function LeaderboardTablePager({
   }
 
   return (
-    <div className="flex items-center justify-center rounded-lg gap-2 border-t-2 sm:mx-8 mb-14 sm:mb-0 border-emerald-700 bg-emerald-900 px-6 py-2">
+    <div className="flex items-center justify-center rounded-lg gap-2 border-t-2 sm:mx-8 mb-16 sm:mb-0 border-emerald-700 bg-emerald-900 px-6 py-2">
       <AppTooltip text="Primeira">
         <IconButton
           onClick={() => updatePage(currentPage - 1)}

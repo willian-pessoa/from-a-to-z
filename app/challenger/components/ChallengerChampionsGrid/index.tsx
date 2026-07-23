@@ -8,7 +8,6 @@ import Button from "@/src/components/Button";
 
 import AppTextInput from "@/src/components/AppTextInput";
 import { ChallengerData, ChampionData } from "@/src/types";
-import { useAuth } from "@/src/contexts/AuthContext";
 import IconButton from "@/src/components/IconButton";
 import AppDropdownRadio from "@/src/components/AppDropdownRadio";
 import clsx from "clsx";
@@ -41,7 +40,8 @@ const GRID_SIZES = {
   },
   lg: {
     label: "Grande",
-    className: "grid-cols-[repeat(auto-fill,minmax(120px,1fr))]",
+    className:
+      "grid-cols-[repeat(auto-fill,minmax(90px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(120px,1fr))]",
     cardWidth: 120,
   },
   xl: {
@@ -50,6 +50,12 @@ const GRID_SIZES = {
     cardWidth: 145,
   },
 };
+
+const FILTER_ITEMS = [
+  { value: "all", label: "Todos" },
+  { value: "completed", label: "Concluídos" },
+  { value: "incompleted", label: "Incompletos" },
+] satisfies { value: Filter; label: string }[];
 
 export default function ChallengerChampionsGrid({
   championsData,
@@ -84,9 +90,25 @@ export default function ChallengerChampionsGrid({
           spellCheck="false"
           placeholder="Buscar campeão..."
           leftSection={<IconSearch size={18} />}
+          className="w-50 sm:w-auto"
         />
 
-        <div className="flex items-center gap-2">
+        {/* Mobile */}
+        <div className="flex sm:hidden gap-2">
+          <AppDropdownRadio
+            trigger={
+              <Button className="flex-1">
+                {FILTER_ITEMS.find((item) => item.value === filter)?.label}
+              </Button>
+            }
+            value={filter}
+            onValueChange={(value) => setFilter(value as Filter)}
+            items={FILTER_ITEMS}
+          />
+        </div>
+
+        {/* Desktop */}
+        <div className="hidden sm:flex items-center gap-2">
           <Button
             className={filter === "all" ? "bg-emerald-600" : "bg-emerald-800"}
             onClick={() => setFilter("all")}
