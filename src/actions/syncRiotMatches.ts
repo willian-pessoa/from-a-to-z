@@ -13,64 +13,197 @@ import {
   MAX_MATCHES_PER_SYNC,
 } from "./const/syncRiotMatches";
 
-export async function syncRiotMatches(
+async function getMatchIds(
+  challengeData: ChallengerData,
+  region: RiotPlatformRegion,
+) {
+  const riotApiKey = process.env.RIOT_API_KEY;
+
+  if (!riotApiKey) {
+    throw new Error("RIOT_API_KEY não configurada.");
+  }
+
+  const { updated_at, usuario_puuid, queue } = challengeData;
+  // Transformamos a data do último update em Timestamp Unix (segundos) porque a Riot pede esse padrão no filtro
+  const startTimeUnix = Math.floor(new Date(updated_at).getTime() / 1000);
+  const queueParam = QUEUE_MAP[queue];
+
+  const routingRegion = getRoutingRegion(region).toLowerCase();
+  const baseRiotURL = `https://${routingRegion}.api.riotgames.com`;
+
+  let matchIds: string[] = [];
+
+  // Buscar a lista de IDs das últimas partidas do jogador na Riot na ordem antiga para recente
+  let startIndex = 0;
+
+  while (true) {
+    const matchIdsUrl = new URL(
+      `/lol/match/v5/matches/by-puuid/${usuario_puuid}/ids`,
+      baseRiotURL,
+    );
+
+    matchIdsUrl.searchParams.set("startTime", String(startTimeUnix));
+    matchIdsUrl.searchParams.set("count", String(MAX_MATCHES_PER_SYNC));
+    matchIdsUrl.searchParams.set("queue", String(queueParam));
+    matchIdsUrl.searchParams.set("start", String(startIndex));
+
+    const matchIdsResponse = await fetch(matchIdsUrl, {
+      headers: { "X-Riot-Token": riotApiKey },
+    });
+
+    if (!matchIdsResponse.ok) {
+      throw new Error("Falha ao buscar histórico de partidas na Riot.");
+    }
+
+    const currentMatchIds: string[] = await matchIdsResponse.json();
+
+    if (currentMatchIds.length === 0) {
+      break;
+    }
+
+    matchIds = currentMatchIds.reverse();
+
+    if (currentMatchIds.length < MAX_MATCHES_PER_SYNC) {
+      break;
+    }
+
+    startIndex += MAX_MATCHES_PER_SYNC;
+  }
+
+  return { matchIds, startIndex };
+}
+
+async function processMatches(
+  matchIds: string[],
   challengeData: ChallengerData,
   championsProgress: ChampionProgress[],
   region: RiotPlatformRegion,
 ) {
-  const supabase = createSupabase();
-
   const riotApiKey = process.env.RIOT_API_KEY;
 
   if (!riotApiKey) {
-    return {
-      success: false,
-      error: "Chave de API da Riot não configurada no servidor.",
-    };
+    throw new Error("RIOT_API_KEY não configurada.");
   }
 
-  try {
-    const { updated_at, usuario_puuid, id, queue, lane } = challengeData;
-    // Transformamos a data do último update em Timestamp Unix (segundos) porque a Riot pede esse padrão no filtro
-    const startTimeUnix = Math.floor(new Date(updated_at).getTime() / 1000);
-    const queueParam = QUEUE_MAP[queue];
+  const routingRegion = getRoutingRegion(region).toLowerCase();
+  const baseRiotURL = `https://${routingRegion}.api.riotgames.com`;
 
-    const routingRegion = getRoutingRegion(region).toLowerCase();
-    const baseRiotURL = `https://${routingRegion}.api.riotgames.com`;
+  const { queue, usuario_puuid, lane } = challengeData;
 
-    let matchIds: string[] = [];
+  // mapa para acumular o progresso dessa sincronização
+  const newChampionsProgress: Record<string, Partial<ChampionProgress>> = {};
 
-    // Buscar a lista de IDs das últimas partidas do jogador na Riot na ordem antiga para recente
-    let startIndex = 0;
+  // campeões completos da ultima sicronização
+  const completedChampions = new Set(
+    championsProgress.filter((c) => c.has_victory).map((c) => c.campeao_id),
+  );
 
-    while (true) {
-      const matchIdsUrl = `${baseRiotURL}/lol/match/v5/matches/by-puuid/${usuario_puuid}/ids?startTime=${startTimeUnix}&count=${MAX_MATCHES_PER_SYNC}&queue=${queueParam}&start=${startIndex}`;
+  let newestMatchTimestamp: number | null = null;
 
-      const matchIdsResponse = await fetch(matchIdsUrl, {
-        headers: { "X-Riot-Token": riotApiKey },
-      });
+  // Fazemos um loop sequencial simples para respeitar os limites de requisição por segundo (Rate Limit)
+  for (const matchId of matchIds) {
+    const matchDetailUrl = `${baseRiotURL}/lol/match/v5/matches/${matchId}`;
+    const detailResponse = await fetch(matchDetailUrl, {
+      headers: { "X-Riot-Token": riotApiKey },
+    });
 
-      if (!matchIdsResponse.ok) {
-        return {
-          success: false,
-          error: "Falha ao buscar histórico de partidas na Riot.",
-        };
-      }
+    if (!detailResponse.ok) continue; // Se falhar uma partida específica, pula pro próximo pra não quebrar a fila
 
-      const currentMatchIds: string[] = await matchIdsResponse.json();
+    const matchData = await detailResponse.json();
+    const info = matchData.info;
 
-      if (currentMatchIds.length === 0) {
-        break;
-      }
-
-      matchIds = currentMatchIds.reverse();
-
-      if (currentMatchIds.length < MAX_MATCHES_PER_SYNC) {
-        break;
-      }
-
-      startIndex += MAX_MATCHES_PER_SYNC;
+    // controle do ultimo jogo processado
+    const matchEndTimestamp = info.gameEndTimestamp + 1000 * 60 * 5; // avança 5 minuto para evitar reprocessar
+    if (!newestMatchTimestamp || matchEndTimestamp > newestMatchTimestamp) {
+      newestMatchTimestamp = matchEndTimestamp;
     }
+
+    // Verifica se a partida foi devidamente finalizada, duração minima de 5 minutos para evitar remakes
+    if (info.endOfGameResult !== "GameComplete" || info.gameDuration < 300)
+      continue;
+
+    // Filtro A: Verificar se a fila (Queue) é a correta (Ranked ou Casual)
+    const queueParam = QUEUE_MAP[queue];
+    if (+info.queueId !== +queueParam) {
+      continue; // Fila errada, ignora
+    }
+
+    // Encontrar o usuário dentro da lista de 10 participantes da partida
+    const participant = info.participants.find(
+      (p: any) => p.puuid === usuario_puuid,
+    );
+    if (!participant) continue;
+
+    const championToCheck = CHAMPION_KEY_TO_ID[String(participant.championId)]; // key do campeao no mapeamento do data dragon
+    // verifica se o campeoa ja foi computado anteriormente na lista de match atual
+    if (
+      newChampionsProgress[championToCheck] &&
+      newChampionsProgress[championToCheck].has_victory
+    )
+      continue;
+
+    // Filtro B: Verificar se o CAMPEÃO já foi usado no desafio
+    if (completedChampions.has(championToCheck)) {
+      continue; // boneco ja concluido
+    }
+
+    if (!championBelongsToLane(lane, championToCheck)) {
+      continue; // boneco não pertece ao desafio
+    }
+
+    // Filtro C: Verificar se ele jogou na LANE certa escolhida no desafio
+    const expectedLane = LANE_MAP[lane];
+    const actualLane =
+      participant.teamPosition || participant.individualPosition;
+
+    if (actualLane !== expectedLane) {
+      continue; // Jogou na rota errada, não conta pro progresso!
+    }
+
+    // Inicia o campeoa no mapa referente ao loop se ainda nao tiver
+    if (!newChampionsProgress[championToCheck]) {
+      newChampionsProgress[championToCheck] = {
+        loses: 0,
+        time_spend: 0,
+        has_victory: false,
+      };
+    }
+
+    const currentAccumulator = newChampionsProgress[championToCheck];
+
+    // Se passou por TODOS os filtros acima, a partida é válida e computada!
+    // Computa os dados acumulados da partida atual
+    if (participant.win) {
+      currentAccumulator.has_victory = true;
+      currentAccumulator.time_spend =
+        (currentAccumulator.time_spend ?? 0) + +participant.timePlayed;
+    } else {
+      currentAccumulator.loses = (currentAccumulator.loses ?? 0) + 1;
+      currentAccumulator.time_spend =
+        (currentAccumulator.time_spend ?? 0) + +participant.timePlayed;
+    }
+  }
+
+  return { newChampionsProgress, newestMatchTimestamp };
+}
+
+interface ISyncRiotMatchesResult {
+  success: boolean;
+  isFinished?: boolean;
+  error?: string;
+}
+
+export async function syncRiotMatches(
+  challengeData: ChallengerData,
+  championsProgress: ChampionProgress[],
+  region: RiotPlatformRegion,
+): Promise<ISyncRiotMatchesResult> {
+  const supabase = createSupabase();
+
+  try {
+    const { id } = challengeData;
+
+    const { matchIds, startIndex } = await getMatchIds(challengeData, region);
 
     // Se não jogou nenhuma partida desde a última atualização, reseta o time
     if (matchIds.length === 0) {
@@ -80,109 +213,22 @@ export async function syncRiotMatches(
         .eq("id", id);
 
       revalidatePath(`/challenger/${id}`);
-      return { success: true };
+      return { success: true, isFinished: false };
     }
 
-    // mapa para acumular o progresso dessa sincronização
-    const new_champions_progress: Record<
-      string,
-      Partial<ChampionProgress>
-    > = {};
+    const championMap = new Map(
+      championsProgress.map((c) => [c.campeao_id, c]),
+    );
 
-    let newestMatchTimestamp: number | null = null;
-
-    // Fazemos um loop sequencial simples para respeitar os limites de requisição por segundo (Rate Limit)
-    for (const matchId of matchIds) {
-      const matchDetailUrl = `${baseRiotURL}/lol/match/v5/matches/${matchId}`;
-      const detailResponse = await fetch(matchDetailUrl, {
-        headers: { "X-Riot-Token": riotApiKey },
-      });
-
-      if (!detailResponse.ok) continue; // Se falhar uma partida específica, pula pro próximo pra não quebrar a fila
-
-      const matchData = await detailResponse.json();
-      const info = matchData.info;
-
-      // controle do ultimo jogo processado
-      const matchEndTimestamp = info.gameEndTimestamp + 1000 * 60; // avança 1 segundo para evitar reprocessar
-      if (!newestMatchTimestamp || matchEndTimestamp > newestMatchTimestamp) {
-        newestMatchTimestamp = matchEndTimestamp;
-      }
-
-      // Verifica se a partida foi devidamente finalizada
-      if (info.endOfGameResult !== "GameComplete" || info.gameDuration < 300)
-        continue;
-
-      // Filtro A: Verificar se a fila (Queue) é a correta (Ranked ou Casual)
-      if (+info.queueId !== +queueParam) {
-        continue; // Fila errada, ignora
-      }
-
-      // Encontrar o usuário dentro da lista de 10 participantes da partida
-      const participant = info.participants.find(
-        (p: any) => p.puuid === usuario_puuid,
-      );
-
-      if (!participant) continue;
-
-      const championToCheck =
-        CHAMPION_KEY_TO_ID[String(participant.championId)]; // key do campeao no mapeamento do data dragon
-
-      // verifica se o campeoa ja foi computado anteriormente na lista de match atual
-      if (
-        new_champions_progress[championToCheck] &&
-        new_champions_progress[championToCheck].has_victory
-      )
-        continue;
-
-      // Filtro B: Verificar se o CAMPEÃO já foi usado no desafio
-      const championsDone = championsProgress
-        .filter((champion) => champion.has_victory)
-        .map((champion) => champion.campeao_id);
-
-      if (championsDone.includes(championToCheck)) {
-        continue; // boneco ja concluido
-      }
-
-      if (!championBelongsToLane(lane, championToCheck)) {
-        continue; // boneco não pertece ao desafio
-      }
-
-      // Filtro C: Verificar se ele jogou na LANE certa escolhida no desafio
-      const expectedLane = LANE_MAP[lane];
-      const actualLane =
-        participant.teamPosition || participant.individualPosition;
-
-      if (actualLane !== expectedLane) {
-        continue; // Jogou na rota errada, não conta pro progresso!
-      }
-
-      // Inicia o campeoa no mapa referente ao loop
-      if (!new_champions_progress[championToCheck]) {
-        new_champions_progress[championToCheck] = {
-          loses: 0,
-          time_spend: 0,
-          has_victory: false,
-        };
-      }
-
-      const currentAccumulator = new_champions_progress[championToCheck];
-
-      // Se passou por TODOS os filtros acima, a partida é válida e computada!
-      // Computa os dados acumulados da partida atual
-      if (participant.win) {
-        currentAccumulator.has_victory = true;
-        currentAccumulator.time_spend =
-          (currentAccumulator.time_spend ?? 0) + +participant.timePlayed;
-      } else {
-        currentAccumulator.loses = (currentAccumulator.loses ?? 0) + 1;
-        currentAccumulator.time_spend =
-          (currentAccumulator.time_spend ?? 0) + +participant.timePlayed;
-      }
-    }
+    const { newChampionsProgress, newestMatchTimestamp } = await processMatches(
+      matchIds,
+      challengeData,
+      championsProgress,
+      region,
+    );
 
     // NOVOS PROGRESSOS
-    const updatedChampionIds = Object.keys(new_champions_progress);
+    const updatedChampionIds = Object.keys(newChampionsProgress);
 
     // acumular o tempo para atualizar tempo de progresso no desafio
     let challengeTimeToAdd = 0;
@@ -191,10 +237,8 @@ export async function syncRiotMatches(
     if (updatedChampionIds.length > 0) {
       // Atualizar cada campeão modificado na tabela "progresso_campeoes"
       for (const champId of updatedChampionIds) {
-        const dbChampion = championsProgress.find(
-          (c) => c.campeao_id === champId,
-        );
-        const currentData = new_champions_progress[champId];
+        const dbChampion = championMap.get(champId);
+        const currentData = newChampionsProgress[champId];
 
         const addedTime = currentData.time_spend || 0;
 
@@ -271,7 +315,12 @@ export async function syncRiotMatches(
 
     return { success: true, isFinished };
   } catch (error) {
-    console.error("Erro na sincronização da Riot:", error);
-    return { success: false, error: "Erro interno ao processar partidas." };
+    return {
+      success: false,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Erro interno ao processar partidas.",
+    };
   }
 }
