@@ -21,10 +21,20 @@ export default function HistoryCard({ challengeData }: IHistoryCardProps) {
         is_finished ? "border-emerald-600" : "border-yellow-300",
       )}
     >
-      <div className="absolute top-2 left-2">
+      <div
+        className={clsx(
+          "absolute top-2 left-2",
+          is_finished ? "text-emerald-50" : "text-yellow-100",
+        )}
+      >
         <span className="font-bold text-xl">{capitalize(lane)}</span>
       </div>
-      <div className="absolute top-2 right-2">
+      <div
+        className={clsx(
+          "absolute top-2 right-2",
+          is_finished ? "text-emerald-50" : "text-yellow-100",
+        )}
+      >
         <span className="font-bold text-xl">{capitalize(queue)}</span>
       </div>
       <div className="absolute bottom-2 left-2">
