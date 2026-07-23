@@ -10,6 +10,7 @@ import {
   getRandomVerificationIcon,
   SummonerIcon,
 } from "./utils/getRandomVerificationIcon";
+import { createSupabase } from "../services/supabase";
 
 interface LinkPlayerResult {
   success: boolean;
@@ -49,10 +50,7 @@ export async function findRiotAccount(
   const [gameName, tagLine] = riotIdInput.split("#");
 
   // Inicializa o Supabase usando a Service Role (chave mestra) para permitir o insert sem travar no RLS
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  );
+  const supabase = createSupabase();
 
   try {
     const routingRegion = getRoutingRegion(region).toLowerCase();

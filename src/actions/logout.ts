@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { createClient } from "@supabase/supabase-js";
+import { createSupabase } from "../services/supabase";
 
 export async function logoutSession() {
   const cookieStore = await cookies();
@@ -11,10 +11,7 @@ export async function logoutSession() {
     return;
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  );
+  const supabase = createSupabase();
 
   await supabase.from("user_sessions").delete().eq("id", sessionId);
 

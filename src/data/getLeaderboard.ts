@@ -2,6 +2,7 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { LaneType, QueueType } from "../types";
+import { createSupabase } from "../services/supabase";
 
 export interface LeaderboardItem {
   position: number;
@@ -26,9 +27,7 @@ export async function getLeaderboard(
   page: number = 1,
   pageSize: number = 20,
 ): Promise<LeaderboardResponse> {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-  const supabase = createClient(supabaseUrl, serviceRoleKey);
+  const supabase = createSupabase();
 
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;

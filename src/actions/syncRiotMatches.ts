@@ -1,37 +1,24 @@
 "use server";
 
-import { createClient } from "@supabase/supabase-js";
+import { createSupabase } from "../services/supabase";
 import { revalidatePath } from "next/cache";
 import { ChallengerData, ChampionProgress, RiotPlatformRegion } from "../types";
 import { getRoutingRegion } from "../utils/getRountingRegion";
 import { championBelongsToLane } from "../const/utils/championBelongsToLane";
 import { CHAMPION_KEY_TO_ID } from "../const/mapKeyChampionToNameId";
 
-const MAX_MATCHES_PER_SYNC = 50;
-
-// Mapeamento simples de filas do LoL (Queue IDs oficiais da Riot)
-const QUEUE_MAP: Record<string, number> = {
-  RANKED: 420, // 420 = Solo/Duo, 440 = Flex
-  CASUAL: 430, // 400 = Draft Pick, 430 = Blind Pick
-};
-
-// Mapeamwento rotas na aplicacao para o padrão que a Riot usa
-const LANE_MAP: Record<string, string> = {
-  TOP: "TOP",
-  JUNGLE: "JUNGLE",
-  MID: "MIDDLE",
-  BOT: "BOTTOM",
-  SUPPORT: "UTILITY",
-};
+import {
+  QUEUE_MAP,
+  LANE_MAP,
+  MAX_MATCHES_PER_SYNC,
+} from "./const/syncRiotMatches";
 
 export async function syncRiotMatches(
   challengeData: ChallengerData,
   championsProgress: ChampionProgress[],
   region: RiotPlatformRegion,
 ) {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-  const supabase = createClient(supabaseUrl, serviceRoleKey);
+  const supabase = createSupabase();
 
   const riotApiKey = process.env.RIOT_API_KEY;
 

@@ -2,13 +2,12 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { ChallengeData } from "../types";
+import { createSupabase } from "../services/supabase";
 
 export async function getChallengeData(
   challengerId: string,
 ): Promise<ChallengeData | null> {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-  const supabase = createClient(supabaseUrl, serviceRoleKey);
+  const supabase = createSupabase();
 
   // 1. Busca o desafio
   const { data: challengerData, error: desafioError } = await supabase
