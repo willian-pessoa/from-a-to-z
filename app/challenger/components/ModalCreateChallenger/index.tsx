@@ -20,6 +20,8 @@ import { createChallenge } from "@/src/actions/challenger";
 import { AppDialog } from "@/src/components/AppDialog/AppDialog";
 import { useRouter } from "next/navigation";
 
+import { appToast } from "@/src/components/AppToaster/appToast";
+
 export interface IModalCreateChallengerProps {}
 
 const LANES_CONFIG = [
@@ -51,6 +53,8 @@ export default function ModalCreateChallenger({}: IModalCreateChallengerProps) {
     clsx("border-none", lane === value ? "bg-emerald-600" : "bg-emerald-900");
 
   const handleCreateChallenger = async () => {
+    const toastId = appToast.loading("Criando desafio...");
+
     setLoading(true);
     setError("");
 
@@ -60,8 +64,8 @@ export default function ModalCreateChallenger({}: IModalCreateChallengerProps) {
     });
 
     if (result.success && result.challengeId) {
+      appToast.success("Desafio criado com sucesso!", toastId);
       updateChallengerId(String(result.challengeId));
-
       router.push(`/challenger/${result.challengeId}`);
     } else {
       setError(result.error || "Ocorreu um erro ao iniciar o desafio.");

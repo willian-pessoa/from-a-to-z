@@ -7,6 +7,7 @@ import { AuthProvider } from "@/src/contexts/AuthContext";
 
 import Header from "@/src/layout/Header";
 import { HeaderProvider } from "@/src/contexts/HeaderContext";
+import AppToaster from "@/src/components/AppToaster";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -34,6 +35,7 @@ export default function RootLayout({
           <HeaderProvider>
             <TooltipPrimitive.Provider delayDuration={100}>
               <Header />
+              <AppToaster />
               <main className="flex-1 overflow-y-auto">{children}</main>
             </TooltipPrimitive.Provider>
           </HeaderProvider>
