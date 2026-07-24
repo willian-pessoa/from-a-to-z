@@ -14,10 +14,13 @@ import { RiotPlatformRegion } from "@/src/types";
 import { SummonerIcon } from "@/src/actions/utils/getRandomVerificationIcon";
 import DisplayTimer from "@/src/components/DisplayTimer";
 import { appToast } from "@/src/components/AppToaster/appToast";
+import { useTranslations } from "next-intl";
 
 type LinkingState = "search" | "check";
 
 export default function ModalLinkAccount() {
+  const t = useTranslations("CHALLENGER.MODAL_LINK_ACCOUNT");
+
   // Estados do fluxo de autenticação e UI
   const { login } = useAuth();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -46,7 +49,7 @@ export default function ModalLinkAccount() {
       setUserPuuid(result.verification.puuid);
       setLinkingState("check");
     } else {
-      setError(result.error || "Falha ao localizar conta.");
+      setError(t(result.error || "FIND_ACCOUNT_ERROR"));
     }
 
     setLoading(false);
@@ -63,9 +66,9 @@ export default function ModalLinkAccount() {
 
       setLinkingState("search");
       setIsDialogOpen(false);
-      appToast.loading("Conta Vinculada!");
+      appToast.success(t("LINK_SUCCESS"));
     } else {
-      setError(result.error || "Falha ao verificar conta.");
+      setError(t(result.error || "VERIFY_ACCOUNT_ERROR"));
       if (result.reset) {
         setReset(true);
       }
@@ -87,8 +90,8 @@ export default function ModalLinkAccount() {
 
   return (
     <AppDialog
-      trigger={<Button className="text-lg py-2 px-4">Vincular Conta</Button>}
-      title="Verificar Riot ID"
+      trigger={<Button className="text-lg py-2 px-4">{t("TRIGGER")}</Button>}
+      title={t("TITLE")}
       open={isDialogOpen}
       onOpenChange={(open) => setIsDialogOpen(open)}
       closeOnOutsideClick={false}
@@ -99,21 +102,17 @@ export default function ModalLinkAccount() {
             {error}
           </div>
         ) : (
-          <p className="text-emerald-200 text-sm">
-            Antes de participar de um desafio, precisamos localizar seu perfil
-            oficial da Riot Games e fazer a verificação de titularidade da
-            conta.
-          </p>
+          <p className="text-emerald-200 text-sm">{t("DESCRIPTION")}</p>
         )}
 
         {linkingState === "search" && (
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-1">
-              <label className="font-semibold">Seu Riot ID</label>
+              <label className="font-semibold">{t("RIOT_ID_LABEL")}</label>
               <AppTextInput
                 id="riot-id"
                 required
-                placeholder="e.g., SummonerName#BR1"
+                placeholder={t("RIOT_ID_PLACEHOLDER")}
                 value={riotId}
                 onChange={(e) => setRiotId(e.target.value)}
                 className="bg-emerald-800"
@@ -121,7 +120,7 @@ export default function ModalLinkAccount() {
             </div>
 
             <div className="flex flex-col gap-1">
-              <label className="font-semibold">Região</label>
+              <label className="font-semibold">{t("REGION_LABEL")}</label>
               <AppSelect
                 className="bg-emerald-800 cursor-pointer"
                 value={region}
@@ -132,7 +131,7 @@ export default function ModalLinkAccount() {
 
             <div className="flex justify-end">
               <Button onClick={handleFindRiotAccoutn} disabled={loading}>
-                {loading ? "Buscando..." : "Localizar Conta"}
+                {loading ? t("SEARCHING_BUTTON") : t("SEARCH_BUTTON")}
               </Button>
             </div>
           </div>
@@ -141,18 +140,15 @@ export default function ModalLinkAccount() {
         {linkingState === "check" && (
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-1">
-              <label className="font-semibold">Verificar Icone</label>
+              <label className="font-semibold">{t("VERIFY_ICON_LABEL")}</label>
               <p className="text-emerald-200 text-sm text-justify">
-                Para confirmar que esta conta da Riot realmente pertence a você,
-                altere temporariamente seu ícone de invocador para o ícone
-                abaixo. Depois de realizar a alteração no cliente do League of
-                Legends, clique em "Verificar Conta".
+                {t("VERIFY_DESCRIPTION")}
               </p>
               {iconVerification && (
                 <div className="flex flex-col items-center justify-center mt-2">
                   <Image
                     src={`https://ddragon.leagueoflegends.com/cdn/16.13.1/img/profileicon/${iconVerification.id}.png`}
-                    alt={"icone de verificação"}
+                    alt={t("VERIFICATION_ICON_ALT")}
                     width={96}
                     height={96}
                     className="rounded-lg border-2 border-emerald-400"
@@ -180,11 +176,11 @@ export default function ModalLinkAccount() {
                   className="bg-red-600 border-red-500 text-center items-center justify-center hover:bg-red-700"
                   onClick={handleReset}
                 >
-                  Reinicar
+                  {t("RESET_BUTTON")}
                 </Button>
               ) : (
                 <Button onClick={handleLinkAccount} disabled={loading}>
-                  {loading ? "Verificando..." : "Verificar Conta"}
+                  {loading ? t("VERIFYING_BUTTON") : t("VERIFY_BUTTON")}
                 </Button>
               )}
             </div>

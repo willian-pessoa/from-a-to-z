@@ -1,6 +1,52 @@
 {
+  "COMMON": {
+    "LOADING": "Cargando"
+  },
+
   "CHALLENGER": {
     "MISSING_CHALLENGER": "Actualmente no estás participando en ningún Desafío de la A a la Z. ¡Haz clic en el botón de abajo para comenzar un nuevo desafío!",
-    "MISSING_ACCOUNT": "Para participar en el Desafío de la A a la Z, primero debes vincular una cuenta de Riot."
+    "MISSING_ACCOUNT": "Para participar en el Desafío de la A a la Z, primero debes vincular una cuenta de Riot.",
+
+    "MODAL_LINK_ACCOUNT": {
+      "TRIGGER": "Vincular Cuenta",
+      "TITLE": "Verificar Riot ID",
+
+      "DESCRIPTION": "Antes de participar en un desafío, necesitamos encontrar tu perfil oficial de Riot Games y verificar que la cuenta te pertenece.",
+
+      "RIOT_ID_LABEL": "Tu Riot ID",
+      "RIOT_ID_PLACEHOLDER": "ej.: SummonerName#BR1",
+
+      "REGION_LABEL": "Región",
+
+      "SEARCH_BUTTON": "Buscar Cuenta",
+      "SEARCHING_BUTTON": "Buscando...",
+
+      "VERIFY_ICON_LABEL": "Verificar Icono",
+      "VERIFY_DESCRIPTION": "Para confirmar que esta cuenta de Riot te pertenece, cambia temporalmente tu icono de invocador por el icono que aparece abajo. Después de realizar el cambio en el cliente de League of Legends, haz clic en \"Verificar Cuenta\".",
+
+      "VERIFY_BUTTON": "Verificar Cuenta",
+      "VERIFYING_BUTTON": "Verificando...",
+
+      "RESET_BUTTON": "Reiniciar",
+
+      "VERIFICATION_ICON_ALT": "Icono de verificación",
+
+      "FIND_ACCOUNT_ERROR": "Error al buscar la cuenta.",
+      "VERIFY_ACCOUNT_ERROR": "Error al verificar la cuenta.",
+      "LINK_SUCCESS": "¡Cuenta vinculada!",
+
+      "RIOT_ID_INVALID_FORMAT": "El Riot ID debe incluir el hashtag (ejemplo: AURA Galactus#BR1)",
+      "PLAYER_NOT_FOUND": "Jugador no encontrado en los servidores de Riot. Verifica que el Riot ID y la etiqueta sean correctos.",
+
+      "SERVER_CONNECTION_ERROR": "Error interno del servidor mientras se conectaba con los servicios de Riot.",
+
+      "USER_NOT_FOUND": "Usuario no encontrado",
+      "NO_ACTIVE_VERIFICATION": "No hay ninguna verificación activa.",
+      "VERIFICATION_EXPIRED": "La verificación ha expirado. Haz clic en reiniciar e inténtalo de nuevo.",
+
+      "ICON_CHECK_ERROR": "No se pudo verificar el icono de perfil actual.",
+
+      "ICON_MISMATCH": "El icono actual no coincide con el icono de verificación. Si ya realizaste el cambio, espera unos segundos e inténtalo nuevamente. Los servidores de Riot pueden tardar un tiempo en devolver la información actualizada."
+    }
   }
 }

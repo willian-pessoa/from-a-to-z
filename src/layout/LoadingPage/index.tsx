@@ -1,6 +1,9 @@
 import AppLoader from "@/src/components/AppLoader";
+import { useTranslations } from "next-intl";
 
 export default function LoadingPage() {
+  const t = useTranslations("COMMON");
+
   return (
     <div className="h-full overflow-hidden bg-linear-to-b from-emerald-950 via-emerald-900 to-emerald-950">
       {/* Brilho de fundo */}
@@ -13,7 +16,7 @@ export default function LoadingPage() {
       <div className="relative flex h-full flex-col items-center justify-center">
         <div className="mb-10 h-px w-64 bg-linear-to-r from-transparent via-emerald-500/60 to-transparent" />
 
-        <AppLoader size="lg" text="Carregando..." className="py-0" />
+        <AppLoader size="lg" text={`${t("LOADING")}...`} className="py-0" />
 
         <div className="mt-10 h-px w-64 bg-linear-to-r from-transparent via-emerald-500/60 to-transparent" />
       </div>

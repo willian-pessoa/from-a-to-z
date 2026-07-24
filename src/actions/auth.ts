@@ -43,7 +43,7 @@ export async function findRiotAccount(
   if (!riotIdInput.includes("#")) {
     return {
       success: false,
-      error: "Riot ID deve incluir a hashtag (exemplo: AURA Galactus#BR1)",
+      error: "RIOT_ID_INVALID_FORMAT",
     };
   }
 
@@ -64,8 +64,7 @@ export async function findRiotAccount(
     if (!riotResponse.ok) {
       return {
         success: false,
-        error:
-          "Jogador não encontrado no servidor da Riot. Verifique se digitou corretamente junto da tag.",
+        error: "PLAYER_NOT_FOUND",
       };
     }
 
@@ -107,8 +106,7 @@ export async function findRiotAccount(
   } catch (err) {
     return {
       success: false,
-      error:
-        "Erro interno no servidor enquanto conectando com os serviços Riot.",
+      error: "SERVER_CONNECTION_ERROR",
     };
   }
 }
@@ -142,7 +140,7 @@ export async function linkPlayer(
     if (!existingUser) {
       return {
         success: false,
-        error: "Usuário não encontrado",
+        error: "USER_NOT_FOUND",
       };
     }
 
@@ -152,7 +150,7 @@ export async function linkPlayer(
     ) {
       return {
         success: false,
-        error: "Nenhuma verificação ativa.",
+        error: "NO_ACTIVE_VERIFICATION",
       };
     }
 
@@ -162,7 +160,7 @@ export async function linkPlayer(
       return {
         success: false,
         reset: true,
-        error: "A verificação expirou, clique em resetar e tente novamente.",
+        error: "VERIFICATION_EXPIRED",
       };
     }
 
@@ -179,7 +177,7 @@ export async function linkPlayer(
     if (!summonerResponse.ok) {
       return {
         success: false,
-        error: "Não foi possivel verificar o icone de perfil atual.",
+        error: "ICON_CHECK_ERROR",
       };
     }
 
@@ -189,8 +187,7 @@ export async function linkPlayer(
       return {
         success: false,
         showWaitingTimer: true,
-        error:
-          "O icone atual não corresponde com o icone de verificação, se você já fez a modificação aguarde alguns segundos e tente novamente, o servidor da riot pode levar um tempo para retornar a modificação.",
+        error: "ICON_MISMATCH",
       };
     }
 
@@ -275,8 +272,7 @@ export async function linkPlayer(
   } catch (err) {
     return {
       success: false,
-      error:
-        "Erro interno no servidor enquanto conectando com os serviços Riot.",
+      error: "SERVER_CONNECTION_ERROR",
     };
   }
 }

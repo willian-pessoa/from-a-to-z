@@ -1,6 +1,52 @@
 {
+  "COMMON": {
+    "LOADING": "Loading"
+  },
+
   "CHALLENGER": {
     "MISSING_CHALLENGER": "You're not currently participating in an A to Z Challenge. Click the button below to start a new challenge!",
-    "MISSING_ACCOUNT": "To participate in the A to Z Challenge, you must first link a Riot account."
+    "MISSING_ACCOUNT": "To participate in the A to Z Challenge, you must first link a Riot account.",
+
+    "MODAL_LINK_ACCOUNT": {
+      "TRIGGER": "Link Account",
+      "TITLE": "Verify Riot ID",
+
+      "DESCRIPTION": "Before participating in a challenge, we need to find your official Riot Games profile and verify that you own the account.",
+
+      "RIOT_ID_LABEL": "Your Riot ID",
+      "RIOT_ID_PLACEHOLDER": "e.g.: SummonerName#BR1",
+
+      "REGION_LABEL": "Region",
+
+      "SEARCH_BUTTON": "Find Account",
+      "SEARCHING_BUTTON": "Searching...",
+
+      "VERIFY_ICON_LABEL": "Verify Icon",
+      "VERIFY_DESCRIPTION": "To confirm that this Riot account belongs to you, temporarily change your summoner icon to the icon below. After changing it in the League of Legends client, click \"Verify Account\".",
+
+      "VERIFY_BUTTON": "Verify Account",
+      "VERIFYING_BUTTON": "Verifying...",
+
+      "RESET_BUTTON": "Reset",
+
+      "VERIFICATION_ICON_ALT": "Verification icon",
+
+      "FIND_ACCOUNT_ERROR": "Failed to find account.",
+      "VERIFY_ACCOUNT_ERROR": "Failed to verify account.",
+      "LINK_SUCCESS": "Account linked!",
+
+      "RIOT_ID_INVALID_FORMAT": "Riot ID must include the hashtag (example: AURA Galactus#BR1)",
+      "PLAYER_NOT_FOUND": "Player not found on Riot servers. Check if the Riot ID and tag were entered correctly.",
+
+      "SERVER_CONNECTION_ERROR": "Internal server error while connecting to Riot services.",
+
+      "USER_NOT_FOUND": "User not found",
+      "NO_ACTIVE_VERIFICATION": "No active verification found.",
+      "VERIFICATION_EXPIRED": "The verification has expired. Click reset and try again.",
+
+      "ICON_CHECK_ERROR": "Unable to verify the current profile icon.",
+
+      "ICON_MISMATCH": "The current icon does not match the verification icon. If you already changed it, wait a few seconds and try again. Riot servers may take some time to return the updated information."
+    }
   }
 }
