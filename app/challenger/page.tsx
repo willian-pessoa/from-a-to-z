@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import ModalCreateChallenger from "./components/ModalCreateChallenger";
 import { useEffect } from "react";
 
@@ -10,6 +12,8 @@ import AppLoader from "@/src/components/AppLoader";
 import { useAuth } from "@/src/contexts/AuthContext";
 
 export default function Page() {
+  const t = useTranslations("CHALLENGER");
+
   const { user, isLoading } = useAuth();
 
   const router = useRouter();
@@ -32,10 +36,7 @@ export default function Page() {
   if (user?.puuid && user.riot_id && user.region && !user.challengerId) {
     return (
       <div className="flex flex-col justify-center items-center h-full gap-8 p-2 text-center">
-        <span className="text-lg">
-          Você não está participando de nenhum desafio de A a Z atualmente,
-          clique no botão abaixo para iniciar um novo desafio!
-        </span>
+        <span className="text-lg">{t("MISSING_CHALLENGER")}</span>
         <ModalCreateChallenger />
       </div>
     );
@@ -44,10 +45,7 @@ export default function Page() {
   // Se o estado 'user' estiver vazio, exibe a interface de linkar conta
   return (
     <div className="flex flex-col justify-center items-center h-full gap-8 p-2 text-center">
-      <span className="text-lg">
-        Para participar do desafio de A a Z é necessário antes vincular uma
-        conta.
-      </span>
+      <span className="text-lg">{t("MISSING_ACCOUNT")}</span>
 
       <ModalLinkAccount />
     </div>

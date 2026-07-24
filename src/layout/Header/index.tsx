@@ -17,6 +17,7 @@ import { AppTooltip } from "../../components/AppTooltip";
 import { useAuth } from "@/src/contexts/AuthContext";
 import { useMemo } from "react";
 import { useHeader } from "@/src/contexts/HeaderContext";
+import LanguageMenu from "../LanguageMenu";
 
 export interface IHeaderProps {}
 
@@ -80,11 +81,7 @@ export default function Header(props: IHeaderProps) {
             </IconButton>
           </AppTooltip>
         )}
-        <AppTooltip text="Linguagem">
-          <IconButton>
-            <IconWorld stroke={2} />
-          </IconButton>
-        </AppTooltip>
+        <LanguageMenu />
       </div>
     </header>
   );
