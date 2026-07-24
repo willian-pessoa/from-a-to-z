@@ -15,7 +15,7 @@ export async function deleteChallenge(
   if (!challengeId) {
     return {
       success: false,
-      error: "Não foi possivel processar a remoção do desafio.",
+      error: "DELETE_ERROR_ACTION.INVALID_CHALLENGE",
     };
   }
 
@@ -24,7 +24,7 @@ export async function deleteChallenge(
   if (!auth) {
     return {
       success: false,
-      error: "Sessão inválida.",
+      error: "DELETE_ERROR_ACTION.INVALID_SESSION",
     };
   }
 
@@ -52,7 +52,7 @@ export async function deleteChallenge(
   } catch {
     return {
       success: false,
-      error: "Erro interno enquanto deletando desafio.",
+      error: "DELETE_ERROR_ACTION.SERVER_ERROR",
     };
   }
 }

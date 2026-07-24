@@ -79,6 +79,90 @@
       "ACTIVE_CHALLENGE_EXISTS": "You already have an active challenge on this or another lane!",
       "POPULATE_PROGRESS_ERROR": "Failed to create lane-specific champion progress.",
       "SERVER_ERROR": "Internal server error while processing champions by lane."
+    },
+
+    "CHALLENGE_PAGE": {
+      "CURRENT_CHAMPION": "Current Champion: {championName}",
+      "LOLALYTICS": "lolalytics",
+
+      "TOTAL_GAMES": "Total Games",
+      "WIN_RATE": "Win Rate",
+
+      "CHAMPIONS": "Champions",
+
+      "SEARCH_CHAMPION_PLACEHOLDER": "Search champion...",
+
+      "FILTER_ALL": "All",
+      "FILTER_COMPLETED": "Completed",
+      "FILTER_INCOMPLETED": "Incomplete",
+
+      "GRID_SMALL": "Small",
+      "GRID_MEDIUM": "Medium",
+      "GRID_LARGE": "Large",
+      "GRID_EXTRA_LARGE": "Extra Large",
+
+      "NO_CHAMPION_FOUND": "No Champion Found",
+
+      "UPDATE_PROGRESS": "Update Progress",
+      "UPDATING_PROGRESS": "Wait, fetching matches...",
+
+      "SYNC_SUCCESS": "Synchronization completed.",
+      "CHALLENGE_FINISHED": "Congratulations, challenge completed!",
+
+      "UPDATE_ERROR": "Error updating progress.",
+      "SERVER_CONNECTION_ERROR": "Internal server connection error.",
+
+      "SYNC_ERROR": {
+        "RIOT_API_KEY_MISSING": "Riot API key is not configured.",
+        "MATCH_HISTORY_ERROR": "Failed to fetch match history from Riot.",
+        "RIOT_CONNECTION_ERROR": "Internal error connecting to Riot services.",
+        "PROCESS_MATCHES_ERROR": "Internal error processing matches."
+      },
+
+      "DELETE_CHALLENGE_BUTTON": "Delete Challenge",
+      "DELETE_CHALLENGE_TITLE": "Delete Challenge?",
+
+      "DELETE_CONFIRMATION": "Are you sure you want to delete this challenge?",
+
+      "DELETE_WARNING": "This action is irreversible. All challenge progress, including completed champions, losses, ratings, comments, and recorded time, will be permanently removed.",
+
+      "DELETE_BUTTON": "Confirm",
+      "DELETING_BUTTON": "Deleting...",
+
+      "DELETE_SUCCESS": "Challenge Deleted.",
+      "DELETE_ERROR": "Error deleting challenge.",
+
+      "DELETE_ERROR_ACTION": {
+        "INVALID_CHALLENGE": "Unable to process challenge removal.",
+        "INVALID_SESSION": "Invalid session.",
+        "SERVER_ERROR": "Internal error while deleting challenge."
+      },
+
+      "SHARE": "Share",
+      "SHARE_TITLE": "Check out my A-Z Challenge!",
+      "LINK_COPIED": "Link copied to clipboard!",
+      "SHARE_ERROR": "Unable to share the challenge.",
+
+      "MODAL_CHAMPION": {
+        "CHAMPION_NOTES_TITLE": "Notes about champion {championName}",
+
+        "FUN_NOTE_DESCRIPTION": "How fun was it playing this champion on a scale from 1 to 5?",
+
+        "COMMENTARY_DESCRIPTION": "Tell us more about what you thought of playing this champion.",
+
+        "COMMENTARY_PLACEHOLDER": "Ex.: Very healthy clear, strong ganks, but the late game was disappointing...",
+
+        "SAVE_BUTTON": "Save",
+        "SAVING_BUTTON": "Saving...",
+
+        "UPDATE_SUCCESS": "Champion Updated.",
+        "UPDATE_ERROR": "Error updating champion.",
+        "SAVE_ERROR": "Internal error while saving.",
+
+        "SESSION_INVALID": "Invalid session.",
+        "DATABASE_ERROR": "Unable to save data to the database.",
+        "SERVER_ERROR": "Internal server error."
+      }
     }
   }
 }

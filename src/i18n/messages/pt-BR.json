@@ -77,6 +77,90 @@
       "ACTIVE_CHALLENGE_EXISTS": "Você já possui um desafio ativo nesta ou em outra rota!",
       "POPULATE_PROGRESS_ERROR": "Falha ao popular o progresso filtrado por lane.",
       "SERVER_ERROR": "Erro interno no servidor ao processar campeões por rota."
+    },
+
+    "CHALLENGE_PAGE": {
+      "CURRENT_CHAMPION": "Campeão Atual: {championName}",
+      "LOLALYTICS": "lolalytics",
+
+      "TOTAL_GAMES": "Total de Jogos",
+      "WIN_RATE": "Win Rate",
+
+      "CHAMPIONS": "Campeões",
+
+      "SEARCH_CHAMPION_PLACEHOLDER": "Buscar campeão...",
+
+      "FILTER_ALL": "Todos",
+      "FILTER_COMPLETED": "Concluídos",
+      "FILTER_INCOMPLETED": "Incompletos",
+
+      "GRID_SMALL": "Pequeno",
+      "GRID_MEDIUM": "Médio",
+      "GRID_LARGE": "Grande",
+      "GRID_EXTRA_LARGE": "Extra Grande",
+
+      "NO_CHAMPION_FOUND": "Nenhum Campeão Encontrado",
+
+      "UPDATE_PROGRESS": "Atualizar Progresso",
+      "UPDATING_PROGRESS": "Aguarde, buscando partidas...",
+
+      "SYNC_SUCCESS": "Sincronização concluída.",
+      "CHALLENGE_FINISHED": "Parabéns, desafio finalizado!",
+
+      "UPDATE_ERROR": "Erro ao atualizar progresso.",
+      "SERVER_CONNECTION_ERROR": "Erro interno ao conectar com o servidor.",
+
+      "SYNC_ERROR": {
+        "RIOT_API_KEY_MISSING": "Chave da Riot API não configurada.",
+        "MATCH_HISTORY_ERROR": "Falha ao buscar histórico de partidas na Riot.",
+        "RIOT_CONNECTION_ERROR": "Erro interno ao conectar com os serviços da Riot.",
+        "PROCESS_MATCHES_ERROR": "Erro interno ao processar partidas."
+      },
+
+      "DELETE_CHALLENGE_BUTTON": "Deletar Desafio",
+      "DELETE_CHALLENGE_TITLE": "Deletar Desafio?",
+
+      "DELETE_CONFIRMATION": "Tem certeza que deseja deletar este desafio?",
+
+      "DELETE_WARNING": "Esta ação é irreversível. Todo o progresso do desafio, incluindo campeões concluídos, derrotas, avaliações, comentários e tempo registrado, será removido permanentemente.",
+
+      "DELETE_BUTTON": "Confirmar",
+      "DELETING_BUTTON": "Deletando...",
+
+      "DELETE_SUCCESS": "Desafio Deletado.",
+      "DELETE_ERROR": "Erro ao deletar desafio.",
+
+      "DELETE_ERROR_ACTION": {
+        "INVALID_CHALLENGE": "Não foi possível processar a remoção do desafio.",
+        "INVALID_SESSION": "Sessão inválida.",
+        "SERVER_ERROR": "Erro interno enquanto deletava o desafio."
+      },
+
+      "SHARE": "Compartilhar",
+      "SHARE_TITLE": "Confira meu desafio A-Z!",
+      "LINK_COPIED": "Link copiado para a área de transferência!",
+      "SHARE_ERROR": "Não foi possível compartilhar o desafio.",
+
+      "MODAL_CHAMPION": {
+        "CHAMPION_NOTES_TITLE": "Anotações sobre o campeão {championName}",
+
+        "FUN_NOTE_DESCRIPTION": "Qual foi o seu nível de diversão jogando com o campeão numa escala de 1 a 5?",
+
+        "COMMENTARY_DESCRIPTION": "Conte mais sobre o que achou de jogar com o campeão.",
+
+        "COMMENTARY_PLACEHOLDER": "Ex.: Clear muito saudável, gank forte, mas o late game deixou a desejar...",
+
+        "SAVE_BUTTON": "Salvar",
+        "SAVING_BUTTON": "Salvando...",
+
+        "UPDATE_SUCCESS": "Campeão Atualizado.",
+        "UPDATE_ERROR": "Erro ao Atualizar Campeão.",
+        "SAVE_ERROR": "Erro interno ao salvar.",
+
+        "SESSION_INVALID": "Sessão inválida.",
+        "DATABASE_ERROR": "Não foi possível salvar os dados no banco.",
+        "SERVER_ERROR": "Erro interno no servidor."
+      }
     }
   }
 }

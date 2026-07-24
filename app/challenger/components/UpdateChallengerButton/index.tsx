@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { ChallengerData, ChampionProgress } from "@/src/types";
 import { useAuth } from "@/src/contexts/AuthContext";
 import { appToast } from "@/src/components/AppToaster/appToast";
+import { useTranslations } from "next-intl";
 
 interface UpdateChallengerButtonProps {
   challengerData: ChallengerData;
@@ -17,6 +18,8 @@ export default function UpdateChallengerButton({
   challengerData,
   championsProgress,
 }: UpdateChallengerButtonProps) {
+  const t = useTranslations("CHALLENGER.CHALLENGE_PAGE");
+
   const { user, updateChallengerId } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -35,17 +38,17 @@ export default function UpdateChallengerButton({
         // atualizar desafio do usuario conectado se for concluido
         if (result.isFinished && user?.puuid === challengerData.usuario_puuid) {
           updateChallengerId(null);
-          appToast.success("Parabéns, desafio finalizado!");
+          appToast.success(t("CHALLENGE_FINISHED"));
         }
 
         router.refresh();
 
-        appToast.success("Sicronização concluída.");
+        appToast.success(t("SYNC_SUCCESS"));
       } else {
-        appToast.error(result.error || "Erro ao atualizar progresso.");
+        appToast.error(t(result.error ?? "UPDATE_ERROR"));
       }
     } catch (error) {
-      appToast.error("Erro interno ao conectar com o servidor.");
+      appToast.error(t("SERVER_CONNECTION_ERROR"));
     } finally {
       setIsLoading(false);
     }
@@ -59,7 +62,7 @@ export default function UpdateChallengerButton({
       onClick={handleUpdate}
       disabled={isLoading}
     >
-      {isLoading ? "Aguarde, buscando partidas..." : "Atualizar Progresso"}
+      {isLoading ? t("UPDATING_PROGRESS") : t("UPDATE_PROGRESS")}
     </Button>
   );
 }

@@ -4,6 +4,7 @@ import { IconExternalLink } from "@tabler/icons-react";
 import Button from "@/src/components/Button";
 import { getChampionSplashURL } from "@/src/utils/getChampioSplashURL";
 import { LaneType } from "@/src/types";
+import { useTranslations } from "next-intl";
 
 const VICTORIOUS_SPLASH_BY_LANE: Record<LaneType, string> = {
   TOP: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_9.jpg",
@@ -32,6 +33,8 @@ export default function ChallengerBanner({
   challengerLane = "JUNGLE",
   isFinished = false,
 }: IChallengerBannerProps) {
+  const t = useTranslations("CHALLENGER.CHALLENGE_PAGE");
+
   const splash = getChampionSplashURL(currentChampionNameId);
   const lolalytics = `https://lolalytics.com/lol/${currentChampionName.toLowerCase()}/build/?lane=${challengerLane.toLowerCase()}`;
   const finishSplash = VICTORIOUS_SPLASH_BY_LANE[challengerLane];
@@ -51,7 +54,9 @@ export default function ChallengerBanner({
 
           {!isFinished && (
             <div className="absolute left-2 top-2 cursor-default rounded-md bg-emerald-700 border border-emerald-600 px-3 py-1">
-              {`Campeão Atual: ${currentChampionName}`}
+              {t("CURRENT_CHAMPION", {
+                championName: currentChampionName,
+              })}
             </div>
           )}
 
@@ -71,7 +76,7 @@ export default function ChallengerBanner({
         </div>
 
         <div className="flex h-24 sm:h-64 flex-col justify-between rounded-lg border border-emerald-600 bg-emerald-700 p-2">
-          <span className="text-sm sm:text-base">Total de Jogos</span>
+          <span className="text-sm sm:text-base">{t("TOTAL_GAMES")}</span>
 
           <span className="self-end text-3xl sm:text-5xl font-bold">
             {totalGames.toString().padStart(2, "0")}
@@ -79,7 +84,7 @@ export default function ChallengerBanner({
         </div>
 
         <div className="flex  h-24 sm:h-64 flex-col justify-between rounded-lg border border-emerald-600 bg-emerald-700 p-2">
-          <span>Win Rate</span>
+          <span>{t("WIN_RATE")}</span>
 
           <span className="self-end text-3xl sm:text-5xl font-bold">
             {winRate.toString().padStart(2, "0")}%

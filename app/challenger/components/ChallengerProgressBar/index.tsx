@@ -1,5 +1,6 @@
 import Button from "@/src/components/Button";
 import clsx from "clsx";
+import { useTranslations } from "next-intl";
 import * as React from "react";
 
 export interface IChallengerProgressBarProps {
@@ -11,6 +12,8 @@ export default function ChallengerProgressBar({
   totalChampions,
   completed,
 }: IChallengerProgressBarProps) {
+  const t = useTranslations("CHALLENGER.CHALLENGE_PAGE");
+
   const progress = Math.round((completed / totalChampions) * 100);
 
   return (
@@ -24,7 +27,7 @@ export default function ChallengerProgressBar({
 
       <div className="absolute inset-0 flex items-center justify-center">
         <span className="text-lg font-bold drop-shadow-md">
-          {completed}/{totalChampions} Campeões ({progress}%)
+          {completed}/{totalChampions} {t("CHAMPIONS")} ({progress}%)
         </span>
       </div>
     </div>

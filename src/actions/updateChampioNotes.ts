@@ -21,7 +21,7 @@ export async function updateChampionNotes({
   if (!auth) {
     return {
       success: false,
-      error: "Sessão inválida.",
+      error: "SSESSION_INVALID",
     };
   }
 
@@ -43,7 +43,7 @@ export async function updateChampionNotes({
       console.error("Erro Supabase ao salvar notas:", error);
       return {
         success: false,
-        error: "Não foi possível salvar os dados no banco.",
+        error: "DATABASE_ERROR",
       };
     }
 
@@ -52,6 +52,6 @@ export async function updateChampionNotes({
 
     return { success: true };
   } catch (error) {
-    return { success: false, error: "Erro interno no servidor." };
+    return { success: false, error: "SERVER_ERROR" };
   }
 }

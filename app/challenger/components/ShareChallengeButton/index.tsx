@@ -4,6 +4,8 @@ import IconButton from "@/src/components/IconButton";
 import { IconShare } from "@tabler/icons-react";
 import { useAuth } from "@/src/contexts/AuthContext";
 import { AppTooltip } from "@/src/components/AppTooltip";
+import { useTranslations } from "next-intl";
+import { appToast } from "@/src/components/AppToaster/appToast";
 
 interface ShareChallengeButtonProps {
   challengeId: string;
@@ -14,6 +16,8 @@ export default function ShareChallengeButton({
   challengeId,
   challengeUserPuuid,
 }: ShareChallengeButtonProps) {
+  const t = useTranslations("CHALLENGER.CHALLENGE_PAGE");
+
   const { user } = useAuth();
 
   async function handleShare() {
@@ -22,19 +26,19 @@ export default function ShareChallengeButton({
     try {
       if (navigator.share) {
         await navigator.share({
-          title: "Confira meu desafio A-Z!",
+          title: t("SHARE_TITLE"),
           url,
         });
         return;
       }
 
       await navigator.clipboard.writeText(url);
-      window.alert("Link copiado para a área de transferência!");
+      appToast.success(t("LINK_COPIED"));
     } catch (error) {
       // navigator.share lança erro quando o usuário cancela,
       // então só mostra alerta para erros reais.
       if (!(error instanceof DOMException && error.name === "AbortError")) {
-        window.alert("Não foi possível compartilhar o desafio.");
+        appToast.error(t("SHARE_ERROR"));
       }
     }
   }
@@ -42,7 +46,7 @@ export default function ShareChallengeButton({
   if (user?.puuid !== challengeUserPuuid) return null;
 
   return (
-    <AppTooltip text="Compartilhar">
+    <AppTooltip text={t("SHARE")}>
       <IconButton onClick={handleShare}>
         <IconShare size={20} />
       </IconButton>

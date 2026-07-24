@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { deleteChallenge } from "@/src/actions/deleteChallenge";
 import { useState } from "react";
 import { appToast } from "@/src/components/AppToaster/appToast";
+import { useTranslations } from "next-intl";
 
 export interface IModalDeleteChallengerProps {
   challengeId: string;
@@ -20,6 +21,8 @@ export default function ModalDeleteChallenger({
   challengeId,
   challengeUserPuuid,
 }: IModalDeleteChallengerProps) {
+  const t = useTranslations("CHALLENGER.CHALLENGE_PAGE");
+
   const { user, updateChallengerId } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -30,7 +33,7 @@ export default function ModalDeleteChallenger({
     const result = await deleteChallenge(challengeId);
 
     if (!result.success) {
-      appToast.error(result.error ?? "Erro ao deletar desafio");
+      appToast.error(t(result.error ?? "DELETE_ERROR"));
       return;
     }
 
@@ -39,7 +42,7 @@ export default function ModalDeleteChallenger({
     }
 
     router.push(`/challenger`);
-    appToast.success("Desafio Deletado.");
+    appToast.success(t("DELETE_SUCCESS"));
   };
 
   if (user?.puuid !== challengeUserPuuid) return null;
@@ -49,30 +52,26 @@ export default function ModalDeleteChallenger({
       <AppDialog
         trigger={
           <Button className="bg-red-600 border-red-500 hover:bg-red-700">
-            Deletar Desafio
+            {t("DELETE_CHALLENGE_BUTTON")}
           </Button>
         }
-        title="Deletar Desafio?"
+        title={t("DELETE_CHALLENGE_TITLE")}
         closeOnOutsideClick={false}
       >
         <div className="flex flex-col gap-8 px-2">
           <div className="space-y-3">
             <p className="text-sm text-emerald-200">
-              Tem certeza que deseja deletar este desafio?
+              {t("DELETE_CONFIRMATION")}
             </p>
 
-            <p className="text-sm text-red-300">
-              Esta ação é <strong>irreversível</strong>. Todo o progresso do
-              desafio, incluindo campeões concluídos, derrotas, avaliações,
-              comentários e tempo registrado, será removido permanentemente.
-            </p>
+            <p className="text-sm text-red-300">{t("DELETE_WARNING")}</p>
           </div>
           <Button
             onClick={handleDeleteChallenge}
             disabled={isLoading}
             className="bg-red-600 border-red-500 text-center items-center justify-center hover:bg-red-700"
           >
-            {isLoading ? "Deletando... " : "Confirmar"}
+            {isLoading ? t("DELETING_BUTTON") : t("DELETE_BUTTON")}
           </Button>
         </div>
       </AppDialog>

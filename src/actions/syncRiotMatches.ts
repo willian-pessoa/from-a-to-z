@@ -20,7 +20,7 @@ async function getMatchIds(
   const riotApiKey = process.env.RIOT_API_KEY;
 
   if (!riotApiKey) {
-    throw new Error("RIOT_API_KEY não configurada.");
+    throw new Error("SYNC_ERROR.RIOT_API_KEY_MISSING");
   }
 
   const { updated_at, usuario_puuid, queue } = challengeData;
@@ -52,7 +52,7 @@ async function getMatchIds(
     });
 
     if (!matchIdsResponse.ok) {
-      throw new Error("Falha ao buscar histórico de partidas na Riot.");
+      throw new Error("SYNC_ERROR.MATCH_HISTORY_ERROR");
     }
 
     const currentMatchIds: string[] = await matchIdsResponse.json();
@@ -82,7 +82,7 @@ async function processMatches(
   const riotApiKey = process.env.RIOT_API_KEY;
 
   if (!riotApiKey) {
-    throw new Error("RIOT_API_KEY não configurada.");
+    throw new Error("SYNC_ERROR.RIOT_API_KEY_MISSING");
   }
 
   const routingRegion = getRoutingRegion(region).toLowerCase();
@@ -320,7 +320,7 @@ export async function syncRiotMatches(
       error:
         error instanceof Error
           ? error.message
-          : "Erro interno ao processar partidas.",
+          : "SYNC_ERROR.PROCESS_MATCHES_ERROR",
     };
   }
 }

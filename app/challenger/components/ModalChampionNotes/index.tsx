@@ -10,6 +10,7 @@ import { AppDialog } from "@/src/components/AppDialog/AppDialog";
 import IconButton from "@/src/components/IconButton";
 import { IconEdit } from "@tabler/icons-react";
 import { appToast } from "@/src/components/AppToaster/appToast";
+import { useTranslations } from "next-intl";
 
 export interface IModalChampionNotesProps {
   challengeId: number;
@@ -26,6 +27,8 @@ export default function ModalChampionNotes({
   funNote,
   commentary,
 }: IModalChampionNotesProps) {
+  const t = useTranslations("CHALLENGER.CHALLENGE_PAGE.MODAL_CHAMPION");
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const [localFunNote, setLocalFunNote] = useState(funNote);
@@ -58,12 +61,12 @@ export default function ModalChampionNotes({
       if (result.success) {
         setHasChanges(false);
         setIsDialogOpen(false);
-        appToast.success("Campeão Atualizado.");
+        appToast.success(t("UPDATE_SUCCESS"));
       } else {
-        appToast.error(result.error ?? "Erro ao Atualizar Campeão.");
+        appToast.error(t(result.error ?? "UPDATE_ERROR"));
       }
     } catch (error) {
-      appToast.error("Erro interno ao salvar.");
+      appToast.error(t("SAVE_ERROR"));
     } finally {
       setIsLoading(false);
     }
@@ -73,7 +76,9 @@ export default function ModalChampionNotes({
     <AppDialog
       open={isDialogOpen}
       onOpenChange={setIsDialogOpen}
-      title={`Anotações sobre o campeão ${championName}`}
+      title={t("CHAMPION_NOTES_TITLE", {
+        championName,
+      })}
       closeOnOutsideClick={false}
       trigger={
         <IconButton
@@ -91,8 +96,7 @@ export default function ModalChampionNotes({
       <div className="flex flex-col gap-8 px-2">
         <div className="flex flex-col gap-3">
           <p className="text-sm text-emerald-200">
-            Qual foi o seu nível de diversão jogando com o campeão numa escala
-            de 1 a 5?
+            {t("FUN_NOTE_DESCRIPTION")}
           </p>
 
           <div className="flex gap-2">
@@ -116,7 +120,7 @@ export default function ModalChampionNotes({
 
         <div className="flex flex-col gap-3">
           <p className="text-sm text-emerald-200">
-            Conte mais sobre o que achou de jogar com o campeão.
+            {t("COMMENTARY_DESCRIPTION")}
           </p>
 
           <textarea
@@ -125,7 +129,7 @@ export default function ModalChampionNotes({
             onChange={(e) => handleChangeLocalCommentary(e.target.value)}
             maxLength={256}
             rows={5}
-            placeholder="Ex.: Clear muito saudável, gank forte, mas o late game deixou a desejar..."
+            placeholder={t("COMMENTARY_PLACEHOLDER")}
             className="resize-none rounded-lg border border-emerald-600 bg-emerald-950 p-3 text-white outline-none transition-colors focus:border-emerald-400 disabled:opacity-50"
           />
 
@@ -144,7 +148,7 @@ export default function ModalChampionNotes({
                 : "cursor-not-allowed opacity-50 bg-emerald-800",
             )}
           >
-            {isLoading ? "Salvando..." : "Salvar"}
+            {isLoading ? t("SAVING_BUTTON") : t("SAVE_BUTTON")}
           </Button>
         </div>
       </div>
