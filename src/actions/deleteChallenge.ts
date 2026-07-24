@@ -52,7 +52,7 @@ export async function deleteChallenge(
   } catch {
     return {
       success: false,
-      error: "Internal server error while deleting challenge.",
+      error: "Erro interno enquanto deletando desafio.",
     };
   }
 }

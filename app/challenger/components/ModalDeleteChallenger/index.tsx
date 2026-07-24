@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 
 import { deleteChallenge } from "@/src/actions/deleteChallenge";
 import { useState } from "react";
+import { appToast } from "@/src/components/AppToaster/appToast";
 
 export interface IModalDeleteChallengerProps {
   challengeId: string;
@@ -29,7 +30,7 @@ export default function ModalDeleteChallenger({
     const result = await deleteChallenge(challengeId);
 
     if (!result.success) {
-      alert(result.error);
+      appToast.error(result.error ?? "Erro ao deletar desafio");
       return;
     }
 
@@ -38,6 +39,7 @@ export default function ModalDeleteChallenger({
     }
 
     router.push(`/challenger`);
+    appToast.success("Desafio Deletado.");
   };
 
   if (user?.puuid !== challengeUserPuuid) return null;

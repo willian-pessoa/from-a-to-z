@@ -13,6 +13,7 @@ import { RIOT_REGIONS } from "./const/riotRegionsOptions";
 import { RiotPlatformRegion } from "@/src/types";
 import { SummonerIcon } from "@/src/actions/utils/getRandomVerificationIcon";
 import DisplayTimer from "@/src/components/DisplayTimer";
+import { appToast } from "@/src/components/AppToaster/appToast";
 
 type LinkingState = "search" | "check";
 
@@ -45,7 +46,7 @@ export default function ModalLinkAccount() {
       setUserPuuid(result.verification.puuid);
       setLinkingState("check");
     } else {
-      setError(result.error || "Failed to search account.");
+      setError(result.error || "Falha ao localizar conta.");
     }
 
     setLoading(false);
@@ -62,8 +63,9 @@ export default function ModalLinkAccount() {
 
       setLinkingState("search");
       setIsDialogOpen(false);
+      appToast.loading("Conta Vinculada!");
     } else {
-      setError(result.error || "Failed to verify account.");
+      setError(result.error || "Falha ao verificar conta.");
       if (result.reset) {
         setReset(true);
       }

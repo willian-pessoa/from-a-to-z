@@ -65,7 +65,7 @@ export async function findRiotAccount(
       return {
         success: false,
         error:
-          "Jogador não encontro no servidor da Riot. Verifique se digitou corretamente junto da tag.",
+          "Jogador não encontrado no servidor da Riot. Verifique se digitou corretamente junto da tag.",
       };
     }
 
@@ -107,7 +107,8 @@ export async function findRiotAccount(
   } catch (err) {
     return {
       success: false,
-      error: "Internal server error while connecting to Riot Services.",
+      error:
+        "Erro interno no servidor enquanto conectando com os serviços Riot.",
     };
   }
 }
@@ -274,7 +275,8 @@ export async function linkPlayer(
   } catch (err) {
     return {
       success: false,
-      error: "Internal server error while connecting to Riot Services.",
+      error:
+        "Erro interno no servidor enquanto conectando com os serviços Riot.",
     };
   }
 }

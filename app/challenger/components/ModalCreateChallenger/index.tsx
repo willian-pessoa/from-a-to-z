@@ -53,8 +53,6 @@ export default function ModalCreateChallenger({}: IModalCreateChallengerProps) {
     clsx("border-none", lane === value ? "bg-emerald-600" : "bg-emerald-900");
 
   const handleCreateChallenger = async () => {
-    const toastId = appToast.loading("Criando desafio...");
-
     setLoading(true);
     setError("");
 
@@ -64,7 +62,7 @@ export default function ModalCreateChallenger({}: IModalCreateChallengerProps) {
     });
 
     if (result.success && result.challengeId) {
-      appToast.success("Desafio criado com sucesso!", toastId);
+      appToast.success("Desafio criado com sucesso!");
       updateChallengerId(String(result.challengeId));
       router.push(`/challenger/${result.challengeId}`);
     } else {

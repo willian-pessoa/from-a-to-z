@@ -9,7 +9,7 @@ import {
 export default async function HistoryPage() {
   const historyData = await getChallengesHistory();
 
-  if (!historyData) {
+  if (!historyData?.success) {
     notFound();
   }
 

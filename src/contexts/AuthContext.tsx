@@ -3,6 +3,7 @@
 import * as React from "react";
 import { RiotPlatformRegion } from "../types";
 import { logoutSession } from "@/src/actions/logout";
+import { appToast } from "../components/AppToaster/appToast";
 
 interface UserState {
   puuid: string;
@@ -62,7 +63,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = async () => {
     try {
-      await logoutSession();
+      const toastId = appToast.loading("Encerrando sessão...");
+
+      const result = await logoutSession();
+
+      if (!result.success) {
+        appToast.error(
+          result.error ?? "Erro ao tentar encerrar sessão",
+          toastId,
+        );
+        return;
+      }
+
+      appToast.success("Sessão encerrada!", toastId);
     } finally {
       localStorage.removeItem("lol_az_puuid");
       localStorage.removeItem("lol_az_riotid");

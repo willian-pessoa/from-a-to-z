@@ -52,7 +52,6 @@ export async function updateChampionNotes({
 
     return { success: true };
   } catch (error) {
-    console.error("Erro interno na Server Action de notas:", error);
     return { success: false, error: "Erro interno no servidor." };
   }
 }

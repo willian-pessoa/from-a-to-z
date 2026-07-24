@@ -9,6 +9,7 @@ import { updateChampionNotes } from "@/src/actions/updateChampioNotes";
 import { AppDialog } from "@/src/components/AppDialog/AppDialog";
 import IconButton from "@/src/components/IconButton";
 import { IconEdit } from "@tabler/icons-react";
+import { appToast } from "@/src/components/AppToaster/appToast";
 
 export interface IModalChampionNotesProps {
   challengeId: number;
@@ -57,11 +58,12 @@ export default function ModalChampionNotes({
       if (result.success) {
         setHasChanges(false);
         setIsDialogOpen(false);
+        appToast.success("Campeão Atualizado.");
       } else {
-        alert(result.error || "Erro ao salvar notas.");
+        appToast.error(result.error ?? "Erro ao Atualizar Campeão.");
       }
     } catch (error) {
-      alert("Erro interno ao salvar.");
+      appToast.error("Erro interno ao salvar.");
     } finally {
       setIsLoading(false);
     }

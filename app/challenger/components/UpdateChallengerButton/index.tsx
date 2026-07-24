@@ -6,6 +6,7 @@ import { syncRiotMatches } from "@/src/actions/syncRiotMatches";
 import { useRouter } from "next/navigation";
 import { ChallengerData, ChampionProgress } from "@/src/types";
 import { useAuth } from "@/src/contexts/AuthContext";
+import { appToast } from "@/src/components/AppToaster/appToast";
 
 interface UpdateChallengerButtonProps {
   challengerData: ChallengerData;
@@ -34,14 +35,17 @@ export default function UpdateChallengerButton({
         // atualizar desafio do usuario conectado se for concluido
         if (result.isFinished && user?.puuid === challengerData.usuario_puuid) {
           updateChallengerId(null);
+          appToast.success("Parabéns, desafio finalizado!");
         }
 
         router.refresh();
+
+        appToast.success("Sicronização concluída.");
       } else {
-        alert(result.error || "Erro ao atualizar progresso.");
+        appToast.error(result.error || "Erro ao atualizar progresso.");
       }
     } catch (error) {
-      alert("Erro interno ao conectar com o servidor.");
+      appToast.error("Erro interno ao conectar com o servidor.");
     } finally {
       setIsLoading(false);
     }
