@@ -30,7 +30,7 @@ export async function createChallenge({ lane, queue }: CreateChallengeInput) {
   if (!auth) {
     return {
       success: false,
-      error: "Sessão inválida.",
+      error: "SESSION_INVALID",
     };
   }
 
@@ -57,7 +57,7 @@ export async function createChallenge({ lane, queue }: CreateChallengeInput) {
       if (challengeError.code === "23505") {
         return {
           success: false,
-          error: "Você já possui um desafio ativo nesta ou em outra rota!",
+          error: "ACTIVE_CHALLENGE_EXISTS",
         };
       }
 
@@ -85,7 +85,7 @@ export async function createChallenge({ lane, queue }: CreateChallengeInput) {
 
       return {
         success: false,
-        error: "Falha ao popular o progresso filtrado por lane.",
+        error: "POPULATE_PROGRESS_ERROR",
       };
     }
 
@@ -96,7 +96,7 @@ export async function createChallenge({ lane, queue }: CreateChallengeInput) {
   } catch {
     return {
       success: false,
-      error: "Erro interno no servidor ao processar campeões por rota.",
+      error: "SERVER_ERROR",
     };
   }
 }

@@ -47,6 +47,38 @@
       "ICON_CHECK_ERROR": "Unable to verify the current profile icon.",
 
       "ICON_MISMATCH": "The current icon does not match the verification icon. If you already changed it, wait a few seconds and try again. Riot servers may take some time to return the updated information."
+    },
+
+    "MODAL_CREATE_CHALLENGER": {
+      "TRIGGER": "Start Challenge",
+      "TITLE": "Register A to Z Challenge",
+
+      "DESCRIPTION": "Choose the queue and lane where the challenge will be played.",
+
+      "QUEUE_LABEL": "Queue",
+      "QUEUE_TOOLTIP": "Choose whether the challenge will be played in ranked games (Solo/Duo) or casual games (Blind Pick).",
+
+      "RANKED": "Ranked",
+      "CASUAL": "Casual",
+
+      "LANE_LABEL": "Lane",
+      "LANE_TOOLTIP": "Select the lane that will be considered for the challenge. Only games played in this lane will count towards your progress.",
+
+      "TOP_LANE": "Top Lane",
+      "JUNGLE": "Jungle",
+      "MID_LANE": "Mid Lane",
+      "BOT_LANE": "Bot Lane",
+      "SUPPORT": "Support",
+
+      "START_BUTTON": "Start Challenge",
+      "STARTING_BUTTON": "Starting challenge...",
+
+      "CREATE_SUCCESS": "Challenge created successfully!",
+
+      "SESSION_INVALID": "Invalid session.",
+      "ACTIVE_CHALLENGE_EXISTS": "You already have an active challenge on this or another lane!",
+      "POPULATE_PROGRESS_ERROR": "Failed to create lane-specific champion progress.",
+      "SERVER_ERROR": "Internal server error while processing champions by lane."
     }
   }
 }

@@ -45,6 +45,38 @@
       "ICON_CHECK_ERROR": "Não foi possível verificar o ícone de perfil atual.",
 
       "ICON_MISMATCH": "O ícone atual não corresponde com o ícone de verificação, se você já fez a modificação aguarde alguns segundos e tente novamente, o servidor da Riot pode levar um tempo para retornar a modificação."
+    },
+
+    "MODAL_CREATE_CHALLENGER": {
+      "TRIGGER": "Iniciar Desafio",
+      "TITLE": "Registrar desafio A a Z",
+
+      "DESCRIPTION": "Escolha a fila e a rota no qual o desafio será jogado.",
+
+      "QUEUE_LABEL": "Fila",
+      "QUEUE_TOOLTIP": "Escolha se o desafio será realizado em partidas ranqueadas (Solo/Duo) ou casuais (Blind Pick).",
+
+      "RANKED": "Ranqueada",
+      "CASUAL": "Casual",
+
+      "LANE_LABEL": "Lane",
+      "LANE_TOOLTIP": "Selecione a rota que será considerada para o desafio. Apenas partidas nessa lane contarão para o progresso.",
+
+      "TOP_LANE": "Top Lane",
+      "JUNGLE": "Jungle",
+      "MID_LANE": "Mid Lane",
+      "BOT_LANE": "Bot Lane",
+      "SUPPORT": "Support",
+
+      "START_BUTTON": "Iniciar desafio",
+      "STARTING_BUTTON": "Iniciando desafio...",
+
+      "CREATE_SUCCESS": "Desafio criado com sucesso!",
+
+      "SESSION_INVALID": "Sessão inválida.",
+      "ACTIVE_CHALLENGE_EXISTS": "Você já possui um desafio ativo nesta ou em outra rota!",
+      "POPULATE_PROGRESS_ERROR": "Falha ao popular o progresso filtrado por lane.",
+      "SERVER_ERROR": "Erro interno no servidor ao processar campeões por rota."
     }
   }
 }

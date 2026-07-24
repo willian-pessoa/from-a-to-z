@@ -21,18 +21,13 @@ import { AppDialog } from "@/src/components/AppDialog/AppDialog";
 import { useRouter } from "next/navigation";
 
 import { appToast } from "@/src/components/AppToaster/appToast";
+import { useTranslations } from "next-intl";
 
 export interface IModalCreateChallengerProps {}
 
-const LANES_CONFIG = [
-  { id: "TOP", label: "Top Lane", Icon: TopIcon },
-  { id: "JUNGLE", label: "Jungle", Icon: JungleIcon },
-  { id: "MID", label: "Mid Lane", Icon: MidIcon },
-  { id: "BOT", label: "Bot Lane", Icon: BotIcon },
-  { id: "SUPPORT", label: "Support", Icon: SupportIcon },
-] as const;
-
 export default function ModalCreateChallenger({}: IModalCreateChallengerProps) {
+  const t = useTranslations("CHALLENGER.MODAL_CREATE_CHALLENGER");
+
   const { updateChallengerId } = useAuth();
   const router = useRouter();
 
@@ -62,26 +57,32 @@ export default function ModalCreateChallenger({}: IModalCreateChallengerProps) {
     });
 
     if (result.success && result.challengeId) {
-      appToast.success("Desafio criado com sucesso!");
+      appToast.success(t("CREATE_SUCCESS"));
       updateChallengerId(String(result.challengeId));
       router.push(`/challenger/${result.challengeId}`);
     } else {
-      setError(result.error || "Ocorreu um erro ao iniciar o desafio.");
+      setError(t(result.error || "SERVER_ERROR"));
       setLoading(false);
     }
   };
 
+  const LANES_CONFIG = [
+    { id: "TOP", label: t("TOP_LANE"), Icon: TopIcon },
+    { id: "JUNGLE", label: t("JUNGLE"), Icon: JungleIcon },
+    { id: "MID", label: t("MID_LANE"), Icon: MidIcon },
+    { id: "BOT", label: t("BOT_LANE"), Icon: BotIcon },
+    { id: "SUPPORT", label: t("SUPPORT"), Icon: SupportIcon },
+  ];
+
   return (
     <AppDialog
-      trigger={<Button className="text-lg py-2 px-4">Iniciar Desafio</Button>}
-      title="Registrar desafio A a Z"
+      trigger={<Button className="text-lg py-2 px-4">{t("TRIGGER")}</Button>}
+      title={t("TITLE")}
       closeOnOutsideClick={false}
     >
       <div className="flex flex-col gap-8 px-2">
         <div>
-          <p className="text-sm text-emerald-200">
-            Escolha a fila e a rota no qual o desafio será jogado.
-          </p>
+          <p className="text-sm text-emerald-200">{t("DESCRIPTION")}</p>
         </div>
 
         {error && (
@@ -92,9 +93,9 @@ export default function ModalCreateChallenger({}: IModalCreateChallengerProps) {
 
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
-            <span className="font-semibold">Fila</span>
+            <span className="font-semibold">{t("QUEUE_LABEL")}</span>
 
-            <AppTooltip text="Escolha se o desafio será realizado em partidas ranqueadas (Solo/Duo) ou casuais (Blind Pick).">
+            <AppTooltip text={t("QUEUE_TOOLTIP")}>
               <IconInfoCircle className="h-4 w-4 cursor-help text-emerald-300" />
             </AppTooltip>
           </div>
@@ -104,23 +105,23 @@ export default function ModalCreateChallenger({}: IModalCreateChallengerProps) {
               className={queueButtonClass("ranked")}
               onClick={() => setQueue("ranked")}
             >
-              Ranqueada
+              {t("RANKED")}
             </Button>
 
             <Button
               className={queueButtonClass("casual")}
               onClick={() => setQueue("casual")}
             >
-              Casual
+              {t("CASUAL")}
             </Button>
           </div>
         </div>
 
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
-            <span className="font-semibold">Lane</span>
+            <span className="font-semibold">{t("LANE_LABEL")}</span>
 
-            <AppTooltip text="Selecione a rota que será considerada para o desafio. Apenas partidas nessa lane contarão para o progresso.">
+            <AppTooltip text={t("LANE_TOOLTIP")}>
               <IconInfoCircle className="h-4 w-4 cursor-help text-emerald-300" />
             </AppTooltip>
           </div>
@@ -146,7 +147,7 @@ export default function ModalCreateChallenger({}: IModalCreateChallengerProps) {
             onClick={handleCreateChallenger}
             disabled={loading}
           >
-            {loading ? "Iniciando desafio..." : "Iniciar desafio"}
+            {loading ? t("STARTING_BUTTON") : t("START_BUTTON")}
           </Button>
         </div>
       </div>

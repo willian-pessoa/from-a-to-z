@@ -47,6 +47,38 @@
       "ICON_CHECK_ERROR": "No se pudo verificar el icono de perfil actual.",
 
       "ICON_MISMATCH": "El icono actual no coincide con el icono de verificación. Si ya realizaste el cambio, espera unos segundos e inténtalo nuevamente. Los servidores de Riot pueden tardar un tiempo en devolver la información actualizada."
+    },
+
+    "MODAL_CREATE_CHALLENGER": {
+      "TRIGGER": "Iniciar Desafío",
+      "TITLE": "Registrar Desafío de la A a la Z",
+
+      "DESCRIPTION": "Elige la cola y la línea en la que se jugará el desafío.",
+
+      "QUEUE_LABEL": "Cola",
+      "QUEUE_TOOLTIP": "Elige si el desafío se jugará en partidas clasificatorias (Solo/Dúo) o partidas normales (Selección a ciegas).",
+
+      "RANKED": "Clasificatoria",
+      "CASUAL": "Normal",
+
+      "LANE_LABEL": "Línea",
+      "LANE_TOOLTIP": "Selecciona la línea que se tendrá en cuenta para el desafío. Solo las partidas jugadas en esta línea contarán para tu progreso.",
+
+      "TOP_LANE": "Top",
+      "JUNGLE": "Jungla",
+      "MID_LANE": "Mid",
+      "BOT_LANE": "Bot",
+      "SUPPORT": "Soporte",
+
+      "START_BUTTON": "Iniciar desafío",
+      "STARTING_BUTTON": "Iniciando desafío...",
+
+      "CREATE_SUCCESS": "¡Desafío creado con éxito!",
+
+      "SESSION_INVALID": "Sesión inválida.",
+      "ACTIVE_CHALLENGE_EXISTS": "¡Ya tienes un desafío activo en esta u otra línea!",
+      "POPULATE_PROGRESS_ERROR": "Error al crear el progreso de campeones filtrado por línea.",
+      "SERVER_ERROR": "Error interno del servidor al procesar campeones por línea."
     }
   }
 }
