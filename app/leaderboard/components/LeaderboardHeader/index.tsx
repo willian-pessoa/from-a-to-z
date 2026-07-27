@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import Button from "@/src/components/Button";
 import clsx from "clsx";
@@ -14,6 +14,7 @@ import { SupportIcon } from "@/src/assets/icons/SupportIcon";
 import IconButton from "@/src/components/IconButton";
 import { QueueType, LaneType } from "@/src/types";
 import { AppTooltip } from "@/src/components/AppTooltip";
+import { useTranslations } from "next-intl";
 
 export interface ILeaderboardHeaderProps {
   queue: QueueType;
@@ -34,6 +35,8 @@ export default function LeaderboardHeader({
   queue,
   totalCount,
 }: ILeaderboardHeaderProps) {
+  const t = useTranslations("LEADERBOARD");
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -51,6 +54,16 @@ export default function LeaderboardHeader({
   const laneButtonClass = (value: LaneType) =>
     clsx("border-none", lane === value ? "bg-emerald-600" : "bg-emerald-900");
 
+  const LANES_CONFIG = useMemo(() => {
+    return [
+      { id: "TOP", label: t("TOP_LANE"), Icon: TopIcon },
+      { id: "JUNGLE", label: t("JUNGLE"), Icon: JungleIcon },
+      { id: "MID", label: t("MID_LANE"), Icon: MidIcon },
+      { id: "BOT", label: t("BOT_LANE"), Icon: BotIcon },
+      { id: "SUPPORT", label: t("SUPPORT"), Icon: SupportIcon },
+    ] satisfies { id: LaneType; label: string; Icon: React.ElementType }[];
+  }, [t]);
+
   return (
     <div className="flex justify-between">
       <div className="flex flex-col gap-2">
@@ -63,7 +76,7 @@ export default function LeaderboardHeader({
             )}
             onClick={() => updateParams({ queue: "ranked" })}
           >
-            Ranqueada
+            {t("RANKED")}
           </Button>
 
           <Button
@@ -74,7 +87,7 @@ export default function LeaderboardHeader({
             )}
             onClick={() => updateParams({ queue: "casual" })}
           >
-            Casual
+            {t("CASUAL")}
           </Button>
         </div>
         <div className="flex gap-2">
@@ -92,7 +105,10 @@ export default function LeaderboardHeader({
         </div>
       </div>
       <div className="w-full hidden sm:flex justify-center items-center gap-1">
-        <span className="text-xl ml-1">{`${totalCount} desafios registrados.`}</span>
+        <span className="text-xl ml-1">
+          {" "}
+          {t("REGISTERED_CHALLENGES", { count: totalCount })}
+        </span>
       </div>
     </div>
   );

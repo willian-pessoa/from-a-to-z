@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { LeaderboardItem } from "@/src/data/getLeaderboard";
 import { formatTime } from "@/src/utils/formatTime";
 import clsx from "clsx";
@@ -16,25 +18,35 @@ export default function LeaderboardTable({
   leaderboard,
   totalCount,
 }: ILeaderboarTableProps) {
+  const t = useTranslations("LEADERBOARD.TABLE");
+
   return (
     <div className="flex flex-col gap-2">
       <div className="overflow-hidden rounded-lg bg-emerald-900 shadow-2xl sm:mx-8 overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
             <tr className="border-b border-emerald-600 text-left">
-              <th className="w-16 px-4 py-4 text-center">#</th>
-              <th className="px-4 min-w-40 py-4">Jogador</th>
-              <th className="w-40 px-4 py-4 text-center hidden sm:table-cell">
-                Campeões Concluidos
+              <th className="w-16 px-4 py-4 text-center">{t("POSITION")}</th>
+
+              <th className="min-w-40 px-4 py-4">{t("PLAYER")}</th>
+
+              <th className="hidden w-40 px-4 py-4 text-center sm:table-cell">
+                {t("COMPLETED_CHAMPIONS")}
               </th>
-              <th className="w-48 px-4 py-4 text-center ">Total de Partidas</th>
-              <th className="w-40 px-4 py-4 text-center hidden sm:table-cell">
-                Aproveitamento
+
+              <th className="w-48 px-4 py-4 text-center">
+                {t("TOTAL_MATCHES")}
               </th>
-              <th className="w-44 px-4 py-4 text-center hidden sm:table-cell">
-                Tempo de Jogo
+
+              <th className="hidden w-40 px-4 py-4 text-center sm:table-cell">
+                {t("WIN_RATE")}
               </th>
-              <th className="w-10 px-4 py-4 text-center">Ver</th>
+
+              <th className="hidden w-44 px-4 py-4 text-center sm:table-cell">
+                {t("PLAY_TIME")}
+              </th>
+
+              <th className="w-10 px-4 py-4 text-center">{t("VIEW")}</th>
             </tr>
           </thead>
 
@@ -48,30 +60,32 @@ export default function LeaderboardTable({
                   player.position % 2 === 1 && "bg-emerald-900",
                 )}
               >
-                <td className="px-4 py-4 font-medium text-center">
+                <td className="px-4 py-4 text-center font-medium">
                   {player.position}
                 </td>
 
                 <td className="px-4 py-4 font-medium">{player.playerName}</td>
 
-                <td className="px-4 py-4 text-center hidden sm:table-cell">
+                <td className="hidden px-4 py-4 text-center sm:table-cell">
                   {player.completedChampionsCount}
                 </td>
 
                 <td className="px-4 py-4 text-center">{player.totalMatches}</td>
 
-                <td className="px-4 py-4 text-center hidden sm:table-cell">
+                <td className="hidden px-4 py-4 text-center sm:table-cell">
                   {player.winRate}%
                 </td>
 
-                <td className="px-4 py-4 text-center hidden sm:table-cell">
+                <td className="hidden px-4 py-4 text-center sm:table-cell">
                   {formatTime(player.totalTimeSeconds)}
                 </td>
+
                 <td className="px-4 py-4 text-center">
                   <Link
                     target="_blank"
                     rel="noopener noreferrer"
                     href={`/challenger/${player.challengeId}`}
+                    aria-label={t("VIEW")}
                   >
                     <IconEye />
                   </Link>
@@ -81,6 +95,7 @@ export default function LeaderboardTable({
           </tbody>
         </table>
       </div>
+
       <LeaderboardTablePager totalCount={totalCount} />
     </div>
   );

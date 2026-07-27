@@ -13,6 +13,7 @@ import Button from "@/src/components/Button";
 import clsx from "clsx";
 import IconButton from "@/src/components/IconButton";
 import { AppTooltip } from "@/src/components/AppTooltip";
+import { useTranslations } from "next-intl";
 
 export interface ILeaderboardTablePagerProps {
   totalCount: number;
@@ -21,6 +22,8 @@ export interface ILeaderboardTablePagerProps {
 export default function LeaderboardTablePager({
   totalCount,
 }: ILeaderboardTablePagerProps) {
+  const t = useTranslations("LEADERBOARD.TABLE.PAGER");
+
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -52,9 +55,9 @@ export default function LeaderboardTablePager({
 
   return (
     <div className="flex items-center justify-center rounded-lg gap-2 border-t-2 sm:mx-8 mb-16 sm:mb-0 border-emerald-700 bg-emerald-900 px-6 py-2">
-      <AppTooltip text="Primeira">
+      <AppTooltip text={t("FIRST")}>
         <IconButton
-          onClick={() => updatePage(currentPage - 1)}
+          onClick={() => updatePage(1)}
           disabled={currentPage === 1}
           className={clsx(
             "transition bg-emerald-900",
@@ -66,7 +69,7 @@ export default function LeaderboardTablePager({
         </IconButton>
       </AppTooltip>
 
-      <AppTooltip text="Anterior">
+      <AppTooltip text={t("PREVIOUS")}>
         <IconButton
           onClick={() => updatePage(currentPage - 1)}
           disabled={currentPage === 1}
@@ -94,7 +97,7 @@ export default function LeaderboardTablePager({
         </Button>
       ))}
 
-      <AppTooltip text="Próxima">
+      <AppTooltip text={t("NEXT")}>
         <IconButton
           onClick={() => updatePage(currentPage + 1)}
           disabled={isLastPage}
@@ -108,9 +111,9 @@ export default function LeaderboardTablePager({
         </IconButton>
       </AppTooltip>
 
-      <AppTooltip text="Última">
+      <AppTooltip text={t("LAST")}>
         <IconButton
-          onClick={() => updatePage(currentPage + 1)}
+          onClick={() => updatePage(totalPages)}
           disabled={isLastPage}
           className={clsx(
             "transition bg-emerald-900",

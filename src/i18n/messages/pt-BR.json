@@ -177,5 +177,35 @@
         "SERVER_ERROR": "Erro interno no servidor."
       }
     }
+  },
+
+  "LEADERBOARD": {
+    "RANKED": "Ranqueada",
+    "CASUAL": "Casual",
+
+    "TOP_LANE": "Top Lane",
+    "JUNGLE": "Jungle",
+    "MID_LANE": "Mid Lane",
+    "BOT_LANE": "Bot Lane",
+    "SUPPORT": "Support",
+
+    "REGISTERED_CHALLENGES": "{count} desafios registrados.",
+
+    "TABLE": {
+      "POSITION": "#",
+      "PLAYER": "Jogador",
+      "COMPLETED_CHAMPIONS": "Campeões Concluídos",
+      "TOTAL_MATCHES": "Total de Partidas",
+      "WIN_RATE": "Aproveitamento",
+      "PLAY_TIME": "Tempo de Jogo",
+      "VIEW": "Ver",
+
+      "PAGER": {
+        "FIRST": "Primeira",
+        "PREVIOUS": "Anterior",
+        "NEXT": "Próxima",
+        "LAST": "Última"
+      }
+    }
   }
 }
