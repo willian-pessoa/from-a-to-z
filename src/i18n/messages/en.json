@@ -1,6 +1,19 @@
 {
   "COMMON": {
-    "LOADING": "Loading"
+    "LOADING": "Loading",
+
+    "RANKING": "Leaderboard",
+    "CHALLENGE": "Challenge",
+    "HISTORY": "History",
+
+    "LOGOUT": "Log out",
+    "LOGIN": "Log in",
+
+    "LANGUAGE": "Language",
+
+    "PORTUGUESE": "Portuguese",
+    "ENGLISH": "English",
+    "SPANISH": "Spanish"
   },
 
   "CHALLENGER": {

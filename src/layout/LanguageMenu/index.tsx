@@ -4,10 +4,13 @@ import IconButton from "@/src/components/IconButton";
 import { AppLocale } from "@/src/i18n/services/routing";
 import { IconWorld } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export interface ILanguageMenuProps {}
 
 export default function LanguageMenu({}: ILanguageMenuProps) {
+  const t = useTranslations("COMMON");
+
   const router = useRouter();
 
   function changeLocale(locale: AppLocale) {
@@ -20,22 +23,22 @@ export default function LanguageMenu({}: ILanguageMenuProps) {
     <AppDropdownMenu
       trigger={
         <IconButton>
-          <AppTooltip text="Linguagem">
+          <AppTooltip text={t("LANGUAGE")}>
             <IconWorld stroke={2} />
           </AppTooltip>
         </IconButton>
       }
       items={[
         {
-          label: "Português",
+          label: t("PORTUGUESE"),
           onSelect: () => changeLocale("pt-BR"),
         },
         {
-          label: "English",
+          label: t("ENGLISH"),
           onSelect: () => changeLocale("en"),
         },
         {
-          label: "Español",
+          label: t("SPANISH"),
           onSelect: () => changeLocale("es"),
         },
       ]}

@@ -1,6 +1,19 @@
 {
   "COMMON": {
-    "LOADING": "Cargando"
+    "LOADING": "Cargando",
+
+    "RANKING": "Clasificación",
+    "CHALLENGE": "Desafío",
+    "HISTORY": "Historial",
+
+    "LOGOUT": "Cerrar sesión",
+    "LOGIN": "Iniciar sesión",
+
+    "LANGUAGE": "Idioma",
+
+    "PORTUGUESE": "Portugués",
+    "ENGLISH": "Inglés",
+    "SPANISH": "Español"
   },
 
   "CHALLENGER": {

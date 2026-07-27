@@ -1,5 +1,20 @@
 {
-  "COMMON": { "LOADING": "Carregando" },
+  "COMMON": {
+    "LOADING": "Carregando",
+
+    "RANKING": "Ranking",
+    "CHALLENGE": "Desafio",
+    "HISTORY": "Histórico",
+
+    "LOGOUT": "Sair",
+    "LOGIN": "Entrar",
+
+    "LANGUAGE": "Idioma",
+
+    "PORTUGUESE": "Português",
+    "ENGLISH": "Inglês",
+    "SPANISH": "Espanhol"
+  },
 
   "CHALLENGER": {
     "MISSING_CHALLENGER": "Você não está participando de nenhum desafio de A a Z atualmente, clique no botão abaixo para iniciar um novo desafio!",

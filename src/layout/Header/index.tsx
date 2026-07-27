@@ -18,10 +18,13 @@ import { useAuth } from "@/src/contexts/AuthContext";
 import { useMemo } from "react";
 import { useHeader } from "@/src/contexts/HeaderContext";
 import LanguageMenu from "../LanguageMenu";
+import { useTranslations } from "next-intl";
 
 export interface IHeaderProps {}
 
 export default function Header(props: IHeaderProps) {
+  const t = useTranslations("COMMON");
+
   const { user, logout } = useAuth();
   const { title } = useHeader();
 
@@ -36,24 +39,24 @@ export default function Header(props: IHeaderProps) {
 
     const menuItems = [
       {
-        label: "Ranking",
-        children: <Link href="/leaderboard">Ranking</Link>,
+        label: t("RANKING"),
+        children: <Link href="/leaderboard">{t("RANKING")}</Link>,
       },
       {
-        label: "Desafio",
-        children: <Link href={challengerURL}>Desafio</Link>,
+        label: t("CHALLENGE"),
+        children: <Link href={challengerURL}>{t("CHALLENGE")}</Link>,
       },
     ];
 
     if (isLoged) {
       menuItems.push({
-        label: "Histórico",
-        children: <Link href={"/history"}>Histórico</Link>,
+        label: t("HISTORY"),
+        children: <Link href="/history">{t("HISTORY")}</Link>,
       });
     }
 
     return menuItems;
-  }, [user?.challengerId]);
+  }, [user?.challengerId, t]);
 
   return (
     <header className="border-b border-emerald-700 flex justify-between">
@@ -75,7 +78,7 @@ export default function Header(props: IHeaderProps) {
           </span>
         )}
         {isLoged && (
-          <AppTooltip text="Sair">
+          <AppTooltip text={t("LOGOUT")}>
             <IconButton onClick={logout}>
               <IconLogout stroke={2} />
             </IconButton>
