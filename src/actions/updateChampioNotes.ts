@@ -32,7 +32,7 @@ export async function updateChampionNotes({
     const { error } = await supabase
       .from("progresso_campeoes")
       .update({
-        fun_note: funNote,
+        fun_note: funNote === 0 ? null : funNote,
         comentary: commentary,
         updated_at: new Date().toISOString(),
       })
