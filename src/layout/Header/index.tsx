@@ -55,6 +55,11 @@ export default function Header(props: IHeaderProps) {
       });
     }
 
+    menuItems.push({
+      label: t("ABOUT"),
+      children: <Link href="/about">{t("ABOUT")}</Link>,
+    });
+
     return menuItems;
   }, [user?.challengerId, t]);
 
