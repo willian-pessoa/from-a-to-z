@@ -220,5 +220,58 @@
       "RANKED": "Clasificatoria",
       "CASUAL": "Casual"
     }
+  },
+
+  "ABOUT": {
+    "TITLE": "Sobre",
+
+    "TRACKER_TITLE": "Sobre LoL A-Z Tracker",
+    "TRACKER_DESCRIPTION": "LoL A-Z Tracker es una herramienta para seguir desafíos personalizados de League of Legends, permitiendo a los jugadores registrar su progreso, consultar estadísticas y comparar resultados mediante la clasificación.",
+
+    "HOW_IT_WORKS_TITLE": "Cómo funciona",
+    "HOW_IT_WORKS_STEP_1": "Elige un desafío",
+    "HOW_IT_WORKS_STEP_2": "Juega partidas normalmente",
+    "HOW_IT_WORKS_STEP_3": "El progreso se actualiza automáticamente",
+    "HOW_IT_WORKS_STEP_4": "Sigue campeones completados, victorias, derrotas y tiempo jugado",
+
+    "PROJECT_TITLE": "Sobre el proyecto",
+    "PROJECT_DESCRIPTION": "Creado como un proyecto independiente para explorar una forma diferente de jugar League of Legends: centrado en la experiencia y la diversión de completar desafíos, no solo en subir de rango.",
+
+    "CONTACT_TITLE": "Contacto",
+    "GITHUB": "GitHub",
+    "LINKEDIN": "LinkedIn",
+
+    "DEVELOPER_TITLE": "Desarrollador",
+    "DEVELOPER_NAME": "Willian Pessoa de Abreu",
+
+    "TECHNOLOGIES_TITLE": "Tecnologías",
+    "TECHNOLOGIES_DESCRIPTION": "Next.js, TypeScript, Tailwind CSS, Supabase y Riot Games API.",
+
+    "PRIVACY_POLICY": "Política de Privacidad"
+  },
+
+  "PRIVACY_POLICY": {
+    "TITLE": "Política de Privacidad",
+
+    "INTRO_TITLE": "Introducción",
+    "INTRO_DESCRIPTION": "LoL A-Z Tracker valora la privacidad de sus usuarios. Esta política explica qué datos se recopilan, cómo se utilizan y qué medidas se toman para proteger esta información.",
+
+    "DATA_TITLE": "Datos recopilados",
+    "DATA_DESCRIPTION": "Para el funcionamiento de la plataforma, podemos almacenar información relacionada con la cuenta de Riot vinculada, como Riot ID, región, identificador único de la cuenta y datos de progreso de los desafíos realizados dentro de la aplicación.",
+
+    "RIOT_API_TITLE": "Integración con Riot Games",
+    "RIOT_API_DESCRIPTION": "LoL A-Z Tracker utiliza datos proporcionados por la Riot Games API para sincronizar información de partidas y actualizar el progreso de los desafíos. La aplicación no tiene afiliación oficial con Riot Games.",
+
+    "USAGE_TITLE": "Uso de los datos",
+    "USAGE_DESCRIPTION": "Los datos recopilados se utilizan exclusivamente para proporcionar las funcionalidades de la plataforma, como seguimiento de desafíos, historial, estadísticas y clasificación entre jugadores.",
+
+    "SECURITY_TITLE": "Seguridad",
+    "SECURITY_DESCRIPTION": "Se aplican medidas técnicas para proteger los datos almacenados y evitar accesos no autorizados.",
+
+    "DELETE_TITLE": "Eliminación de datos",
+    "DELETE_DESCRIPTION": "El usuario puede solicitar la eliminación de sus datos almacenados contactando a través de los canales disponibles en la página Sobre.",
+
+    "CONTACT_TITLE": "Contacto",
+    "CONTACT_DESCRIPTION": "Si tienes dudas sobre esta política o sobre el uso de los datos, ponte en contacto a través de los canales disponibles en la página Sobre."
   }
 }

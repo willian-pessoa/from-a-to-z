@@ -1,48 +1,74 @@
 "use client";
 
 import HeaderConfig from "@/src/layout/HeaderConfig";
-import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 
 interface PageProps {}
 
 export default function Page({}: PageProps) {
-  const t = useTranslations("ABOUT");
+  const t = useTranslations("PRIVACY_POLICY");
 
   return (
     <div className="p-2 flex flex-col gap-2">
       <HeaderConfig title={t("TITLE")} />
+
       <div className="flex flex-col mt-4 ml-4 gap-4">
         <label className="font-bold text-lg border-b-2 border-emerald-600 w-fit">
-          {t("TRACKER_TITLE")}
+          {t("INTRO_TITLE")}
         </label>
 
         <div className="border-l-2 border-emerald-700 text-left px-2 ml-4">
-          {t("TRACKER_DESCRIPTION")}
+          {t("INTRO_DESCRIPTION")}
         </div>
       </div>
 
       <div className="flex flex-col mt-4 ml-4 gap-4">
         <label className="font-bold text-lg border-b-2 border-emerald-600 w-fit">
-          {t("HOW_IT_WORKS_TITLE")}
+          {t("DATA_TITLE")}
         </label>
 
-        <ul className="text-left px-2 ml-4 list-disc list-inside marker:text-emerald-500">
-          <li>{t("HOW_IT_WORKS_STEP_1")}</li>
-          <li>{t("HOW_IT_WORKS_STEP_2")}</li>
-          <li>{t("HOW_IT_WORKS_STEP_3")}</li>
-          <li>{t("HOW_IT_WORKS_STEP_4")}</li>
-        </ul>
+        <div className="border-l-2 border-emerald-700 text-left px-2 ml-4">
+          {t("DATA_DESCRIPTION")}
+        </div>
       </div>
 
       <div className="flex flex-col mt-4 ml-4 gap-4">
         <label className="font-bold text-lg border-b-2 border-emerald-600 w-fit">
-          {t("PROJECT_TITLE")}
+          {t("RIOT_API_TITLE")}
         </label>
 
         <div className="border-l-2 border-emerald-700 text-left px-2 ml-4">
-          {t("PROJECT_DESCRIPTION")}
+          {t("RIOT_API_DESCRIPTION")}
+        </div>
+      </div>
+
+      <div className="flex flex-col mt-4 ml-4 gap-4">
+        <label className="font-bold text-lg border-b-2 border-emerald-600 w-fit">
+          {t("USAGE_TITLE")}
+        </label>
+
+        <div className="border-l-2 border-emerald-700 text-left px-2 ml-4">
+          {t("USAGE_DESCRIPTION")}
+        </div>
+      </div>
+
+      <div className="flex flex-col mt-4 ml-4 gap-4">
+        <label className="font-bold text-lg border-b-2 border-emerald-600 w-fit">
+          {t("SECURITY_TITLE")}
+        </label>
+
+        <div className="border-l-2 border-emerald-700 text-left px-2 ml-4">
+          {t("SECURITY_DESCRIPTION")}
+        </div>
+      </div>
+
+      <div className="flex flex-col mt-4 ml-4 gap-4">
+        <label className="font-bold text-lg border-b-2 border-emerald-600 w-fit">
+          {t("DELETE_TITLE")}
+        </label>
+
+        <div className="border-l-2 border-emerald-700 text-left px-2 ml-4">
+          {t("DELETE_DESCRIPTION")}
         </div>
       </div>
 
@@ -51,55 +77,10 @@ export default function Page({}: PageProps) {
           {t("CONTACT_TITLE")}
         </label>
 
-        <div className="border-l-2 border-emerald-700 text-left px-2 ml-4 flex gap-8">
-          <a
-            href="https://github.com/willian-pessoa"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 hover:text-emerald-400 transition-colors"
-          >
-            <IconBrandGithub size={20} />
-            {t("GITHUB")}
-          </a>
-
-          <a
-            href="https://www.linkedin.com/in/willian-pessoa/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 hover:text-emerald-400 transition-colors"
-          >
-            <IconBrandLinkedin size={20} />
-            {t("LINKEDIN")}
-          </a>
-        </div>
-      </div>
-
-      <div className="flex flex-col mt-4 ml-4 gap-4">
-        <label className="font-bold text-lg border-b-2 border-emerald-600 w-fit">
-          {t("DEVELOPER_TITLE")}
-        </label>
-
         <div className="border-l-2 border-emerald-700 text-left px-2 ml-4">
-          {t("DEVELOPER_NAME")}
+          {t("CONTACT_DESCRIPTION")}
         </div>
       </div>
-
-      <div className="flex flex-col mt-4 ml-4 gap-4">
-        <label className="font-bold text-lg border-b-2 border-emerald-600 w-fit">
-          {t("TECHNOLOGIES_TITLE")}
-        </label>
-
-        <div className="border-l-2 border-emerald-700 text-left px-2 ml-4">
-          {t("TECHNOLOGIES_DESCRIPTION")}
-        </div>
-      </div>
-
-      <Link
-        className="w-full text-center mt-10 text-emerald-500 hover:text-emerald-400 transition-colors"
-        href="/privacy-policy"
-      >
-        {t("PRIVACY_POLICY")}
-      </Link>
 
       <div className="mb-24 sm:mb-8"></div>
     </div>

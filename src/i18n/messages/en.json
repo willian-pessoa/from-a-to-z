@@ -220,5 +220,58 @@
       "RANKED": "Ranked",
       "CASUAL": "Casual"
     }
+  },
+
+  "ABOUT": {
+    "TITLE": "About",
+
+    "TRACKER_TITLE": "About LoL A-Z Tracker",
+    "TRACKER_DESCRIPTION": "LoL A-Z Tracker is a tool for tracking custom League of Legends challenges, allowing players to record their progress, track statistics, and compare results through the leaderboard.",
+
+    "HOW_IT_WORKS_TITLE": "How it works",
+    "HOW_IT_WORKS_STEP_1": "Choose a challenge",
+    "HOW_IT_WORKS_STEP_2": "Play matches normally",
+    "HOW_IT_WORKS_STEP_3": "Progress is updated automatically",
+    "HOW_IT_WORKS_STEP_4": "Track completed champions, wins, losses, and play time",
+
+    "PROJECT_TITLE": "About the project",
+    "PROJECT_DESCRIPTION": "Created as an independent project to explore a different way of playing League of Legends, focusing on the experience and fun of completing challenges, not just climbing the ranked ladder.",
+
+    "CONTACT_TITLE": "Contact",
+    "GITHUB": "GitHub",
+    "LINKEDIN": "LinkedIn",
+
+    "DEVELOPER_TITLE": "Developer",
+    "DEVELOPER_NAME": "Willian Pessoa de Abreu",
+
+    "TECHNOLOGIES_TITLE": "Technologies",
+    "TECHNOLOGIES_DESCRIPTION": "Next.js, TypeScript, Tailwind CSS, Supabase, and Riot Games API.",
+
+    "PRIVACY_POLICY": "Privacy Policy"
+  },
+
+  "PRIVACY_POLICY": {
+    "TITLE": "Privacy Policy",
+
+    "INTRO_TITLE": "Introduction",
+    "INTRO_DESCRIPTION": "LoL A-Z Tracker values the privacy of its users. This policy explains what data is collected, how it is used, and what measures are taken to protect this information.",
+
+    "DATA_TITLE": "Data collected",
+    "DATA_DESCRIPTION": "To provide the platform's functionality, we may store information related to the linked Riot account, such as Riot ID, region, unique account identifier, and challenge progress data recorded within the application.",
+
+    "RIOT_API_TITLE": "Riot Games Integration",
+    "RIOT_API_DESCRIPTION": "LoL A-Z Tracker uses data provided by the Riot Games API to synchronize match information and update challenge progress. The application is not officially affiliated with Riot Games.",
+
+    "USAGE_TITLE": "Data usage",
+    "USAGE_DESCRIPTION": "Collected data is used exclusively to provide platform features, such as challenge tracking, history, statistics, and player rankings.",
+
+    "SECURITY_TITLE": "Security",
+    "SECURITY_DESCRIPTION": "Technical measures are applied to protect stored data and prevent unauthorized access.",
+
+    "DELETE_TITLE": "Data deletion",
+    "DELETE_DESCRIPTION": "Users can request the deletion of their stored data by contacting us through the channels available on the About page.",
+
+    "CONTACT_TITLE": "Contact",
+    "CONTACT_DESCRIPTION": "If you have questions about this policy or how your data is used, please contact us through the channels available on the About page."
   }
 }
