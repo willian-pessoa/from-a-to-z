@@ -5,8 +5,11 @@ import {
   ChallengeHistoryData,
   getChallengesHistory,
 } from "@/src/data/getChallengeHistory";
+import { getTranslations } from "next-intl/server";
 
 export default async function HistoryPage() {
+  const t = await getTranslations();
+
   const historyData = await getChallengesHistory();
 
   if (!historyData?.success) {
@@ -29,18 +32,18 @@ export default async function HistoryPage() {
 
   return (
     <div>
-      <HeaderConfig title="Histórico de Desafios" />
+      <HeaderConfig title={t("HISTORY.TITLE")} />
 
       {seasons.length === 0 && (
         <div className="flex justify-center mt-8 items-center">
-          Nenhum Desafio Registrado
+          {t("HISTORY.NO_CHALLENGES")}
         </div>
       )}
 
       {seasons.map((season) => (
         <div key={season} className="flex flex-col mt-4 ml-4">
           <label className="font-bold text-lg border-b-2 border-emerald-600 w-fit">
-            Temporada {season}
+            {t("HISTORY.SEASON", { season })}
           </label>
 
           <div className="flex flex-wrap items-center gap-6 p-4 text-center">

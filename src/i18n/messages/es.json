@@ -207,5 +207,17 @@
         "LAST": "Última"
       }
     }
+  },
+
+  "HISTORY": {
+    "TITLE": "Historial de Desafíos",
+    "NO_CHALLENGES": "No Hay Desafíos Registrados",
+    "SEASON": "Temporada {season}",
+    "CARD": {
+      "START": "Inicio:",
+      "END": "Fin:",
+      "RANKED": "Clasificatoria",
+      "CASUAL": "Casual"
+    }
   }
 }

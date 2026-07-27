@@ -207,5 +207,17 @@
         "LAST": "Last"
       }
     }
+  },
+
+  "HISTORY": {
+    "TITLE": "Challenge History",
+    "NO_CHALLENGES": "No Challenges Found",
+    "SEASON": "Season {season}",
+    "CARD": {
+      "START": "Start:",
+      "END": "End:",
+      "RANKED": "Ranked",
+      "CASUAL": "Casual"
+    }
   }
 }

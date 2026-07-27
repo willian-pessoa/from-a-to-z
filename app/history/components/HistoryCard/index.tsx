@@ -3,6 +3,7 @@ import { capitalize } from "@/src/utils/capitalize";
 import { formatDate } from "@/src/utils/formatDate";
 import { IconCircleCheck, IconProgressCheck } from "@tabler/icons-react";
 import clsx from "clsx";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 export interface IHistoryCardProps {
@@ -10,6 +11,8 @@ export interface IHistoryCardProps {
 }
 
 export default function HistoryCard({ challengeData }: IHistoryCardProps) {
+  const t = useTranslations("HISTORY.CARD");
+
   const { id, is_finished, lane, queue, started_at, finished_at } =
     challengeData;
 
@@ -39,12 +42,12 @@ export default function HistoryCard({ challengeData }: IHistoryCardProps) {
       </div>
       <div className="absolute bottom-2 left-2">
         <div className="font-light text-sm flex gap-2 text-emerald-200">
-          <span>Inicio:</span>
+          <span>{t("START")}</span>
           <span>{formatDate(started_at)}</span>
         </div>
         {is_finished && (
           <div className="font-light text-sm flex gap-2  text-emerald-200">
-            <span>Fim:</span>
+            <span>{t("END")}</span>
             <span>{formatDate(finished_at)}</span>
           </div>
         )}
