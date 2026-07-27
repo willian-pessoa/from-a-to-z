@@ -17,6 +17,9 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "De A a Z",
+  icons: {
+    icon: "/favicon.ico",
+  },
   description:
     "Se desafia jogando com todos os campões possiveis e busque a vitoria com cada um deles.",
 };
