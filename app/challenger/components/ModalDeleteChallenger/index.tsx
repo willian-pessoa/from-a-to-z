@@ -41,8 +41,11 @@ export default function ModalDeleteChallenger({
       updateChallengerId(null);
     }
 
-    router.push(`/challenger`);
     appToast.success(t("DELETE_SUCCESS"));
+
+    setTimeout(() => {
+      router.push(`/challenger`);
+    });
   };
 
   if (user?.puuid !== challengeUserPuuid) return null;
