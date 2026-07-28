@@ -149,7 +149,7 @@ Idiomas disponíveis:
 
 Aplicação:
 
-https://seu-link.vercel.app
+https://from-a-to-z-xi.vercel.app/
 
 GitHub:
 
