@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "De A à Z",
+    name: "De A a Z",
     short_name: "LoL A-Z",
     description:
       "Se desafie jogando com todos os campões possiveis e busque a vitoria com cada um deles.",

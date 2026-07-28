@@ -17,7 +17,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "De A à Z",
+  title: "De A a Z",
   icons: {
     icon: "/favicon.ico",
   },
