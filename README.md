@@ -70,6 +70,7 @@ Antes de começar, você precisa ter instalado:
 - npm
 - Conta no Supabase
 - Conta Riot Developer para acesso à API
+- Docker Rodando
 
 ### Instalação
 
@@ -107,9 +108,10 @@ RIOT_API_KEY=
 
 ## 🗄️ Banco de dados
 
-Crie um projeto no supabe e depois conecte ele via CLI do supabase e execute as migrations:
+Crie um projeto no supabe e depois conecte ele via CLI do supabase e execute as migrations, é importante estar com o Docker rodando, pois supabase faz a clonagem via Docker:
 
 ```bash
+npx supabase link --project-ref <project-id>
 npx supabase db push
 ```
 
