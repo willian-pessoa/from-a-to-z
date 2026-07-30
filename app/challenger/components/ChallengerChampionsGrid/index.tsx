@@ -24,13 +24,13 @@ export interface IChallengerChampionsGridProps {
 const GRID_SIZES = {
   sm: {
     label: "Pequeno",
-    className: "grid-cols-[repeat(auto-fill,minmax(90px,1fr))]",
+    className: "grid-cols-[repeat(auto-fill,minmax(80px,1fr))]",
     cardWidth: 80,
   },
   md: {
     label: "Médio",
-    className: "grid-cols-[repeat(auto-fill,minmax(105px,1fr))]",
-    cardWidth: 100,
+    className: "grid-cols-[repeat(auto-fill,minmax(95px,1fr))]",
+    cardWidth: 95,
   },
   lg: {
     label: "Grande",
@@ -40,7 +40,7 @@ const GRID_SIZES = {
   },
   xl: {
     label: "Extra Grande",
-    className: "grid-cols-[repeat(auto-fill,minmax(150px,1fr))]",
+    className: "grid-cols-[repeat(auto-fill,minmax(145px,1fr))]",
     cardWidth: 145,
   },
 };
@@ -52,7 +52,7 @@ export default function ChallengerChampionsGrid({
   const t = useTranslations("CHALLENGER.CHALLENGE_PAGE");
 
   const [filter, setFilter] = useState<Filter>("all");
-  const [gridSize, setGridSize] = useState<GridSize>("lg");
+  const [gridSize, setGridSize] = useState<GridSize>("md");
   const [search, setSearch] = useState("");
 
   const filteredChampions = useMemo(() => {

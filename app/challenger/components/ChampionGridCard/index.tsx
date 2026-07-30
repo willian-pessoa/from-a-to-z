@@ -19,7 +19,7 @@ interface ChampionGridCardProps {
   cardSize: number;
 }
 
-const sizeCut = 100;
+const sizeCut = 80;
 
 export default function ChampionGridCard({
   nameId,
@@ -98,6 +98,14 @@ export default function ChampionGridCard({
             />
           )}
         </>
+      )}
+
+      {!completed && (
+        <div className="absolute inset-x-0 bottom-0 flex justify-center bg-linear-to-t from-black/90 via-black/60 to-transparent px-1 pb-1 pt-3">
+          <span className="truncate text-center text-[11px] font-semibold text-emerald-50 drop-shadow-md">
+            {name}
+          </span>
+        </div>
       )}
     </div>
   );
